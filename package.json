@@ -1,0 +1,21 @@
+{
+  "name": "artiheal",
+  "version": "1.0.0",
+  "description": "Artiheal App",
+  "main": "index.js",
+  "scripts": {
+    "app": "cd server && npm run server && cd ../client && npm run client",
+    "build": "cd server && npm install && cd ../client && npm install && npm run build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VinuSion/Artiheal.git"
+  },
+  "author": "William G - VinuSion",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/VinuSion/Artiheal/issues"
+  },
+  "homepage": "https://github.com/VinuSion/Artiheal#readme"
+}
