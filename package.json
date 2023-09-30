@@ -17,5 +17,10 @@
   "bugs": {
     "url": "https://github.com/VinuSion/Artiheal/issues"
   },
-  "homepage": "https://github.com/VinuSion/Artiheal#readme"
+  "homepage": "https://github.com/VinuSion/Artiheal#readme",
+  "devDependencies": {
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.31",
+    "tailwindcss": "^3.3.3"
+  }
 }
