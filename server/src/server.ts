@@ -4,7 +4,6 @@ import dotenv from 'dotenv';
 import path from 'path';
 
 import { ErrorRequestHandler } from 'express';
-import exampleRoutes from './routes/exampleRoutes';
 
 dotenv.config();
 
@@ -36,7 +35,7 @@ app.use(errorHandler);
 // ALL API ENDPOINTS FOR THE SERVER GO HERE
 
 // Routes
-app.use('/api/examples', exampleRoutes);
+
 
 // MongoDB Connection
 mongoose
