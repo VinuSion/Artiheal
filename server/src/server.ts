@@ -8,19 +8,6 @@ import exampleRoutes from './routes/exampleRoutes';
 
 dotenv.config();
 
-// MongoDB Connection
-mongoose
-    .connect(process.env.MONGODB_URL || '', {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    } as mongoose.ConnectOptions)
-    .then(() => {
-        console.log('Connected to MongoDB');
-    })
-    .catch((error) => {
-        console.error('Error connecting to MongoDB: ', error);
-    });
-
 export const baseUrl = () => {
     process.env.BASE_URL
         ? process.env.BASE_URL
@@ -31,6 +18,7 @@ export const baseUrl = () => {
 
 const app = express();
 const __dirname = path.resolve();
+const port = process.env.PORT || 4000;
 
 // ALL API ENDPOINTS FOR THE SERVER GO HERE
 
@@ -47,10 +35,21 @@ const errorHandler: ErrorRequestHandler = (err, _, res, __) => {
 };
 app.use(errorHandler);
 
-const port = process.env.PORT || 4000;
-app.listen(port, () => {
-  console.log(`Server is live at https://localhost:${port}`);
-});
-
 // Routes
 app.use('/api/examples', exampleRoutes);
+
+// MongoDB Connection
+mongoose
+    .connect(process.env.MONGODB_URL || '', {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    } as mongoose.ConnectOptions)
+    .then(() => {
+        console.log('Connected to MongoDB');
+        app.listen(port, () => {
+            console.log(`Server is live at https://localhost:${port}`);
+        });
+    })
+    .catch((error) => {
+        console.error('Error connecting to MongoDB: ', error);
+    });
