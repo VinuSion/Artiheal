@@ -49,7 +49,7 @@ app.use(errorHandler);
 
 const port = process.env.PORT || 4000;
 app.listen(port, () => {
-  console.log(`Server is live at http://localhost:${port}`);
+  console.log(`Server is live at https://localhost:${port}`);
 });
 
 // Routes
