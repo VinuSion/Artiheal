@@ -20,8 +20,6 @@ const app = express();
 const __dirname = path.resolve();
 const port = process.env.PORT || 4000;
 
-// ALL API ENDPOINTS FOR THE SERVER GO HERE
-
 app.use(express.static(path.join(__dirname, "/client/dist")));
 
 // Underscore _ is req
@@ -34,6 +32,8 @@ const errorHandler: ErrorRequestHandler = (err, _, res, __) => {
     res.status(500).send({ message: err.message });
 };
 app.use(errorHandler);
+
+// ALL API ENDPOINTS FOR THE SERVER GO HERE
 
 // Routes
 app.use('/api/examples', exampleRoutes);
