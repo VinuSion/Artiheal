@@ -1,11 +1,27 @@
-import { Button } from "./components/ui/button";
+import { useState } from 'react';
+import {  BrowserRouter, Routes, Route } from 'react-router-dom';
+import LandingPage from './components/LandingPage';
+import LoginPage from './components/LoginPage';
+import RegisterPage from './components/RegisterPage';
+import HomePage from './components/HomePage';
 
 function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
   return (
-    <div className="flex justify-center items-center flex-row mt-40">
-      <h1 className="font-black lg:text-[80px] sm:text-[60px]text-[40px] lg:leading-[98px] mt-2 mr-5">Artiheal</h1>
-      <Button>Entregar</Button>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        {isAuthenticated ? (
+          <Route path="/" Component={HomePage} />
+        ) : (
+          <>
+            <Route path="/login" Component={LoginPage} />
+            <Route path="/register" Component={RegisterPage} />
+            <Route path="/" Component={LandingPage} />
+          </>
+        )}
+      </Routes>
+    </BrowserRouter>
   );
 }
 
