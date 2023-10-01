@@ -47,7 +47,7 @@ mongoose
     .then(() => {
         console.log('Connected to MongoDB');
         app.listen(port, () => {
-            console.log(`Server is live at https://localhost:${port}`);
+            console.log(`Server is live at http://localhost:${port}`);
         });
     })
     .catch((error) => {
