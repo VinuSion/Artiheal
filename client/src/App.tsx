@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import {  BrowserRouter, Routes, Route } from 'react-router-dom';
 import LandingPage from './components/LandingPage';
-import LoginPage from './components/LoginPage';
-import RegisterPage from './components/RegisterPage';
+import Login from './components/Login';
+import SignUp from './components/SignUp';
 import HomePage from './components/HomePage';
 
 function App() {
@@ -15,8 +15,8 @@ function App() {
           <Route path="/" Component={HomePage} />
         ) : (
           <>
-            <Route path="/login" Component={LoginPage} />
-            <Route path="/register" Component={RegisterPage} />
+            <Route path="/login" Component={Login} />
+            <Route path="/signup" Component={SignUp} />
             <Route path="/" Component={LandingPage} />
           </>
         )}
