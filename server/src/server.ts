@@ -15,10 +15,17 @@ export const baseUrl = () => {
             : "https://yourdomain.com";
 };
 
-const app = express();
-const __dirname = path.resolve();
-const port = process.env.PORT || 4000;
+const app = express(); // Setup express
+const __dirname = path.resolve(); // Setup path for dist folder
+const port = process.env.PORT || 4000; // Setup server port
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// ALL API ENDPOINTS FOR THE SERVER GO HERE
+// Routes go here
+
+// Resolving vite frontend path
 app.use(express.static(path.join(__dirname, "/client/dist")));
 
 // Underscore _ is req
@@ -31,11 +38,6 @@ const errorHandler: ErrorRequestHandler = (err, _, res, __) => {
     res.status(500).send({ message: err.message });
 };
 app.use(errorHandler);
-
-// ALL API ENDPOINTS FOR THE SERVER GO HERE
-
-// Routes
-
 
 // MongoDB Connection
 mongoose
