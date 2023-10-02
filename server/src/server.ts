@@ -1,11 +1,11 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import dotenv from 'dotenv';
+import { config } from 'dotenv';
 import path from 'path';
 
 import { ErrorRequestHandler } from 'express';
 
-dotenv.config();
+config(); // Setup dotenv
 
 export const baseUrl = () => {
     process.env.BASE_URL
@@ -39,7 +39,7 @@ app.use(errorHandler);
 
 // MongoDB Connection
 mongoose
-    .connect(process.env.MONGODB_URL || '', {
+    .connect(process.env.MONGODB_URL!, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     } as mongoose.ConnectOptions)
