@@ -16,7 +16,7 @@ const LandingPage = () => {
             <p className="mt-2 text-lg"></p>
           </div>
           <Button><Link to="/login">Iniciar Sesión</Link></Button>
-          <Button><Link to="/signup">Registrar</Link></Button>
+          <Button><Link to="/SignUp">Registrar</Link></Button>
 
           {/* <button className="text-white rounded-md font-semibold bg-indigo-500 hover:bg-indigo-600 hover:border-white border hover:text-white p-2 transition duration-300 ease-in-out">
             <Link to="/login">Iniciar Sesión</Link>
