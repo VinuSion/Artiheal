@@ -5,11 +5,11 @@ import { Link } from "react-router-dom";
 const SignUp = () => {
   return (
     <div className="min-h-screen flex items-center justify-center">
-    <main className="flex flex-col place-items-center">
-        <div className="sign-up">
+      <main className="flex flex-col place-items-center">
+        <div className="sign-up shadow-xl p-6 rounded-lg">
           <div className="icon flex items-center">
             <img
-              className="h-20, w-20"
+              className="h-16, w-16"
               src="../public/artiheal-logo.svg"
               alt=""
             />
@@ -21,13 +21,23 @@ const SignUp = () => {
               <Label className="font-semibold" htmlFor="name">
                 Nombres
               </Label>
-              <Input type="name" id="name" placeholder="Nombres" />
+              <Input
+                className="border rounded-lg p-2 transition duration-300 hover:shadow-md focus:shadow-md focus:ring-2 focus:ring-indigo-500"
+                type="name"
+                id="name"
+                placeholder="Nombres"
+              />
             </div>
             <div className="grid w-full max-w-sm items-center gap-1.5">
               <Label className="font-semibold" htmlFor="last-name">
                 Apellidos
               </Label>
-              <Input type="last-name" id="last-name" placeholder="Apellidos" />
+              <Input
+                className="border rounded-lg p-2 transition duration-300 hover:shadow-md focus:shadow-md focus:ring-2 focus:ring-indigo-500"
+                type="last-name"
+                id="last-name"
+                placeholder="Apellidos"
+              />
             </div>
           </div>
           <div className="rest ">
@@ -35,23 +45,45 @@ const SignUp = () => {
               <Label className="font-semibold" htmlFor="email">
                 Email Address
               </Label>
-              <Input type="email" id="email" placeholder="Nombres" />
+              <Input
+                className="border rounded-lg p-2 transition duration-300 hover:shadow-md focus:shadow-md focus:ring-2 focus:ring-indigo-500"
+                type="email"
+                id="email"
+                placeholder="Email"
+              />
             </div>
             <div className="grid w-full max-w items-center gap-1.5 mt-5">
               <Label className="font-semibold" htmlFor="password">
                 Password
               </Label>
-              <Input type="password" id="password" placeholder="Nombres" />
+              <Input
+                className="border rounded-lg p-2 transition duration-300 hover:shadow-md focus:shadow-md focus:ring-2 focus:ring-indigo-500"
+                type="password"
+                id="password"
+                placeholder="password"
+              />
             </div>
             <div className="grid w-full max-w items-center gap-1.5 mt-5">
               <Label className="font-semibold" htmlFor="password">
                 Confirm password
               </Label>
-              <Input type="password" id="password" placeholder="Nombres" />
+              <Input
+                className="border rounded-lg p-2 transition duration-300 hover:shadow-md focus:shadow-md focus:ring-2 focus:ring-indigo-500"
+                type="password"
+                id="password"
+                placeholder="password"
+              />
             </div>
           </div>
-          <Button className="my-6" size={"superbig"}>Continuar</Button>
-          <span >Ya estás en Artihel? <Link  className="text-indigo-500"to="/login">Iniciar sesión</Link></span>
+          <Button className="my-6" size={"superbig"}>
+            Continuar
+          </Button>
+          <span>
+            Ya estás en Artihel?{" "}
+            <Link className="text-indigo-500" to="/login">
+              Iniciar sesión
+            </Link>
+          </span>
         </div>
       </main>
     </div>
