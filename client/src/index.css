@@ -6,6 +6,7 @@
  
 
 @layer base {
+  /* All of these colors are in HSL */
   :root {
     font-family: 'Poppins', sans-serif;
     --background: 0 0% 100%;
