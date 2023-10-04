@@ -18,12 +18,6 @@ const LandingPage = () => {
           <Button><Link to="/login">Iniciar Sesión</Link></Button>
           <Button><Link to="/SignUp">Registrar</Link></Button>
 
-          {/* <button className="text-white rounded-md font-semibold bg-indigo-500 hover:bg-indigo-600 hover:border-white border hover:text-white p-2 transition duration-300 ease-in-out">
-            <Link to="/login">Iniciar Sesión</Link>
-          </button>
-          <button className="text-white rounded-md font-semibold bg-indigo-500 hover:bg-indigo-600 hover:border-white border hover:text-white p-2 transition duration-300 ease-in-out">
-            <Link to="/signup">Registrar</Link>
-          </button> */}
 
         </header>
       </div>
