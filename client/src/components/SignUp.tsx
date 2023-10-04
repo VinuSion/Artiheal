@@ -9,8 +9,8 @@ const SignUp = () => {
       <main className="flex flex-col place-items-center">
         <div className="sign-up shadow-2xl p-6 rounded-lg bg-background">
           <div className="icon flex items-center">
-            <img className="h-10, w-10" src="/artiheal-logo.svg" alt="logo" />
-            <span className="font-bold ml-1">Artiheal</span>
+            <img className="h-10, w-10 select-none" src="/artiheal-logo.svg" alt="logo" />
+            <span className="font-bold ml-1 select-none">Artiheal</span>
           </div>
           <h2 className="font-bold text-lg my-7">Crear Cuenta en Artiheal</h2>
           <form action="submit">
