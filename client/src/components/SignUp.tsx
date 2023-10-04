@@ -78,7 +78,6 @@ const SignUp = () => {
           </Button>
           <span>
             Ya estás en Artiheal? 
-            Ya estás en Artiheal? 
             <Link className="text-indigo-500 ml-2 hover:underline" to="/login">
               Iniciar sesión
             </Link>
