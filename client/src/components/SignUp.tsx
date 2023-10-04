@@ -76,7 +76,7 @@ const SignUp = () => {
             </div>
           </div>
           <Button
-            className=" my-4 bg-gradient-to-r from-purple-500 to-blue-600 hover:from-indigo-300 hover:to-purple-600 text-white font-bold py-3 px-6  shadow-lg transform transition-all duration-500 ease-in-out hover:brightness-110 hover:animate-pulse active:animate-bounce"
+            className=" my-4 bg-gradient-to-r from-purple-400 to-violet-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold py-3 px-6  shadow-lg transform transition-all duration-500 ease-in-out hover:brightness-110"
             size={"superbig"}
           >
             Continuar
