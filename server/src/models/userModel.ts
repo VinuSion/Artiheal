@@ -5,7 +5,7 @@ interface User extends Document {
   lastName: string; // Apellido
   email: string; // Correo electronico
   password: string; // Contraseña
-  resetToken: string; // Se utiliza para resetear/cambiar contraseña
+  //resetToken: string; // Se utiliza para resetear/cambiar contraseña
 }
 
 const UserSchema = new Schema(
@@ -14,7 +14,7 @@ const UserSchema = new Schema(
     lastName: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    resetToken: { type: String },
+    //resetToken: { type: String },
   },
   { timestamps: true }
 );

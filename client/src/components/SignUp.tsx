@@ -6,6 +6,28 @@ import { Link } from "react-router-dom";
 import { z, ZodType } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useNavigate } from "react-router-dom";
+
+interface SignUpProps {
+  handleLogin: () => void;
+}
+
+const SignUp = ({ handleLogin }: SignUpProps) => {
+  const navigate = useNavigate();
+
+  const handleSignUpClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault(); // Prevent the default form submission
+    // Perform signup logic
+    // ...
+
+    // Call handleLogin to authenticate the user after successful signup
+    handleLogin();
+    navigate("/dashboard");
+    // Redirect or perform other actions as needed
+    // ...
+  };
+
+
 type FormData = {
   name: string;
   lastName: string;
@@ -43,9 +65,9 @@ const SignUp = () => {
     <div className="min-h-screen flex items-center justify-center bg-splash-image bg-cover bg-no-repeat bg-center">
       <main className="flex flex-col place-items-center">
         <div className="sign-up shadow-2xl p-6 rounded-lg bg-background">
-          <div className="icon flex items-center">
-            <img className="h-10, w-10" src="/artiheal-logo.svg" alt="logo" />
-            <span className="font-bold ml-1">Artiheal</span>
+          <div className="icon flex items-center justify-center">
+            <img className="h-12, w-12 select-none" src="/artiheal-logo.svg" alt="logo" />
+            <span className="font-bold ml-1 select-none">Artiheal</span>
           </div>
           <h2 className="font-bold text-lg my-7">Crear Cuenta en Artiheal</h2>
           <form onSubmit={handleSubmit(submitData)}>
@@ -109,16 +131,11 @@ const SignUp = () => {
                 <Label htmlFor="terms">Aceptar terminos y condiciones</Label>
               </div>
             </div>
-            <Button
-              className="my-4 py-3 px-6"
-              variant="special"
-              size="sp"
-              type="submit"
-            >
+            <Button className="my-4 py-3 px-6" variant="special" size="sp" onClick={handleSignUpClick} type="submit">
               Continuar
             </Button>
-            <span>
-              Ya estás en Artiheal?
+            <span className="flex justify-center">
+              ¿Ya estás en Artiheal?
               <Link
                 className="text-indigo-600 ml-1 hover:underline"
                 to="/login"
