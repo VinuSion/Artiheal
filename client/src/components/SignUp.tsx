@@ -1,7 +1,8 @@
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Button } from "./ui/button";
-// import { Checkbox } from "./ui/checkbox";
+import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
+import { Checkbox } from "./ui/checkbox";
 import { Link } from "react-router-dom";
 import { z, ZodType } from "zod";
 import { useForm } from "react-hook-form";
@@ -21,7 +22,6 @@ const SignUp = ({ handleLogin }: SignUpProps) => {
     email: string;
     password: string;
     repeatPassword: string;
-    terms: boolean;
   };
 
   const formSchema: ZodType<FormData> = z
@@ -30,14 +30,14 @@ const SignUp = ({ handleLogin }: SignUpProps) => {
         .string()
         .min(3, { message: "Mínimo 3 caracteres" })
         .max(20, { message: "Maximo 20 caracteres" })
-        .refine((value) => /^[a-zA-Z]+$/.test(value), {
+        .refine((value) => /^[a-zA-ZáéíóúÁÉÍÓÚ]+$/.test(value), {
           message: "Solo caracteres",
         }),
       lastName: z
         .string()
         .min(3, { message: "Mínimo 3 caracteres" })
         .max(20, { message: "Maximo 20 caracteres" })
-        .refine((value) => /^[a-zA-Z]+$/.test(value), {
+        .refine((value) => /^[a-zA-ZáéíóúÁÉÍÓÚ]+$/.test(value), {
           message: "Solo caracteres",
         }),
       email: z.string().email({ message: "Correo electronico invalido" }),
@@ -72,11 +72,6 @@ const SignUp = ({ handleLogin }: SignUpProps) => {
         .string()
         .min(8, { message: "Las contraseñas no coinciden" })
         .max(20),
-      terms: z.literal(true, {
-        errorMap: () => ({
-          message: "Debes aceptar los terminos y condiciones",
-        }),
-      }),
     })
     .refine((data) => data.password === data.repeatPassword, {
       path: ["repeatPassword"],
@@ -128,10 +123,10 @@ const SignUp = ({ handleLogin }: SignUpProps) => {
                 />
                 <div className="h-[20px]">
                   {errors.firstName && (
-                    <p className="inline-block w-auto text-xs bg-red-100 rounded text-red-600 p-[2px] px-2">
-                      <i className="fas fa-info-circle text-red-500 text-xs mr-1"></i>
+                    <span className="inline-flex items-center w-auto text-xs bg-red-100 rounded text-red-600 p-[2px] px-2">
+                      <ExclamationTriangleIcon className="h-3 w-3 text-red-600 mr-1" />
                       {errors.firstName.message}
-                    </p>
+                    </span>
                   )}
                 </div>
               </div>
@@ -146,10 +141,10 @@ const SignUp = ({ handleLogin }: SignUpProps) => {
                 />
                 <div className="h-[20px]">
                   {errors.lastName && (
-                    <p className="inline-block w-auto text-xs bg-red-100 rounded text-red-600 p-[2px] px-2">
-                      <i className="fas fa-info-circle text-red-500 text-xs mr-1"></i>
+                    <span className="inline-flex items-center w-auto text-xs bg-red-100 rounded text-red-600 p-[2px] px-2">
+                      <ExclamationTriangleIcon className="h-3 w-3 text-red-600 mr-1" />
                       {errors.lastName.message}
-                    </p>
+                    </span>
                   )}
                 </div>
               </div>
@@ -165,10 +160,10 @@ const SignUp = ({ handleLogin }: SignUpProps) => {
                 />
                 <div className="h-[20px]">
                   {errors.email && (
-                    <p className="inline-block w-auto text-xs bg-red-100 rounded text-red-600 p-[2px] px-2">
-                      <i className="fas fa-info-circle text-red-500 text-xs mr-1"></i>
+                    <span className="inline-flex items-center w-auto text-xs bg-red-100 rounded text-red-600 p-[2px] px-2">
+                      <ExclamationTriangleIcon className="h-3 w-3 text-red-600 mr-1" />
                       {errors.email.message}
-                    </p>
+                    </span>
                   )}
                 </div>
               </div>
@@ -182,10 +177,10 @@ const SignUp = ({ handleLogin }: SignUpProps) => {
                 />
                 <div className="h-[20px]">
                   {errors.password && (
-                    <p className="inline-block w-auto text-xs bg-red-100 rounded text-red-600 p-[2px] px-2">
-                      <i className="fas fa-info-circle text-red-500 text-xs mr-1"></i>
+                    <span className="inline-flex items-center w-auto text-xs bg-red-100 rounded text-red-600 p-[2px] px-2">
+                      <ExclamationTriangleIcon className="h-3 w-3 text-red-600 mr-1" />
                       {errors.password.message}
-                    </p>
+                    </span>
                   )}
                 </div>
               </div>
@@ -199,28 +194,16 @@ const SignUp = ({ handleLogin }: SignUpProps) => {
                 />
                 <div className="h-[20px]">
                   {errors.repeatPassword && (
-                    <p className="inline-block w-auto text-xs bg-red-100 rounded text-red-600 p-[2px] px-2">
-                      <i className="fas fa-info-circle text-red-500 text-xs mr-1"></i>
+                    <span className="inline-flex items-center w-auto text-xs bg-red-100 rounded text-red-600 p-[2px] px-2">
+                      <ExclamationTriangleIcon className="h-3 w-3 text-red-600 mr-1" />
                       {errors.repeatPassword.message}
-                    </p>
+                    </span>
                   )}
                 </div>
               </div>
               <div className="items-top flex space-x-1 w-full max-w items-center gap-1.5 mt-2 mb-1">
-                <input id="terms" type="checkbox" {...register("terms")} />
-                {/* <Checkbox
-                  id="terms"
-                  {...register("terms")}
-                /> */}
+                <Checkbox id="terms" />
                 <Label htmlFor="terms">Aceptar terminos y condiciones</Label>
-              </div>
-              <div className="h-[20px]">
-                {errors.terms && (
-                  <p className="inline-block w-auto text-xs bg-red-100 rounded text-red-600 p-[2px] px-2">
-                    <i className="fas fa-info-circle text-red-500 text-xs mr-1"></i>
-                    {errors.terms.message}
-                  </p>
-                )}
               </div>
             </div>
             <Button

@@ -11,6 +11,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@heroicons/react": "^2.0.18",
     "@hookform/resolvers": "^3.3.1",
     "@stytch/react": "^9.0.0",
     "@stytch/vanilla-js": "^2.2.2",
