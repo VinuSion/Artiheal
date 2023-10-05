@@ -2,7 +2,7 @@ const LandingPage = () => {
   return (
     <div>
       <div className="bg-gray-100 min-h-screen">
-        <header className="bg-indigo-600 py-4 flex flex-row  h-28 items-center p-2">
+        <header className="bg-primary py-4 flex flex-row  h-28 items-center p-2">
           <img
             className="h-20, w-20"
             src="../artiheal-logo.svg"
