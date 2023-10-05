@@ -78,7 +78,7 @@ const SignUp = ({ handleLogin }: SignUpProps) => {
             >
               Continuar
             </Button>
-            <span className="flex justify-center">
+            <span>
               ¿Ya estás en Artiheal?
               <Link
                 className="text-indigo-600 ml-1 hover:underline"

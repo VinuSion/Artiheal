@@ -30,7 +30,7 @@ const Login = ({ handleLogin }: LoginProps) => {
         <div className="log-in shadow-2xl p-6 rounded-lg bg-background">
           <div className="icon flex items-center justify-center">
             <img
-              className="h-14, w-14 select-none"
+              className="h-12, w-12 select-none"
               src="/artiheal-logo.svg"
               alt="logo"
             />
@@ -67,7 +67,7 @@ const Login = ({ handleLogin }: LoginProps) => {
               ¿No tienes cuenta?
               <Link
                 className="text-indigo-600 ml-1 hover:underline"
-                to="/SignUp"
+                to="/signup"
               >
                 Crear cuenta
               </Link>
