@@ -77,8 +77,14 @@ const SignUp = ({ handleLogin }: SignUpProps) => {
     resolver: zodResolver(schema),
   });
   
+  // Submit SignUp Data to MongoDB
   const submitData = (data: FormData) => {
     console.log("submit", data);
+    // Create new User with MongoDB
+
+    // Auth with Stytch
+
+    // 
     handleLogin();
     navigate("/dashboard");
   };
