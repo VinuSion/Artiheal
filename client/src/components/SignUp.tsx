@@ -1,7 +1,7 @@
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Button } from "./ui/button";
-import { Checkbox } from "./ui/checkbox";
+// import { Checkbox } from "./ui/checkbox";
 import { Link } from "react-router-dom";
 import { z, ZodType } from "zod";
 import { useForm } from "react-hook-form";
