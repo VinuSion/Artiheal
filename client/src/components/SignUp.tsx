@@ -1,7 +1,12 @@
+import { useState } from "react";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Button } from "./ui/button";
-import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
+import {
+  ExclamationTriangleIcon,
+  EyeIcon,
+  EyeSlashIcon,
+} from "@heroicons/react/24/outline";
 import { Checkbox } from "./ui/checkbox";
 import { Link } from "react-router-dom";
 import { z, ZodType } from "zod";
@@ -14,6 +19,8 @@ interface SignUpProps {
 }
 
 const SignUp = ({ handleLogin }: SignUpProps) => {
+  
+  const [passwordShown, setPasswordShown] = useState(false);
   const navigate = useNavigate();
 
   type FormData = {
@@ -169,12 +176,27 @@ const SignUp = ({ handleLogin }: SignUpProps) => {
               </div>
               <div className="grid w-full max-w items-center gap-1.5 mt-2">
                 <Label htmlFor="password">Contraseña</Label>
-                <Input
-                  type="password"
-                  id="password"
-                  placeholder="Contraseña"
-                  {...register("password")}
-                />
+                <div className="flex flex-row space-x-2">
+                  <Input
+                    type={passwordShown ? "text" : "password"}
+                    id="password"
+                    placeholder="Contraseña"
+                    {...register("password")}
+                  />
+                  <Button
+                    size="icon"
+                    variant="icon"
+                    type="button"
+                    className="transition duration-300 hover:shadow-md focus:shadow-md"
+                    onClick={() => setPasswordShown(!passwordShown)}
+                  >
+                    {passwordShown ? (
+                      <EyeIcon className="h-5 w-5 text-primary" />
+                    ) : (
+                      <EyeSlashIcon className="h-5 w-5 text-primary" />
+                    )}
+                  </Button>
+                </div>
                 <div className="h-[20px]">
                   {errors.password && (
                     <span className="inline-flex items-center w-auto text-xs bg-red-100 rounded text-red-600 p-[2px] px-2">
