@@ -3,6 +3,9 @@ import { Label } from "./ui/label";
 import { Button } from "./ui/button";
 import { Checkbox } from "./ui/checkbox";
 import { Link } from "react-router-dom";
+import { z, ZodType } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
 
 interface SignUpProps {
@@ -24,6 +27,40 @@ const SignUp = ({ handleLogin }: SignUpProps) => {
     // ...
   };
 
+
+type FormData = {
+  name: string;
+  lastName: string;
+  email: string;
+  password: string;
+  repeatPassword: string;
+  terms:boolean;
+};
+const SignUp = () => {
+  const schema: ZodType<FormData> = z
+    .object({
+      name: z.string().min(3, {message:"Mínimo 3 caracteres, máximo 20"}).max(20),
+      lastName: z.string().min(3, {message:"Mínimo 3 caracteres, máximo 20"}).max(20),
+      email: z.string().email({message:"Ingresa un correo válido."}),
+      password: z.string().min(8, {message:"Mínimo 8 caracteres, máximo 20."}).max(20),
+      repeatPassword: z.string().min(8, {message: "Las contaseñas no coinciden."}).max(20),
+      terms:z.boolean()
+    })
+    .refine((data) => data.password === data.repeatPassword, {
+      message: "Las contraseñas no coinciden",
+      path: ["repeatPassword"],
+    });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>({
+    resolver: zodResolver(schema),
+  });
+  const submitData = (data: FormData) => {
+    console.log("submit", data);
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-splash-image bg-cover bg-no-repeat bg-center">
       <main className="flex flex-col place-items-center">
@@ -33,15 +70,28 @@ const SignUp = ({ handleLogin }: SignUpProps) => {
             <span className="font-bold ml-1 select-none">Artiheal</span>
           </div>
           <h2 className="font-bold text-lg my-7">Crear Cuenta en Artiheal</h2>
-          <form>
+          <form onSubmit={handleSubmit(submitData)}>
             <div className="inputs flex flex-row gap-3.5">
               <div className="grid w-full max-w-sm items-center gap-1.5">
-                <Label htmlFor="firstName">Nombres</Label>
-                <Input type="text" id="firstName" placeholder="Nombres" />
+                <Label htmlFor="name">Nombres</Label>
+                <Input
+                  type="name"
+                  id="name"
+                  placeholder="Nombres"
+                  {...register("name")}
+                />
+                {errors.name && <span className="text-sm text-indigo-500 ">{errors.name.message}</span>}
               </div>
+
               <div className="grid w-full max-w-sm items-center gap-1.5">
                 <Label htmlFor="lastName">Apellidos</Label>
-                <Input type="text" id="lastName" placeholder="Apellidos" />
+                <Input
+                  type="lastName"
+                  id="lastName"
+                  placeholder="Apellidos"
+                  {...register("lastName")}
+                />
+                {errors.lastName && <span className="text-sm text-indigo-500">{errors.lastName.message}</span>}
               </div>
             </div>
             <div>
@@ -51,11 +101,19 @@ const SignUp = ({ handleLogin }: SignUpProps) => {
                   type="email"
                   id="email"
                   placeholder="Correo electronico"
+                  {...register("email")}
                 />
+                {errors.email && <span className="text-sm text-indigo-500">{errors.email.message}</span>}
               </div>
               <div className="grid w-full max-w items-center gap-1.5 mt-5">
                 <Label htmlFor="password">Contraseña</Label>
-                <Input type="password" id="password" placeholder="Contraseña" />
+                <Input
+                  type="password"
+                  id="password"
+                  placeholder="Contraseña"
+                  {...register("password")}
+                />
+                {errors.password && <span className="text-sm text-indigo-500">{errors.password.message}</span>}
               </div>
               <div className="grid w-full max-w items-center gap-1.5 mt-5">
                 <Label htmlFor="repeatPassword">Confirmar Contraseña</Label>
@@ -63,19 +121,17 @@ const SignUp = ({ handleLogin }: SignUpProps) => {
                   type="password"
                   id="repeatPassword"
                   placeholder="Repetir Contraseña"
+                  {...register("repeatPassword")}
                 />
+                {errors.repeatPassword && <span className="text-sm text-indigo-500">{errors.repeatPassword.message}</span>}
               </div>
               <div className="items-top flex space-x-1 w-full max-w items-center gap-1.5 mt-5">
-                <Checkbox id="terms" />
+                <Checkbox id="terms"  defaultChecked={false}  {...register("terms")} />
+                {errors.terms && <span className="text-sm text-indigo-500">{errors.terms.message}</span>}
                 <Label htmlFor="terms">Aceptar terminos y condiciones</Label>
               </div>
             </div>
-            <Button
-              className="my-4 py-3 px-6"
-              variant="special"
-              size="sp"
-              onClick={handleSignUpClick}
-            >
+            <Button className="my-4 py-3 px-6" variant="special" size="sp" onClick={handleSignUpClick} type="submit">
               Continuar
             </Button>
             <span>
