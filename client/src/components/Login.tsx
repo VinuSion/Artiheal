@@ -66,7 +66,7 @@ const Login = ({ handleLogin }: LoginProps) => {
             <span>
               ¿No tienes cuenta?
               <Link
-                className="text-indigo-600 ml-1 hover:underline"
+                className="text-primary ml-1 hover:underline"
                 to="/signup"
               >
                 Crear cuenta

@@ -166,7 +166,7 @@ const SignUp = ({ handleLogin }: SignUpProps) => {
             <span>
               ¿Ya estás en Artiheal?
               <Link
-                className="text-indigo-600 ml-1 hover:underline"
+                className="text-primary ml-1 hover:underline"
                 to="/login"
               >
                 Iniciar sesión
