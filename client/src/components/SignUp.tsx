@@ -27,16 +27,15 @@ const SignUp = ({ handleLogin }: SignUpProps) => {
     // ...
   };
 
+  type FormData = {
+    name: string;
+    lastName: string;
+    email: string;
+    password: string;
+    repeatPassword: string;
+    terms:boolean;
+  };
 
-type FormData = {
-  name: string;
-  lastName: string;
-  email: string;
-  password: string;
-  repeatPassword: string;
-  terms:boolean;
-};
-const SignUp = () => {
   const schema: ZodType<FormData> = z
     .object({
       name: z.string().min(3, {message:"Mínimo 3 caracteres, máximo 20"}).max(20),
@@ -50,6 +49,7 @@ const SignUp = () => {
       message: "Las contraseñas no coinciden",
       path: ["repeatPassword"],
     });
+
   const {
     register,
     handleSubmit,
@@ -57,6 +57,7 @@ const SignUp = () => {
   } = useForm<FormData>({
     resolver: zodResolver(schema),
   });
+  
   const submitData = (data: FormData) => {
     console.log("submit", data);
   };
