@@ -15,17 +15,12 @@ const LandingPage = () => {
           </div>
 
           <div className="flex flex-row space-x-4 mr-4">
-            <Button variant="outline">
-              <Link to="/signup">
-                Registrarse
-              </Link>
-            </Button>
-
-            <Button variant="outline">
-              <Link to="/login">
-                Iniciar Sesion
-              </Link>
-            </Button>
+            <Link to="/signup">
+              <Button variant="outline">Registrarse</Button>
+            </Link>
+            <Link to="/login">
+              <Button variant="outline">Iniciar Sesión</Button>
+            </Link>
           </div>
         </header>
       </div>
