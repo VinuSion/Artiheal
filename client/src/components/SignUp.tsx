@@ -1,7 +1,7 @@
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Button } from "./ui/button";
-import { Checkbox } from "./ui/checkbox";
+// import { Checkbox } from "./ui/checkbox";
 import { Link } from "react-router-dom";
 import { z, ZodType } from "zod";
 import { useForm } from "react-hook-form";
@@ -15,17 +15,17 @@ interface SignUpProps {
 const SignUp = ({ handleLogin }: SignUpProps) => {
   const navigate = useNavigate();
 
-  const handleSignUpClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault(); // Prevent the default form submission
-    // Perform signup logic
-    // ...
+  // const handleSignUpClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  //   e.preventDefault(); // Prevent the default form submission
+  //   // Perform signup logic
+  //   // ...
 
-    // Call handleLogin to authenticate the user after successful signup
-    handleLogin();
-    navigate("/dashboard");
-    // Redirect or perform other actions as needed
-    // ...
-  };
+  //   // Call handleLogin to authenticate the user after successful signup
+  //   handleLogin();
+  //   navigate("/dashboard");
+  //   // Redirect or perform other actions as needed
+  //   // ...
+  // };
 
   type FormData = {
     name: string;
@@ -33,17 +33,36 @@ const SignUp = ({ handleLogin }: SignUpProps) => {
     email: string;
     password: string;
     repeatPassword: string;
-    terms:boolean;
+    // terms:boolean;
   };
 
   const schema: ZodType<FormData> = z
     .object({
-      name: z.string().min(3, {message:"Mínimo 3 caracteres, máximo 20"}).max(20),
-      lastName: z.string().min(3, {message:"Mínimo 3 caracteres, máximo 20"}).max(20),
+      name: z.string().min(3, {message:"Mínimo 3 caracteres"}).max(20, {message:"Maximo 20 caracteres"}).refine(value => /^[a-zA-Z]+$/.test(value), {
+        message: "Solo caracteres"
+      }),
+      lastName: z.string().min(3, {message:"Mínimo 3 caracteres"}).max(20, {message:"Maximo 20 caracteres"}).refine(value => /^[a-zA-Z]+$/.test(value), {
+        message: "Solo caracteres"
+      }),
       email: z.string().email({message:"Ingresa un correo válido."}),
-      password: z.string().min(8, {message:"Mínimo 8 caracteres, máximo 20."}).max(20),
-      repeatPassword: z.string().min(8, {message: "Las contaseñas no coinciden."}).max(20),
-      terms:z.boolean()
+      password: z.string().min(8, "Contraseña debe tener minimo 8 caracteres")
+      .refine((password) => {
+        return /[A-Z]/.test(password);
+      }, {
+        message: "Contraseña debe tener por lo menos una letra mayuscula",
+      })
+      .refine((password) => {
+        return /\d/.test(password);
+      }, {
+        message: "Contraseña debe tener por lo menos un numero",
+      })
+      .refine((password) => {
+        return /[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]/.test(password);
+      }, {
+        message: "Contraseña debe tener por lo menos un caracter especial",
+      }),
+      repeatPassword: z.string().min(8, {message: "Las contaseñas no coinciden"}).max(20),
+      //terms:z.boolean()
     })
     .refine((data) => data.password === data.repeatPassword, {
       message: "Las contraseñas no coinciden",
@@ -60,6 +79,8 @@ const SignUp = ({ handleLogin }: SignUpProps) => {
   
   const submitData = (data: FormData) => {
     console.log("submit", data);
+    handleLogin();
+    navigate("/dashboard");
   };
 
   return (
@@ -126,13 +147,14 @@ const SignUp = ({ handleLogin }: SignUpProps) => {
                 />
                 {errors.repeatPassword && <span className="text-sm text-indigo-500">{errors.repeatPassword.message}</span>}
               </div>
-              <div className="items-top flex space-x-1 w-full max-w items-center gap-1.5 mt-5">
-                <Checkbox id="terms"  defaultChecked={false}  {...register("terms")} />
+              {/* <div className="items-top flex space-x-1 w-full max-w items-center gap-1.5 mt-5">
+                <Checkbox id="terms"  defaultChecked={false} {...register("terms")} />
                 {errors.terms && <span className="text-sm text-indigo-500">{errors.terms.message}</span>}
                 <Label htmlFor="terms">Aceptar terminos y condiciones</Label>
-              </div>
+              </div> */}
             </div>
-            <Button className="my-4 py-3 px-6" variant="special" size="sp" onClick={handleSignUpClick} type="submit">
+            <Button className="my-4 py-3 px-6" variant="special" size="sp" type="submit">
+              {/* onClick={handleSignUpClick} */}
               Continuar
             </Button>
             <span>
