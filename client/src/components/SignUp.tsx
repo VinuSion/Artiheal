@@ -31,14 +31,14 @@ const SignUp = ({ handleLogin }: SignUpProps) => {
         .min(3, { message: "Mínimo 3 caracteres" })
         .max(20, { message: "Maximo 20 caracteres" })
         .refine((value) => /^[a-zA-ZáéíóúÁÉÍÓÚ]+$/.test(value), {
-          message: "Solo caracteres",
+          message: "Solo letras en el nombre",
         }),
       lastName: z
         .string()
         .min(3, { message: "Mínimo 3 caracteres" })
         .max(20, { message: "Maximo 20 caracteres" })
         .refine((value) => /^[a-zA-ZáéíóúÁÉÍÓÚ]+$/.test(value), {
-          message: "Solo caracteres",
+          message: "Solo letras en el apellido",
         }),
       email: z.string().email({ message: "Correo electronico invalido" }),
       password: z
