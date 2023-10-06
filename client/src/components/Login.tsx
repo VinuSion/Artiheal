@@ -14,47 +14,23 @@ import {
   EyeSlashIcon,
 } from "@heroicons/react/24/outline";
 
-
 interface LoginProps {
-  handleLogin: () => void; // Adjust the type of handleLogin as needed
+  handleLogin: () => void;
 }
 
 const Login = ({ handleLogin }: LoginProps) => {
+
   const [passwordShown, setPasswordShown] = useState(false);
+  const navigate = useNavigate();
 
   type FormData = {
     email: string;
     password: string;
   };
+
   const formSchema: ZodType<FormData> = z.object({
-    email: z.string().email({ message: "Correo electronico invalido" }),
-    password: z
-      .string()
-      .min(8, "Contraseña debe tener minimo 8 caracteres")
-      .refine(
-        (password) => {
-          return /[A-Z]/.test(password);
-        },
-        {
-          message: "Contraseña debe tener por lo menos una letra mayuscula",
-        }
-      )
-      .refine(
-        (password) => {
-          return /\d/.test(password);
-        },
-        {
-          message: "Contraseña debe tener por lo menos un numero",
-        }
-      )
-      .refine(
-        (password) => {
-          return /[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]/.test(password);
-        },
-        {
-          message: "Contraseña debe tener por lo menos un caracter especial",
-        }
-      ),
+    email: z.string().min(1, "Ingrese un correo electronico"),
+    password: z.string().min(1, "Ingrese una contraseña"),
   });
 
   const {
@@ -64,21 +40,17 @@ const Login = ({ handleLogin }: LoginProps) => {
   } = useForm<FormData>({
     resolver: zodResolver(formSchema),
   });
+
+  // Search Login Data at MongoDB
   const submitData = (data: FormData) => {
     console.log("submit", data);
-  };
-  const navigate = useNavigate();
+    // Compare user input with User data at MongoDB
 
-  const handleLoginClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault(); // Prevent the default form submission
-    // Perform authentication logic
-    // ...
+    // Auth with Stytch
 
-    // Call the handleLogin function to update authentication state
+    //
     handleLogin();
     navigate("/dashboard");
-    // Redirect to the HomePage after successful login
-    // Assuming that 'handleLogin' updates 'isAuth' state
   };
 
   return (
@@ -95,8 +67,9 @@ const Login = ({ handleLogin }: LoginProps) => {
           </div>
 
           <h2 className="font-bold text-lg my-7">Iniciar Sesión</h2>
+
           <form onSubmit={handleSubmit(submitData)}>
-            <div className="grid w-full max-w items-center gap-2 mt-5">
+            <div className="grid w-full max-w items-center gap-1.5 mt-2">
               <Label htmlFor="email">Correo electronico</Label>
               <Input
                 type="email"
@@ -114,40 +87,40 @@ const Login = ({ handleLogin }: LoginProps) => {
               </div>
             </div>
 
-            <div className="grid w-full max-w items-center gap-1.5 mt-5">
+            <div className="grid w-full max-w items-center gap-1.5 mt-2">
               <Label htmlFor="password">Contraseña</Label>
               <div className="flex flex-row space-x-2">
-                  <Input
-                    type={passwordShown ? "text" : "password"}
-                    id="password"
-                    placeholder="Contraseña"
-                    {...register("password")}
-                  />
-                  <Button
-                    size="icon"
-                    variant="icon"
-                    type="button"
-                    className="transition duration-300 hover:shadow-md focus:shadow-md"
-                    onClick={() => setPasswordShown(!passwordShown)}
-                  >
-                    {passwordShown ? (
-                      <EyeIcon className="h-5 w-5 text-primary" />
-                    ) : (
-                      <EyeSlashIcon className="h-5 w-5 text-primary" />
-                    )}
-                  </Button>
-                </div>
-                <div className="h-[20px]">
-                  {errors.password && (
-                    <span className="inline-flex items-center w-auto text-xs bg-red-100 rounded text-red-600 p-[2px] px-2">
-                      <ExclamationTriangleIcon className="h-3 w-3 text-red-600 mr-1" />
-                      {errors.password.message}
-                    </span>
+                <Input
+                  type={passwordShown ? "text" : "password"}
+                  id="password"
+                  placeholder="Contraseña"
+                  {...register("password")}
+                />
+                <Button
+                  size="icon"
+                  variant="icon"
+                  type="button"
+                  className="transition duration-300 hover:shadow-md focus:shadow-md"
+                  onClick={() => setPasswordShown(!passwordShown)}
+                >
+                  {passwordShown ? (
+                    <EyeIcon className="h-5 w-5 text-primary" />
+                  ) : (
+                    <EyeSlashIcon className="h-5 w-5 text-primary" />
                   )}
-                </div>
+                </Button>
+              </div>
+              <div className="h-[20px]">
+                {errors.password && (
+                  <span className="inline-flex items-center w-auto text-xs bg-red-100 rounded text-red-600 p-[2px] px-2">
+                    <ExclamationTriangleIcon className="h-3 w-3 text-red-600 mr-1" />
+                    {errors.password.message}
+                  </span>
+                )}
+              </div>
             </div>
 
-            <div className="items-top flex space-x-1 w-full max-w items-center gap-1.5 mt-5">
+            <div className="items-top flex space-x-1 w-full max-w items-center gap-1.5 mt-2 mb-1">
               <Checkbox id="sesion" />
               <Label htmlFor="sesion">Mantener iniciada mi sesión</Label>
             </div>
@@ -156,9 +129,8 @@ const Login = ({ handleLogin }: LoginProps) => {
               className="my-4 py-3 px-6"
               variant="special"
               size="sp"
+              type="submit"
               disabled={isSubmitting}
-              // onClick={handleLoginClick}
-
             >
               Iniciar Sesión
             </Button>

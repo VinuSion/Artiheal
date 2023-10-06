@@ -156,8 +156,9 @@ const SignUp = ({ handleLogin }: SignUpProps) => {
                 </div>
               </div>
             </div>
+
             <div>
-              <div className="grid w-full max-w items-center gap-2 mt-2">
+              <div className="grid w-full max-w items-center gap-1.5 mt-2">
                 <Label htmlFor="email">Correo electronico</Label>
                 <Input
                   type="email"
@@ -174,6 +175,7 @@ const SignUp = ({ handleLogin }: SignUpProps) => {
                   )}
                 </div>
               </div>
+
               <div className="grid w-full max-w items-center gap-1.5 mt-2">
                 <Label htmlFor="password">Contraseña</Label>
                 <div className="flex flex-row space-x-2">
@@ -206,6 +208,7 @@ const SignUp = ({ handleLogin }: SignUpProps) => {
                   )}
                 </div>
               </div>
+
               <div className="grid w-full max-w items-center gap-1.5 mt-2">
                 <Label htmlFor="repeatPassword">Confirmar Contraseña</Label>
                 <Input
@@ -223,10 +226,12 @@ const SignUp = ({ handleLogin }: SignUpProps) => {
                   )}
                 </div>
               </div>
+
               <div className="items-top flex space-x-1 w-full max-w items-center gap-1.5 mt-2 mb-1">
                 <Checkbox id="terms" />
                 <Label htmlFor="terms">Aceptar terminos y condiciones</Label>
               </div>
+
             </div>
             <Button
               className="my-3 py-3 px-6"
@@ -237,12 +242,14 @@ const SignUp = ({ handleLogin }: SignUpProps) => {
             >
               Continuar
             </Button>
+
             <span>
               ¿Ya estás en Artiheal?
               <Link className="text-primary ml-1 hover:underline" to="/login">
                 Iniciar sesión
               </Link>
             </span>
+            
           </form>
         </div>
       </main>

@@ -4,6 +4,7 @@ import { config } from "dotenv";
 import path from "path";
 
 import { ErrorRequestHandler } from "express";
+import userRouter from "./routes/userRoutes.js";
 
 config(); // Setup dotenv
 
@@ -37,6 +38,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // ALL API ENDPOINTS FOR THE SERVER GO HERE
 // Routes go here
+app.use("/api/users", userRouter);
 
 // Resolving vite frontend path
 app.use(express.static(frontend));
