@@ -1,12 +1,22 @@
 import express from "express";
+import cors from 'cors';
 import mongoose from "mongoose";
 import { config } from "dotenv";
 import path from "path";
 
 import { ErrorRequestHandler } from "express";
-import userRouter from "./routes/userRoutes.js";
+import userRouter from "./routes/userRoutes";
+import { baseUrl } from './utils';
 
 config(); // Setup dotenv
+
+// Setup cors to allow cross-origin requests only from localhost url or hosted url with baseUrl
+const corsOptions: cors.CorsOptions = {
+  origin: baseUrl(), // Adjust the origin as needed
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  preflightContinue: false,
+  optionsSuccessStatus: 204,
+};
 
 // MongoDB Connection
 mongoose
@@ -21,18 +31,11 @@ mongoose
     console.error("Error connecting to MongoDB: ", error);
   });
 
-export const baseUrl = () => {
-  process.env.BASE_URL
-    ? process.env.BASE_URL
-    : process.env.NODE_ENV !== "production"
-    ? "http://localhost:5173"
-    : "https://yourdomain.com";
-};
-
 const app = express(); // Setup express
 const frontend = path.resolve(__dirname, '../../client/dist'); // Setup path for dist folder
 const port = process.env.PORT || 4000; // Setup server port
 
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

@@ -13,15 +13,14 @@ import { z, ZodType } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
+import Axios, { AxiosError } from "axios";
+import { getError } from "@/lib/utils";
 
-interface SignUpProps {
-  handleLogin: () => void;
-}
-
-const SignUp = ({ handleLogin }: SignUpProps) => {
-  
+const SignUp = () => {
   const [passwordShown, setPasswordShown] = useState(false);
   const navigate = useNavigate();
+  const [apiError, setApiError] = useState<string | null>(null);
 
   type FormData = {
     firstName: string;
@@ -93,167 +92,191 @@ const SignUp = ({ handleLogin }: SignUpProps) => {
     resolver: zodResolver(formSchema),
   });
 
-  // Submit SignUp Data to MongoDB
-  const submitData = (data: FormData) => {
-    console.log("submit", data);
-    // Create new User with MongoDB
+  // Submit SignUp Data with Axios
+  const submitData = async (data: FormData) => {
+    //console.log("submit", data);
+    const first =
+      data.firstName.charAt(0).toUpperCase() +
+      data.firstName.slice(1).toLowerCase();
+    const last =
+      data.lastName.charAt(0).toUpperCase() +
+      data.lastName.slice(1).toLowerCase();
+    // Create new User with Axios
+    try {
+      // CHANGE THE AXIOS URL TO BE HIDDEN WITH A .ENV.LOCAL OR ACCESS .ENV IN SERVER SOMEHOW
+      await Axios.post("http://localhost:4000/api/users/signup", {
+        firstName: first,
+        lastName: last,
+        email: data.email,
+        password: data.password,
+      });
 
-    // Auth with Stytch
-
-    //
-    handleLogin();
-    navigate("/dashboard");
+      // Navigate to /login
+      navigate("/login");
+    } catch (err) {
+      // MAKE IT SO THIS ERROR GOES AWAY WHEN THE USER INPUTS AN EMAIL THAT IS NOT TAKEN
+      setApiError(getError(err as AxiosError) as string);
+    }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-splash-image bg-cover bg-no-repeat bg-center">
-      <main className="flex flex-col place-items-center">
-        <div className="sign-up shadow-2xl p-6 rounded-lg bg-background">
-          <div className="icon flex items-center justify-center">
-            <img
-              className="h-12, w-12 select-none"
-              src="/artiheal-logo.svg"
-              alt="logo"
-            />
-            <span className="font-bold ml-1 select-none">Artiheal</span>
-          </div>
-          <h2 className="font-bold text-lg my-7">Crear Cuenta en Artiheal</h2>
-          <form onSubmit={handleSubmit(submitData)}>
-            <div className="inputs flex flex-row gap-3.5">
-              <div className="grid w-full max-w-sm items-center gap-1.5">
-                <Label htmlFor="firstName">Nombres</Label>
-                <Input
-                  type="text"
-                  id="firstName"
-                  placeholder="Nombres"
-                  {...register("firstName")}
-                />
-                <div className="h-[20px]">
-                  {errors.firstName && (
-                    <span className="inline-flex items-center w-auto text-xs bg-red-100 rounded text-red-600 p-[2px] px-2">
-                      <ExclamationTriangleIcon className="h-3 w-3 text-red-600 mr-1" />
-                      {errors.firstName.message}
-                    </span>
-                  )}
-                </div>
-              </div>
-
-              <div className="grid w-full max-w-sm items-center gap-1.5">
-                <Label htmlFor="lastName">Apellidos</Label>
-                <Input
-                  type="text"
-                  id="lastName"
-                  placeholder="Apellidos"
-                  {...register("lastName")}
-                />
-                <div className="h-[20px]">
-                  {errors.lastName && (
-                    <span className="inline-flex items-center w-auto text-xs bg-red-100 rounded text-red-600 p-[2px] px-2">
-                      <ExclamationTriangleIcon className="h-3 w-3 text-red-600 mr-1" />
-                      {errors.lastName.message}
-                    </span>
-                  )}
-                </div>
-              </div>
+    <>
+      <Helmet>
+        <title>SignUp | Artiheal</title>
+      </Helmet>
+      <div className="min-h-screen flex items-center justify-center bg-splash-image bg-cover bg-no-repeat bg-center">
+        <main className="flex flex-col place-items-center">
+          <div className="sign-up shadow-2xl p-6 rounded-lg bg-background">
+            <div className="icon flex items-center justify-center">
+              <img
+                className="h-12, w-12 select-none"
+                src="/artiheal-logo.svg"
+                alt="logo"
+              />
+              <span className="font-bold ml-1 select-none">Artiheal</span>
             </div>
-
-            <div>
-              <div className="grid w-full max-w items-center gap-1.5 mt-2">
-                <Label htmlFor="email">Correo electronico</Label>
-                <Input
-                  type="email"
-                  id="email"
-                  placeholder="Correo electronico"
-                  {...register("email")}
-                />
-                <div className="h-[20px]">
-                  {errors.email && (
-                    <span className="inline-flex items-center w-auto text-xs bg-red-100 rounded text-red-600 p-[2px] px-2">
-                      <ExclamationTriangleIcon className="h-3 w-3 text-red-600 mr-1" />
-                      {errors.email.message}
-                    </span>
-                  )}
-                </div>
-              </div>
-
-              <div className="grid w-full max-w items-center gap-1.5 mt-2">
-                <Label htmlFor="password">Contraseña</Label>
-                <div className="flex flex-row space-x-2">
+            <h2 className="font-bold text-lg my-7">Crear Cuenta en Artiheal</h2>
+            <form onSubmit={handleSubmit(submitData)}>
+              <div className="inputs flex flex-row gap-3.5">
+                <div className="grid w-full max-w-sm items-center gap-1.5">
+                  <Label htmlFor="firstName">Nombre</Label>
                   <Input
-                    type={passwordShown ? "text" : "password"}
-                    id="password"
-                    placeholder="Contraseña"
-                    {...register("password")}
+                    type="text"
+                    id="firstName"
+                    placeholder="Nombre"
+                    {...register("firstName")}
                   />
-                  <Button
-                    size="icon"
-                    variant="icon"
-                    type="button"
-                    className="transition duration-300 hover:shadow-md focus:shadow-md"
-                    onClick={() => setPasswordShown(!passwordShown)}
-                  >
-                    {passwordShown ? (
-                      <EyeIcon className="h-5 w-5 text-primary" />
-                    ) : (
-                      <EyeSlashIcon className="h-5 w-5 text-primary" />
+                  <div className="h-[20px]">
+                    {errors.firstName && (
+                      <span className="inline-flex items-center w-auto text-xs bg-red-100 rounded text-red-600 p-[2px] px-2">
+                        <ExclamationTriangleIcon className="h-3 w-3 text-red-600 mr-1" />
+                        {errors.firstName.message}
+                      </span>
                     )}
-                  </Button>
+                  </div>
                 </div>
-                <div className="h-[20px]">
-                  {errors.password && (
-                    <span className="inline-flex items-center w-auto text-xs bg-red-100 rounded text-red-600 p-[2px] px-2">
-                      <ExclamationTriangleIcon className="h-3 w-3 text-red-600 mr-1" />
-                      {errors.password.message}
-                    </span>
-                  )}
-                </div>
-              </div>
 
-              <div className="grid w-full max-w items-center gap-1.5 mt-2">
-                <Label htmlFor="repeatPassword">Confirmar Contraseña</Label>
-                <Input
-                  type="password"
-                  id="repeatPassword"
-                  placeholder="Repetir Contraseña"
-                  {...register("repeatPassword")}
-                />
-                <div className="h-[20px]">
-                  {errors.repeatPassword && (
-                    <span className="inline-flex items-center w-auto text-xs bg-red-100 rounded text-red-600 p-[2px] px-2">
-                      <ExclamationTriangleIcon className="h-3 w-3 text-red-600 mr-1" />
-                      {errors.repeatPassword.message}
-                    </span>
-                  )}
+                <div className="grid w-full max-w-sm items-center gap-1.5">
+                  <Label htmlFor="lastName">Apellido</Label>
+                  <Input
+                    type="text"
+                    id="lastName"
+                    placeholder="Apellido"
+                    {...register("lastName")}
+                  />
+                  <div className="h-[20px]">
+                    {errors.lastName && (
+                      <span className="inline-flex items-center w-auto text-xs bg-red-100 rounded text-red-600 p-[2px] px-2">
+                        <ExclamationTriangleIcon className="h-3 w-3 text-red-600 mr-1" />
+                        {errors.lastName.message}
+                      </span>
+                    )}
+                  </div>
                 </div>
               </div>
 
-              <div className="items-top flex space-x-1 w-full max-w items-center gap-1.5 mt-2 mb-1">
-                <Checkbox id="terms" />
-                <Label htmlFor="terms">Aceptar terminos y condiciones</Label>
+              <div>
+                <div className="grid w-full max-w items-center gap-1.5 mt-2">
+                  <Label htmlFor="email">Correo electronico</Label>
+                  <Input
+                    type="email"
+                    id="email"
+                    placeholder="Correo electronico"
+                    {...register("email")}
+                  />
+                  <div className="h-[20px]">
+                    {errors.email && (
+                      <span className="inline-flex items-center w-auto text-xs bg-red-100 rounded text-red-600 p-[2px] px-2">
+                        <ExclamationTriangleIcon className="h-3 w-3 text-red-600 mr-1" />
+                        {errors.email.message}
+                      </span>
+                    )}
+                    {apiError && (
+                      <span className="inline-flex items-center w-auto text-xs bg-red-100 rounded text-red-600 p-[2px] px-2">
+                        <ExclamationTriangleIcon className="h-3 w-3 text-red-600 mr-1" />
+                        {apiError}
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                <div className="grid w-full max-w items-center gap-1.5 mt-2">
+                  <Label htmlFor="password">Contraseña</Label>
+                  <div className="flex flex-row space-x-2">
+                    <Input
+                      type={passwordShown ? "text" : "password"}
+                      id="password"
+                      placeholder="Contraseña"
+                      {...register("password")}
+                    />
+                    <Button
+                      size="icon"
+                      variant="icon"
+                      type="button"
+                      className="transition duration-300 hover:shadow-md focus:shadow-md"
+                      onClick={() => setPasswordShown(!passwordShown)}
+                    >
+                      {passwordShown ? (
+                        <EyeIcon className="h-5 w-5 text-primary" />
+                      ) : (
+                        <EyeSlashIcon className="h-5 w-5 text-primary" />
+                      )}
+                    </Button>
+                  </div>
+                  <div className="h-[20px]">
+                    {errors.password && (
+                      <span className="inline-flex items-center w-auto text-xs bg-red-100 rounded text-red-600 p-[2px] px-2">
+                        <ExclamationTriangleIcon className="h-3 w-3 text-red-600 mr-1" />
+                        {errors.password.message}
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                <div className="grid w-full max-w items-center gap-1.5 mt-2">
+                  <Label htmlFor="repeatPassword">Confirmar Contraseña</Label>
+                  <Input
+                    type="password"
+                    id="repeatPassword"
+                    placeholder="Repetir Contraseña"
+                    {...register("repeatPassword")}
+                  />
+                  <div className="h-[20px]">
+                    {errors.repeatPassword && (
+                      <span className="inline-flex items-center w-auto text-xs bg-red-100 rounded text-red-600 p-[2px] px-2">
+                        <ExclamationTriangleIcon className="h-3 w-3 text-red-600 mr-1" />
+                        {errors.repeatPassword.message}
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                <div className="items-top flex space-x-1 w-full max-w items-center gap-1.5 mt-2 mb-1">
+                  <Checkbox id="terms" />
+                  <Label htmlFor="terms">Aceptar terminos y condiciones</Label>
+                </div>
               </div>
+              <Button
+                className="my-3 py-3 px-6"
+                variant="special"
+                size="sp"
+                type="submit"
+                disabled={isSubmitting}
+              >
+                Continuar
+              </Button>
 
-            </div>
-            <Button
-              className="my-3 py-3 px-6"
-              variant="special"
-              size="sp"
-              type="submit"
-              disabled={isSubmitting}
-            >
-              Continuar
-            </Button>
-
-            <span>
-              ¿Ya estás en Artiheal?
-              <Link className="text-primary ml-1 hover:underline" to="/login">
-                Iniciar sesión
-              </Link>
-            </span>
-            
-          </form>
-        </div>
-      </main>
-    </div>
+              <span>
+                ¿Ya estás en Artiheal?
+                <Link className="text-primary ml-1 hover:underline" to="/login">
+                  Iniciar sesión
+                </Link>
+              </span>
+            </form>
+          </div>
+        </main>
+      </div>
+    </>
   );
 };
 

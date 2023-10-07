@@ -1,44 +1,36 @@
-import { useState, useEffect } from "react";
+import { useContext } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import LandingPage from "./components/LandingPage";
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
 import DashboardPage from "./components/DashboardPage";
 
+import { Store } from './Store';
+
 function App() {
-  const [isAuth, setIsAuth] = useState(false);
+  const { state, dispatch: ctxDispatch } = useContext(Store)!;
+  const { userInfo } = state;
+  // const [isAuth, setIsAuth] = useState(false);
 
-  useEffect(() => {
-    const localStorageIsAuth = localStorage.getItem("isAuth");
-    if (localStorageIsAuth) {
-      setIsAuth(localStorageIsAuth === "true");
-    }
-  }, []);
-
-  // Function to handle login
-  const handleLogin = () => {
-    // Perform authentication logic
-    // ...
-
-    // Set isAuth to true and update localStorage
-    setIsAuth(true);
-    localStorage.setItem("isAuth", "true");
-  };
+  // useEffect(() => {
+  //   const localStorageIsAuth = localStorage.getItem("isAuth");
+  //   if (localStorageIsAuth) {
+  //     setIsAuth(localStorageIsAuth === "true");
+  //   }
+  // }, []);
 
   // Function to handle logout
   const handleLogout = () => {
-    // Perform logout logic
-    // ...
-
-    // Set isAuth to false and update localStorage
-    setIsAuth(false);
-    localStorage.setItem("isAuth", "false");
+    ctxDispatch({ type: 'USER_SIGNOUT' });
+    localStorage.removeItem('userInfo');
+    // setIsAuth(false);
+    // localStorage.setItem("isAuth", "false");
   };
 
   return (
     <BrowserRouter>
       <Routes>
-        {isAuth ? (
+        {userInfo ? (
           <>
             <Route path="*" element={<Navigate to="/dashboard" />} />
             <Route
@@ -51,11 +43,11 @@ function App() {
             <Route path="*" element={<Navigate to="/" />} />
             <Route
               path="/login"
-              element={<Login handleLogin={handleLogin} />}
+              element={<Login />}
             />
             <Route
               path="/signup"
-              element={<SignUp handleLogin={handleLogin} />}
+              element={<SignUp />}
             />
             <Route path="/" element={<LandingPage />} />
           </>

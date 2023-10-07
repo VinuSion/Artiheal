@@ -1,9 +1,13 @@
 import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
+import { Helmet } from "react-helmet-async";
 
 const LandingPage = () => {
   return (
     <div>
+      <Helmet>
+        <title>Welcome to Artiheal</title>
+      </Helmet>
       <div className="bg-gray-100 min-h-screen">
         <header className="bg-primary py-4 flex flex-row justify-between h-28 items-center p-2">
           <div className="flex flex-row items-center text-white">
