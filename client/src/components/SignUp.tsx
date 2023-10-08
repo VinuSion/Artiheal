@@ -2,12 +2,12 @@ import { useState } from "react";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Button } from "./ui/button";
+import { Checkbox } from "./ui/checkbox";
+import SignLabel from "./ui/signlabel";
 import {
-  ExclamationTriangleIcon,
   EyeIcon,
   EyeSlashIcon,
 } from "@heroicons/react/24/outline";
-import { Checkbox } from "./ui/checkbox";
 import { Link } from "react-router-dom";
 import { z, ZodType } from "zod";
 import { useForm } from "react-hook-form";
@@ -20,6 +20,7 @@ import { getError } from "@/lib/utils";
 const SignUp = () => {
   const [passwordShown, setPasswordShown] = useState(false);
   const navigate = useNavigate();
+
   const [apiError, setApiError] = useState<string | null>(null);
 
   type FormData = {
@@ -94,7 +95,6 @@ const SignUp = () => {
 
   // Submit SignUp Data with Axios
   const submitData = async (data: FormData) => {
-    //console.log("submit", data);
     const first =
       data.firstName.charAt(0).toUpperCase() +
       data.firstName.slice(1).toLowerCase();
@@ -103,8 +103,7 @@ const SignUp = () => {
       data.lastName.slice(1).toLowerCase();
     // Create new User with Axios
     try {
-      // CHANGE THE AXIOS URL TO BE HIDDEN WITH A .ENV.LOCAL OR ACCESS .ENV IN SERVER SOMEHOW
-      await Axios.post("http://localhost:4000/api/users/signup", {
+      await Axios.post("/api/users/signup", {
         firstName: first,
         lastName: last,
         email: data.email,
@@ -114,7 +113,6 @@ const SignUp = () => {
       // Navigate to /login
       navigate("/login");
     } catch (err) {
-      // MAKE IT SO THIS ERROR GOES AWAY WHEN THE USER INPUTS AN EMAIL THAT IS NOT TAKEN
       setApiError(getError(err as AxiosError) as string);
     }
   };
@@ -148,10 +146,7 @@ const SignUp = () => {
                   />
                   <div className="h-[20px]">
                     {errors.firstName && (
-                      <span className="inline-flex items-center w-auto text-xs bg-red-100 rounded text-red-600 p-[2px] px-2">
-                        <ExclamationTriangleIcon className="h-3 w-3 text-red-600 mr-1" />
-                        {errors.firstName.message}
-                      </span>
+                      <SignLabel variant="error" message={errors.firstName.message} />
                     )}
                   </div>
                 </div>
@@ -166,10 +161,7 @@ const SignUp = () => {
                   />
                   <div className="h-[20px]">
                     {errors.lastName && (
-                      <span className="inline-flex items-center w-auto text-xs bg-red-100 rounded text-red-600 p-[2px] px-2">
-                        <ExclamationTriangleIcon className="h-3 w-3 text-red-600 mr-1" />
-                        {errors.lastName.message}
-                      </span>
+                      <SignLabel variant="error" message={errors.lastName.message} />
                     )}
                   </div>
                 </div>
@@ -185,17 +177,11 @@ const SignUp = () => {
                     {...register("email")}
                   />
                   <div className="h-[20px]">
-                    {errors.email && (
-                      <span className="inline-flex items-center w-auto text-xs bg-red-100 rounded text-red-600 p-[2px] px-2">
-                        <ExclamationTriangleIcon className="h-3 w-3 text-red-600 mr-1" />
-                        {errors.email.message}
-                      </span>
+                    {errors.email && !apiError && (
+                      <SignLabel variant="error" message={errors.email.message} />
                     )}
                     {apiError && (
-                      <span className="inline-flex items-center w-auto text-xs bg-red-100 rounded text-red-600 p-[2px] px-2">
-                        <ExclamationTriangleIcon className="h-3 w-3 text-red-600 mr-1" />
-                        {apiError}
-                      </span>
+                      <SignLabel variant="error" message={apiError} />
                     )}
                   </div>
                 </div>
@@ -225,10 +211,7 @@ const SignUp = () => {
                   </div>
                   <div className="h-[20px]">
                     {errors.password && (
-                      <span className="inline-flex items-center w-auto text-xs bg-red-100 rounded text-red-600 p-[2px] px-2">
-                        <ExclamationTriangleIcon className="h-3 w-3 text-red-600 mr-1" />
-                        {errors.password.message}
-                      </span>
+                      <SignLabel variant="error" message={errors.password.message} />
                     )}
                   </div>
                 </div>
@@ -243,10 +226,7 @@ const SignUp = () => {
                   />
                   <div className="h-[20px]">
                     {errors.repeatPassword && (
-                      <span className="inline-flex items-center w-auto text-xs bg-red-100 rounded text-red-600 p-[2px] px-2">
-                        <ExclamationTriangleIcon className="h-3 w-3 text-red-600 mr-1" />
-                        {errors.repeatPassword.message}
-                      </span>
+                      <SignLabel variant="error" message={errors.repeatPassword.message} />
                     )}
                   </div>
                 </div>

@@ -13,14 +13,8 @@ const DashboardPage = ({ handleLogout }: DashboardPageProps) => {
   const userInfo = JSON.parse(userInfoString);
 
   const handleLogoutClick = () => {
-    // Perform logout logic
-    // ...
-
-    // Call the handleLogout function to update authentication state
-    handleLogout();
-    navigate("/");
-    // Redirect to the LandingPage after successful logout
-    // Assuming that 'handleLogout' updates 'isAuth' state
+    handleLogout(); // handleLogout in App component
+    navigate("/"); // navigates to landing page after logging out
   };
 
   return (

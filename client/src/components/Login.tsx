@@ -3,16 +3,16 @@ import { useContext, useState } from "react";
 import { Label } from "./ui/label";
 import { Button } from "./ui/button";
 import { Checkbox } from "./ui/checkbox";
+import SignLabel from "./ui/signlabel";
+import {
+  EyeIcon,
+  EyeSlashIcon,
+} from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { z, ZodType } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  ExclamationTriangleIcon,
-  EyeIcon,
-  EyeSlashIcon,
-} from "@heroicons/react/24/outline";
 import { Helmet } from "react-helmet-async";
 import Axios, { AxiosError } from "axios";
 import { Store } from "../Store";
@@ -21,7 +21,7 @@ import { getError } from "@/lib/utils";
 const Login = () => {
   const [passwordShown, setPasswordShown] = useState(false);
   const navigate = useNavigate();
-  // MAKE IT SO THIS ERROR GOES AWAY WHEN THE USER INPUTS A USER THAT DOESNT EXIST
+
   const [apiError, setApiError] = useState<string | null>(null);
 
   const { dispatch: ctxDispatch } = useContext(Store)!;
@@ -46,11 +46,9 @@ const Login = () => {
 
   // Use Axios to find a User
   const submitData = async (data: FormData) => {
-    // console.log("submit", data);
     // Compare user input with User data with Axios
     try {
-      // CHANGE THE AXIOS URL TO BE HIDDEN WITH A .ENV.LOCAL OR ACCESS .ENV IN SERVER SOMEHOW
-      const response = await Axios.post("http://localhost:4000/api/users/login", {
+      const response = await Axios.post("/api/users/login", {
         email: data.email,
         password: data.password,
       });
@@ -62,7 +60,6 @@ const Login = () => {
       // Navigate to /dashboard
       navigate("/dashboard");
     } catch (err) {
-      // MAKE IT SO THIS ERROR GOES AWAY WHEN THE USER INPUTS A USER THAT DOES EXIST
       setApiError(getError(err as AxiosError) as string);
     }
   };
@@ -99,10 +96,7 @@ const Login = () => {
                 />
                 <div className="h-[20px]">
                   {errors.email && (
-                    <span className="inline-flex items-center w-auto text-xs bg-red-100 rounded text-red-600 p-[2px] px-2">
-                      <ExclamationTriangleIcon className="h-3 w-3 text-red-600 mr-1" />
-                      {errors.email.message}
-                    </span>
+                    <SignLabel variant="error" message={errors.email.message} />
                   )}
                 </div>
               </div>
@@ -131,17 +125,11 @@ const Login = () => {
                   </Button>
                 </div>
                 <div className="h-[20px]">
-                  {errors.password && (
-                    <span className="inline-flex items-center w-auto text-xs bg-red-100 rounded text-red-600 p-[2px] px-2">
-                      <ExclamationTriangleIcon className="h-3 w-3 text-red-600 mr-1" />
-                      {errors.password.message}
-                    </span>
+                  {errors.password && !apiError && (
+                    <SignLabel variant="error" message={errors.password.message} />
                   )}
                   {apiError && (
-                    <span className="inline-flex items-center w-auto text-xs bg-red-100 rounded text-red-600 p-[2px] px-2">
-                      <ExclamationTriangleIcon className="h-3 w-3 text-red-600 mr-1" />
-                      {apiError}
-                    </span>
+                    <SignLabel variant="error" message={apiError} />
                   )}
                 </div>
               </div>

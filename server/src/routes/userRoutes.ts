@@ -16,7 +16,7 @@ userRouter.post(
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         email: req.body.email,
-        password: bcrypt.hashSync(req.body.password),
+        password: bcrypt.hashSync(req.body.password, 12),
       });
       const user = await newUser.save();
       res.send({

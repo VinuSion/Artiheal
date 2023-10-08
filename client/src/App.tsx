@@ -10,21 +10,11 @@ import { Store } from './Store';
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store)!;
   const { userInfo } = state;
-  // const [isAuth, setIsAuth] = useState(false);
-
-  // useEffect(() => {
-  //   const localStorageIsAuth = localStorage.getItem("isAuth");
-  //   if (localStorageIsAuth) {
-  //     setIsAuth(localStorageIsAuth === "true");
-  //   }
-  // }, []);
 
   // Function to handle logout
   const handleLogout = () => {
     ctxDispatch({ type: 'USER_SIGNOUT' });
     localStorage.removeItem('userInfo');
-    // setIsAuth(false);
-    // localStorage.setItem("isAuth", "false");
   };
 
   return (
