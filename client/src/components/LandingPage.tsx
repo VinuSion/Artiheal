@@ -2,13 +2,15 @@ import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
 import { Helmet } from "react-helmet-async";
 
+
 const LandingPage = () => {
   return (
     <div>
       <Helmet>
         <title>Welcome to Artiheal</title>
       </Helmet>
-      <div className="bg-gray-100 min-h-screen">
+
+      <div className="bg-[url('src/assets/bg-land1.jpg')] bg-cover bg-no-repeat bg-center min-h-screen">
         <header className="bg-primary py-4 flex flex-row justify-between h-28 items-center p-2">
           <div className="flex flex-row items-center text-white">
             <img className="h-20 w-20" src="/artiheal-logo.svg" alt="logo" />
@@ -27,6 +29,22 @@ const LandingPage = () => {
             </Link>
           </div>
         </header>
+
+        <div className="flex">
+          <div className="w-1/2 m-24 p-3">
+            <h1 className="text-6xl font-bold leading-tight flex justify-center">Lorem ipsum dolor sit amet.</h1>
+            <p className="mt-4 mb-4">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Et culpa adipisci
+              perferendis ut qui molestias perspiciatis a vel debitis, sed ducimus quasi
+              sint,soluta voluptates mollitia cupiditate placeat? Consequuntur, quae?
+            </p>
+            <Button variant="landing">Más información</Button>
+          </div>
+
+          <div className="w-1/2 mt-16 flex justify-center">
+            <img src="/src/assets/land11.png" className="w-80 h-80"></img>
+          </div>
+        </div>
       </div>
     </div>
   );
