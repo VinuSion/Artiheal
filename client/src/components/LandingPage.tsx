@@ -86,7 +86,7 @@ const LandingPage = () => {
 
         <h2 className="text-4xl font-bold text-center">Nuestros servicios</h2>
 
-        <div className="flex justify-around">
+        <div className="flex justify-evenly">
           {cardInfo.map((info, index) => (
             <Card
               key={index}
