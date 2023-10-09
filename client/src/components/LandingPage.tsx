@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
 import { Helmet } from "react-helmet-async";
+import { cards } from "./ui/cards";
 
 
 const LandingPage = () => {
@@ -30,7 +31,7 @@ const LandingPage = () => {
           </div>
         </header>
 
-        <div className="flex">
+        <div className="flex mb-2" >
           <div className="w-1/2 m-24 p-3">
             <h1 className="text-6xl font-bold leading-tight flex justify-center">Lorem ipsum dolor sit amet.</h1>
             <p className="mt-4 mb-4">
@@ -40,11 +41,18 @@ const LandingPage = () => {
             </p>
             <Button variant="landing">Más información</Button>
           </div>
-
+          
           <div className="w-1/2 mt-16 flex justify-center">
             <img src="/src/assets/land11.png" className="w-80 h-80"></img>
           </div>
         </div>
+
+        <h2 className="text-4xl font-bold text-center">Nuestros servicios</h2>
+
+        <div className="flex justify-around">
+          
+        </div>
+
       </div>
     </div>
   );
