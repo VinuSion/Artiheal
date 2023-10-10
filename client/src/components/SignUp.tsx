@@ -7,6 +7,7 @@ import SignLabel from "./ui/signlabel";
 import {
   EyeIcon,
   EyeSlashIcon,
+  ArrowLeftIcon,
 } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import { z, ZodType } from "zod";
@@ -133,7 +134,18 @@ const SignUp = () => {
               />
               <span className="font-bold ml-1 select-none">Artiheal</span>
             </div>
-            <h2 className="font-bold text-lg my-7">Crear Cuenta en Artiheal</h2>
+
+            <div className="flex items-center justify-between">
+              <h2 className="font-bold text-lg my-7">
+                Crear Cuenta en Artiheal
+              </h2>
+              <div className="p-1 inline-flex items-center justify-center transition duration-300 hover:shadow-md focus:shadow-md border-solid border-2 rounded-lg bg-transparent">
+                <Link className="text-primary" to="/">
+                  <ArrowLeftIcon className="h-5 w-5 text-primary" />
+                </Link>
+              </div>
+            </div>
+
             <form onSubmit={handleSubmit(submitData)}>
               <div className="inputs flex flex-row gap-3.5">
                 <div className="grid w-full max-w-sm items-center gap-1.5">
@@ -146,7 +158,10 @@ const SignUp = () => {
                   />
                   <div className="h-[20px]">
                     {errors.firstName && (
-                      <SignLabel variant="error" message={errors.firstName.message} />
+                      <SignLabel
+                        variant="error"
+                        message={errors.firstName.message}
+                      />
                     )}
                   </div>
                 </div>
@@ -161,7 +176,10 @@ const SignUp = () => {
                   />
                   <div className="h-[20px]">
                     {errors.lastName && (
-                      <SignLabel variant="error" message={errors.lastName.message} />
+                      <SignLabel
+                        variant="error"
+                        message={errors.lastName.message}
+                      />
                     )}
                   </div>
                 </div>
@@ -178,7 +196,10 @@ const SignUp = () => {
                   />
                   <div className="h-[20px]">
                     {errors.email && !apiError && (
-                      <SignLabel variant="error" message={errors.email.message} />
+                      <SignLabel
+                        variant="error"
+                        message={errors.email.message}
+                      />
                     )}
                     {apiError && (
                       <SignLabel variant="error" message={apiError} />
@@ -211,7 +232,10 @@ const SignUp = () => {
                   </div>
                   <div className="h-[20px]">
                     {errors.password && (
-                      <SignLabel variant="error" message={errors.password.message} />
+                      <SignLabel
+                        variant="error"
+                        message={errors.password.message}
+                      />
                     )}
                   </div>
                 </div>
@@ -221,12 +245,15 @@ const SignUp = () => {
                   <Input
                     type="password"
                     id="repeatPassword"
-                    placeholder="Repetir Contraseña"
+                    placeholder="Confirmar Contraseña"
                     {...register("repeatPassword")}
                   />
                   <div className="h-[20px]">
                     {errors.repeatPassword && (
-                      <SignLabel variant="error" message={errors.repeatPassword.message} />
+                      <SignLabel
+                        variant="error"
+                        message={errors.repeatPassword.message}
+                      />
                     )}
                   </div>
                 </div>
@@ -253,6 +280,7 @@ const SignUp = () => {
                 </Link>
               </span>
             </form>
+
           </div>
         </main>
       </div>
