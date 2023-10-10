@@ -148,21 +148,27 @@ const LandingPage = () => {
                 </ul>
               </div>
               <div>
-              <h6 className="font-medium">Siguenos</h6>
-              <ul >
-                <li>Logo ig</li>
-                <li>Logo X</li>
-                <li>Logo Linkedin</li>
-              </ul>
-            </div>
+                <p className="mb-4">Redes Sociales</p>
+                <ul className="list-reset">
+                  <li>
+                    <a href="#">Facebook</a>
+                  </li>
+                  <li>
+                    <a href="#">Instagram</a>
+                  </li>
+                  <li>
+                    <a href="#">Twitter</a>
+                  </li>
+                </ul>
+              </div>
+
               
             </div>
-           
            
           </div>
           <div className="flex  justify-center">
                 <p className="mb-4">
-                  Copyright © 2023 Artiheal. Todos los derechos reservados.
+                  Copyright © 2023 Artiheal. Todos los derechos.
                 </p>
               </div>
         </footer>
