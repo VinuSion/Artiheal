@@ -123,7 +123,7 @@ const LandingPage = () => {
         <footer className="bg-primary text-white flex flex-col ">
           
           <div className="container mx-auto py-8 w-1/2">
-          <div className="flex flex row place-items-center justify-start py-10"> <img className="h-20 w-20" src="/artiheal-logo.svg" alt="logo" />
+          <div className="flex row place-items-center justify-start py-10"> <img className="h-20 w-20" src="/artiheal-logo.svg" alt="logo" />
           <span className="text-xl">Artiheal</span>
           </div>
             <div className="flex flex-wrap justify-between items-center">
