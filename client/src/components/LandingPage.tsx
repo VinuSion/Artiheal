@@ -105,7 +105,7 @@ const LandingPage = () => {
           </section>
 
           <section className="my-16 bg-indigo-500 w-full">
-            <h2 className="text-4xl font-bold text-center mt-8">Servicios</h2>
+            <h2 className="text-4xl font-bold text-center mt-8 text-white">Servicios</h2>
 
             <div className="flex justify-evenly">
               {cardInfo.map((info, index) => (
