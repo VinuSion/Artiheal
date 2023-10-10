@@ -90,9 +90,9 @@ const LandingPage = () => {
               perferendis cupiditate a voluptas rerum distinctio nostrum dolor
               magnam sequi, ducimus voluptatum.
             </p>
-            <span> Lorem</span>
+            {/* <span> Lorem</span> */}
             <Link to="/signup">
-              <Button>Comenzar</Button>
+              <Button variant="landing">Comenzar</Button>
             </Link>
           </div>
 
