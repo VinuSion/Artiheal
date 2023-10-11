@@ -42,7 +42,7 @@ const LandingPage = () => {
   return (
     <div>
       <Helmet>
-        <title>Welcome to Artiheal</title>
+        <title>Bienvenido a Artiheal</title>
       </Helmet>
 
       <header className="bg-primary py-4 flex flex-row justify-between h-28 items-center p-2 fixed top-0 z-20 w-full ">

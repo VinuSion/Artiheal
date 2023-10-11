@@ -99,4 +99,31 @@ userRouter.post(
   })
 );
 
+userRouter.post(
+  '/reset-password',
+  expressAsyncHandler(async (req, res) => {
+    if (!process.env.JWT_SECRET) {
+      throw new Error('JWT secret is not defined in the environment variables.');
+    }
+    jwt.verify(req.body.token, process.env.JWT_SECRET, async (err: Error | null) => {
+      if (err) {
+        res.status(401).send({ message: 'Fichero se vencio (vuelve a enviar otra solcitud)' });
+      } else {
+        const user = await User.findOne({ resetToken: req.body.token });
+        if (user) {
+          if (req.body.password) {
+            user.password = bcrypt.hashSync(req.body.password, 12);
+            await user.save();
+            res.send({
+              message: 'Contraseña cambiada exitosamente, redirigiendo a login...',
+            });
+          }
+        } else {
+          res.status(404).send({ message: 'Usuario no se pudo encontrar' });
+        }
+      }
+    });
+  })
+);
+
 export default userRouter;

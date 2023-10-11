@@ -23,9 +23,8 @@ import { z, ZodType } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Helmet } from "react-helmet-async";
-import Axios, { AxiosError } from "axios";
 import { Store } from "../Store";
-import { getError } from "@/lib/utils";
+import Axios from "axios";
 
 const Login = () => {
   const [passwordShown, setPasswordShown] = useState(false);
@@ -68,19 +67,25 @@ const Login = () => {
       localStorage.setItem("userInfo", JSON.stringify(userData));
       // Navigate to /dashboard
       navigate("/dashboard");
-    } catch (err) {
-      setApiError(getError(err as AxiosError) as string);
+    } catch (err: any) {
+      if (err.response && err.response.status === 401) {
+        setApiError(
+          "Correo o Contraseña inválidos. Inténtelo nuevamente."
+        );
+      } else {
+        setApiError("Ha ocurrido un error. Por favor, inténtelo de nuevo más tarde.");
+      }
     }
   };
 
   return (
     <>
       <Helmet>
-        <title>Login | Artiheal</title>
+        <title>Ingresar | Artiheal</title>
       </Helmet>
       <div className="min-h-screen flex items-center justify-center bg-splash-image bg-cover bg-no-repeat bg-center">
         <main className="flex flex-col place-items-center">
-          <div className="shadow-2xl p-6 rounded-lg bg-background">
+          <div className="shadow-2xl p-6 rounded-lg bg-background w-[450px]">
             <div className="icon flex items-center justify-center">
               <img
                 className="h-12, w-12 select-none"
@@ -251,8 +256,14 @@ const Forgot = () => {
       setEmailError(null);
       setSuccess(response.data.message);
       startCountdown();
-    } catch (err) {
-      setEmailError(getError(err as AxiosError) as string);
+    } catch (err: any) {
+      if (err.response && err.response.status === 401) {
+        setEmailError(
+          "No existe un usuario con ese correo electrónico."
+        );
+      } else {
+        setEmailError("Ha ocurrido un error. Por favor, inténtelo de nuevo más tarde.");
+      }
     }
   };
 

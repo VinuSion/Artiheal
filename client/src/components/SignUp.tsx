@@ -15,8 +15,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import Axios, { AxiosError } from "axios";
-import { getError } from "@/lib/utils";
+import Axios from "axios";
 
 const SignUp = () => {
   const [passwordShown, setPasswordShown] = useState(false);
@@ -113,19 +112,25 @@ const SignUp = () => {
 
       // Navigate to /login
       navigate("/login");
-    } catch (err) {
-      setApiError(getError(err as AxiosError) as string);
+    } catch (err: any) {
+      if (err.response && err.response.status === 401) {
+        setApiError(
+          "Ya existe un usuario con ese correo electrónico."
+        );
+      } else {
+        setApiError("Ha ocurrido un error. Por favor, inténtelo de nuevo más tarde.");
+      }
     }
   };
 
   return (
     <>
       <Helmet>
-        <title>SignUp | Artiheal</title>
+        <title>Registrar | Artiheal</title>
       </Helmet>
       <div className="min-h-screen flex items-center justify-center bg-splash-image bg-cover bg-no-repeat bg-center">
         <main className="flex flex-col place-items-center">
-          <div className="sign-up shadow-2xl p-6 rounded-lg bg-background">
+          <div className="sign-up shadow-2xl p-6 rounded-lg bg-background ">
             <div className="icon flex items-center justify-center">
               <img
                 className="h-12, w-12 select-none"
@@ -201,9 +206,9 @@ const SignUp = () => {
                         message={errors.email.message}
                       />
                     )}
-                    {apiError && (
+                    {apiError && apiError == "Ya existe un usuario con ese correo electrónico." ? (
                       <SignLabel variant="error" message={apiError} />
-                    )}
+                    ) : (!apiError)}
                   </div>
                 </div>
 
@@ -255,6 +260,9 @@ const SignUp = () => {
                         message={errors.repeatPassword.message}
                       />
                     )}
+                    {apiError && apiError == "Ha ocurrido un error. Por favor, inténtelo de nuevo más tarde." ? (
+                      <SignLabel variant="error" message={apiError} />
+                    ) : (!apiError)}
                   </div>
                 </div>
 

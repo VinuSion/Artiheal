@@ -66,8 +66,8 @@ export const template = (resetLink: string) => `
       <td style="text-align: center; padding: 20px 0;">
         <img
           alt="Artiheal"
-          src="https://github.com/VinuSion/Artiheal/assets/56313573/cc43bb9c-9006-4138-9f1f-601a60fb3147"
-          width="200"
+          src="https://github.com/VinuSion/Artiheal/assets/56313573/3d61afd6-678f-4e6b-a374-e1bd03226948"
+          width="230"
           height="70"
           style="display: block; outline: none; border: none; text-decoration: none; margin: 0 auto;"
         />
