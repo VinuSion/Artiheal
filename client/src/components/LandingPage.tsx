@@ -90,8 +90,7 @@ const LandingPage = () => {
               perferendis cupiditate a voluptas rerum distinctio nostrum dolor
               magnam sequi, ducimus voluptatum.
             </p>
-            {/* <span> Lorem</span> */}
-            <Link to="/signup">
+            <Link to="/signup" className="w-28">
               <Button variant="landing">Comenzar</Button>
             </Link>
           </div>
@@ -104,6 +103,7 @@ const LandingPage = () => {
             />
           </div>
         </section>
+
         <section className="">
           <div>
             <h2 className="text-5xl text-primary font-semibold text-center pb-24 ">
@@ -121,7 +121,7 @@ const LandingPage = () => {
           </div>
         </section>
         <footer className="bg-primary text-white flex flex-col ">
-          
+
           <div className="container mx-auto py-8 w-1/2">
           <div className="flex row place-items-center justify-start py-10"> <img className="h-20 w-20" src="/artiheal-logo.svg" alt="logo" />
           <span className="text-xl">Artiheal</span>
