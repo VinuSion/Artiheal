@@ -83,7 +83,7 @@ export const template = (resetLink: string) => `
           target="_blank"
           style="background-color: #765eff; border-radius: 10px; color: #fff; font-size: 16px; text-decoration: none; text-align: center; display: inline-block; line-height: 100%; max-width: 100%; padding: 12px 24px; text-transform: none;"
         >
-          Reestablecer Contraseña
+          Restablecer Contraseña
         </a>
         <p style="font-size: 16px; line-height: 26px; margin: 16px 0; text-align: justify;">
           Si no solicitaste un cambio de contraseña, has caso omiso a este mensaje. Para mantener tu cuenta segura, por favor no reenvíe este correo a nadie.
