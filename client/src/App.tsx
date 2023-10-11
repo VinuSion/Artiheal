@@ -3,9 +3,10 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import LandingPage from "./components/LandingPage";
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
+import Reset from "./components/Reset";
 import DashboardPage from "./components/DashboardPage";
 
-import { Store } from './Store';
+import { Store } from "./Store";
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store)!;
@@ -13,8 +14,8 @@ function App() {
 
   // Function to handle logout
   const handleLogout = () => {
-    ctxDispatch({ type: 'USER_SIGNOUT' });
-    localStorage.removeItem('userInfo');
+    ctxDispatch({ type: "USER_SIGNOUT" });
+    localStorage.removeItem("userInfo");
   };
 
   return (
@@ -31,13 +32,11 @@ function App() {
         ) : (
           <>
             <Route path="*" element={<Navigate to="/" />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<SignUp />} />
             <Route
-              path="/login"
-              element={<Login />}
-            />
-            <Route
-              path="/signup"
-              element={<SignUp />}
+              path="/reset-password/:token"
+              element={<Reset />}
             />
             <Route path="/" element={<LandingPage />} />
           </>

@@ -42,7 +42,7 @@ const LandingPage = () => {
   return (
     <div>
       <Helmet>
-        <title>Welcome to Artiheal</title>
+        <title>Bienvenido a Artiheal</title>
       </Helmet>
 
       <header className="bg-primary py-4 flex flex-row justify-between h-28 items-center p-2 fixed top-0 z-20 w-full ">
@@ -90,9 +90,9 @@ const LandingPage = () => {
               perferendis cupiditate a voluptas rerum distinctio nostrum dolor
               magnam sequi, ducimus voluptatum.
             </p>
-            <span> Lorem</span>
+            {/* <span> Lorem</span> */}
             <Link to="/signup">
-              <Button>Comenzar</Button>
+              <Button variant="landing">Comenzar</Button>
             </Link>
           </div>
 
@@ -123,7 +123,7 @@ const LandingPage = () => {
         <footer className="bg-primary text-white flex flex-col ">
           
           <div className="container mx-auto py-8 w-1/2">
-          <div className="flex flex row place-items-center justify-start py-10"> <img className="h-20 w-20" src="/artiheal-logo.svg" alt="logo" />
+          <div className="flex row place-items-center justify-start py-10"> <img className="h-20 w-20" src="/artiheal-logo.svg" alt="logo" />
           <span className="text-xl">Artiheal</span>
           </div>
             <div className="flex flex-wrap justify-between items-center">

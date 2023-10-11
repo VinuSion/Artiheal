@@ -21,12 +21,14 @@
     "express-async-handler": "^1.2.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^7.5.3",
+    "nodemailer": "^6.9.6",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.4",
     "@types/cors": "^2.8.14",
-    "@types/jsonwebtoken": "^9.0.3"
+    "@types/jsonwebtoken": "^9.0.3",
+    "@types/nodemailer": "^6.4.11"
   }
 }

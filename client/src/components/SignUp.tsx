@@ -7,6 +7,7 @@ import SignLabel from "./ui/signlabel";
 import {
   EyeIcon,
   EyeSlashIcon,
+  ArrowLeftIcon,
 } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import { z, ZodType } from "zod";
@@ -14,8 +15,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import Axios, { AxiosError } from "axios";
-import { getError } from "@/lib/utils";
+import Axios from "axios";
 
 const SignUp = () => {
   const [passwordShown, setPasswordShown] = useState(false);
@@ -112,19 +112,25 @@ const SignUp = () => {
 
       // Navigate to /login
       navigate("/login");
-    } catch (err) {
-      setApiError(getError(err as AxiosError) as string);
+    } catch (err: any) {
+      if (err.response && err.response.status === 401) {
+        setApiError(
+          "Ya existe un usuario con ese correo electrónico."
+        );
+      } else {
+        setApiError("Ha ocurrido un error. Por favor, inténtelo de nuevo más tarde.");
+      }
     }
   };
 
   return (
     <>
       <Helmet>
-        <title>SignUp | Artiheal</title>
+        <title>Registrar | Artiheal</title>
       </Helmet>
       <div className="min-h-screen flex items-center justify-center bg-splash-image bg-cover bg-no-repeat bg-center">
         <main className="flex flex-col place-items-center">
-          <div className="sign-up shadow-2xl p-6 rounded-lg bg-background">
+          <div className="sign-up shadow-2xl p-6 rounded-lg bg-background ">
             <div className="icon flex items-center justify-center">
               <img
                 className="h-12, w-12 select-none"
@@ -133,7 +139,18 @@ const SignUp = () => {
               />
               <span className="font-bold ml-1 select-none">Artiheal</span>
             </div>
-            <h2 className="font-bold text-lg my-7">Crear Cuenta en Artiheal</h2>
+
+            <div className="flex items-center justify-between">
+              <h2 className="font-bold text-lg my-7">
+                Crear Cuenta en Artiheal
+              </h2>
+              <div className="p-1 inline-flex items-center justify-center transition duration-300 hover:shadow-md focus:shadow-md border-solid border-2 rounded-lg bg-transparent">
+                <Link className="text-primary" to="/">
+                  <ArrowLeftIcon className="h-5 w-5 text-primary" />
+                </Link>
+              </div>
+            </div>
+
             <form onSubmit={handleSubmit(submitData)}>
               <div className="inputs flex flex-row gap-3.5">
                 <div className="grid w-full max-w-sm items-center gap-1.5">
@@ -146,7 +163,10 @@ const SignUp = () => {
                   />
                   <div className="h-[20px]">
                     {errors.firstName && (
-                      <SignLabel variant="error" message={errors.firstName.message} />
+                      <SignLabel
+                        variant="error"
+                        message={errors.firstName.message}
+                      />
                     )}
                   </div>
                 </div>
@@ -161,7 +181,10 @@ const SignUp = () => {
                   />
                   <div className="h-[20px]">
                     {errors.lastName && (
-                      <SignLabel variant="error" message={errors.lastName.message} />
+                      <SignLabel
+                        variant="error"
+                        message={errors.lastName.message}
+                      />
                     )}
                   </div>
                 </div>
@@ -178,11 +201,14 @@ const SignUp = () => {
                   />
                   <div className="h-[20px]">
                     {errors.email && !apiError && (
-                      <SignLabel variant="error" message={errors.email.message} />
+                      <SignLabel
+                        variant="error"
+                        message={errors.email.message}
+                      />
                     )}
-                    {apiError && (
+                    {apiError && apiError == "Ya existe un usuario con ese correo electrónico." ? (
                       <SignLabel variant="error" message={apiError} />
-                    )}
+                    ) : (!apiError)}
                   </div>
                 </div>
 
@@ -211,7 +237,10 @@ const SignUp = () => {
                   </div>
                   <div className="h-[20px]">
                     {errors.password && (
-                      <SignLabel variant="error" message={errors.password.message} />
+                      <SignLabel
+                        variant="error"
+                        message={errors.password.message}
+                      />
                     )}
                   </div>
                 </div>
@@ -221,13 +250,19 @@ const SignUp = () => {
                   <Input
                     type="password"
                     id="repeatPassword"
-                    placeholder="Repetir Contraseña"
+                    placeholder="Confirmar Contraseña"
                     {...register("repeatPassword")}
                   />
                   <div className="h-[20px]">
                     {errors.repeatPassword && (
-                      <SignLabel variant="error" message={errors.repeatPassword.message} />
+                      <SignLabel
+                        variant="error"
+                        message={errors.repeatPassword.message}
+                      />
                     )}
+                    {apiError && apiError == "Ha ocurrido un error. Por favor, inténtelo de nuevo más tarde." ? (
+                      <SignLabel variant="error" message={apiError} />
+                    ) : (!apiError)}
                   </div>
                 </div>
 
@@ -253,6 +288,7 @@ const SignUp = () => {
                 </Link>
               </span>
             </form>
+
           </div>
         </main>
       </div>
