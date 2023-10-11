@@ -102,7 +102,7 @@ const Reset = () => {
   return (
     <>
       <Helmet>
-        <title>Reestablecer Contraseña | Artiheal</title>
+        <title>Restablecer Contraseña | Artiheal</title>
       </Helmet>
       <div className="min-h-screen flex items-center justify-center bg-splash-image bg-cover bg-no-repeat bg-center">
         <main className="flex flex-col place-items-center">
@@ -118,7 +118,7 @@ const Reset = () => {
               </span>
             </div>
 
-            <h2 className="font-bold text-lg my-7">Reestablecer Contraseña</h2>
+            <h2 className="font-bold text-lg my-7">Restablecer Contraseña</h2>
 
             <form onSubmit={handleSubmit(submitData)}>
               <div className="grid w-full max-w items-center gap-1.5 mt-2">
