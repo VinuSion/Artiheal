@@ -84,7 +84,7 @@ const LandingPage = () => {
         <title>Bienvenido a Artiheal</title>
       </Helmet>
 
-      <header className="bg-primary fixed top-0 w-full h-90px">
+      <header className="bg-primary pt-4 h-28  p-2 fixed top-0 w-full">
         <nav className="flex flex-row justify-between  items-center ">
           <div className="flex flex-row items-center text-white">
             <img className="h-20 w-20" src="/artiheal-logo.svg" alt="logo" />
@@ -122,7 +122,7 @@ const LandingPage = () => {
       </header>
 
       <main>
-        <section id="home" className="flex flex-row m-auto w-9/12  pt-48">
+        <section id="home" className="flex flex-row m-auto w-9/12  pt-52">
           <div className="flex flex-col w-1/2 gap-10 pt-8 mr-8">
             <h2 className="text-6xl font-semibold">Bienvenido a Artiheal</h2>
             <p className="w-80">
@@ -145,7 +145,7 @@ const LandingPage = () => {
           </div>
         </section>
 
-        <section id="services" className="pt-48">
+        <section id="services" className="pt-52">
           <h2 className="text-5xl text-primary font-semibold text-center pb-24">
             Los Servicios que ofrecemos
           </h2>
