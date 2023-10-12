@@ -40,36 +40,56 @@ const LogoSlider = () => {
   }, []);
 
   return (
-    <div className="logos overflow-hidden pt-14 pb-14 running">
+    <div className="logos overflow-hidden pt-14 pb-14 whitespace-nowrap running">
       <div
         ref={sliderRef}
-        className="logos-slide flex whitespace-nowrap animate-slide running"
+        className="logos-slide flex  animate-slide running"
       >
         <img
-          src="src/assets/adidas.svg"
+          src="src/assets/SVGs/adidas-icon.svg"
           className="h-36 mr-10 ml-10"
           alt="Logo"
         />
         <img
-          src="src/assets/adidas.svg"
+          src="src/assets/SVGs/Exito.svg"
           className="h-36 mr-10 ml-10"
           alt="Logo"
         />
         <img
-          src="src/assets/adidas.svg"
+          src="src/assets/SVGs/Funko.svg"
           className="h-36 mr-10 ml-10"
           alt="Logo"
         />
         <img
-          src="src/assets/adidas.svg"
+          src="src/assets/SVGs/mcd.svg"
           className="h-36 mr-10 ml-10"
           alt="Logo"
         />
         <img
-          src="src/assets/adidas.svg"
+          src="src/assets/SVGs/mic.svg"
           className="h-36 mr-10 ml-10"
           alt="Logo"
         />
+         <img
+          src="src/assets/SVGs/kfc.svg"
+          className="h-36 mr-10 ml-10"
+          alt="Logo"
+        />
+         <img
+          src="src/assets/SVGs/crepes11.svg"
+          className="h-36 mr-10 ml-10"
+          alt="Logo"
+        />
+         <img
+          src="src/assets/SVGs/nintendo.svg"
+          className="h-36 mr-10 ml-10"
+          alt="Logo"
+        />
+         <img
+          src="src/assets/SVGs/apple.svg"
+          className="h-36 mr-10 ml-10"
+          alt="Logo"
+        />       
       </div>
     </div>
   );
