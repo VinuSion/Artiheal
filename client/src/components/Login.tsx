@@ -86,7 +86,7 @@ const Login = () => {
       <div className="min-h-screen flex items-center justify-center bg-splash-image bg-cover bg-no-repeat bg-center">
         <main className="flex flex-col place-items-center">
           <div className="shadow-2xl p-6 rounded-lg bg-background w-11/12 sm:w-[450px] mx-auto">
-            <div className="icon flex items-center justify-center">
+            <div className="icon flex items-center justify-start sm:justify-center">
               <img
                 className="h-12 w-12 select-none"
                 src="/artiheal-logo.svg"
@@ -98,7 +98,7 @@ const Login = () => {
             </div>
 
             <div className="flex items-center justify-between">
-              <h2 className="font-bold text-lg my-7">Iniciar Sesión</h2>
+              <h2 className="font-bold text-lg my-7 ">Iniciar Sesión</h2>
               <div className="p-1 inline-flex items-center justify-center transition duration-300 hover:shadow-md focus:shadow-md border-solid border-2 rounded-lg bg-transparent">
                 <Link className="text-primary" to="/">
                   <ArrowLeftIcon className="h-5 w-5 text-primary" />
@@ -158,7 +158,7 @@ const Login = () => {
 
               <div className="items-top flex space-x-1 w-full max-w items-center gap-1.5 mt-2 mb-1">
                 <Checkbox id="sesion" />
-                <Label htmlFor="sesion">Mantener iniciada mi sesión</Label>
+                <Label htmlFor="sesion" className="text-xs sm:text-base">Mantener iniciada mi sesión</Label>
               </div>
 
               <Button
