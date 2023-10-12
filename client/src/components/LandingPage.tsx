@@ -25,7 +25,6 @@ const Card: React.FC<CardProps> = ({ spanMessage, buttonMessage }) => {
 };
 
 const LogoSlider = () => {
-
   const sliderRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -39,57 +38,32 @@ const LogoSlider = () => {
     cloneElements();
   }, []);
 
+  const logos = [
+    "adidas.svg",
+    "exito.svg",
+    "funko.svg",
+    "mcdonalds.svg",
+    "microsoft.svg",
+    "kfc.svg",
+    "crepes.svg",
+    "nintendo.svg",
+    "apple.svg",
+  ];
+
   return (
-    <div className="logos overflow-hidden pt-14 pb-14 whitespace-nowrap running">
+    <div className="overflow-hidden py-14">
       <div
         ref={sliderRef}
-        className="logos-slide flex  animate-slide running"
+        className="flex whitespace-nowrap animate-slide"
       >
-        <img
-          src="src/assets/SVGs/adidas-icon.svg"
-          className="h-36 mr-10 ml-10"
-          alt="Logo"
-        />
-        <img
-          src="src/assets/SVGs/Exito.svg"
-          className="h-36 mr-10 ml-10"
-          alt="Logo"
-        />
-        <img
-          src="src/assets/SVGs/Funko.svg"
-          className="h-36 mr-10 ml-10"
-          alt="Logo"
-        />
-        <img
-          src="src/assets/SVGs/mcd.svg"
-          className="h-36 mr-10 ml-10"
-          alt="Logo"
-        />
-        <img
-          src="src/assets/SVGs/mic.svg"
-          className="h-36 mr-10 ml-10"
-          alt="Logo"
-        />
-         <img
-          src="src/assets/SVGs/kfc.svg"
-          className="h-36 mr-10 ml-10"
-          alt="Logo"
-        />
-         <img
-          src="src/assets/SVGs/crepes11.svg"
-          className="h-36 mr-10 ml-10"
-          alt="Logo"
-        />
-         <img
-          src="src/assets/SVGs/nintendo.svg"
-          className="h-36 mr-10 ml-10"
-          alt="Logo"
-        />
-         <img
-          src="src/assets/SVGs/apple.svg"
-          className="h-36 mr-10 ml-10"
-          alt="Logo"
-        />       
+        {logos.map((logo, index) => (
+          <img
+            key={index}
+            src={`src/assets/SVGs/${logo}`}
+            className="h-10 mx-5 sm:h-20 sm:mx-10"
+            alt={`${logo}`}
+          />
+        ))}
       </div>
     </div>
   );
