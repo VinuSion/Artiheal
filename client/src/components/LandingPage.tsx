@@ -52,10 +52,7 @@ const LogoSlider = () => {
 
   return (
     <div className="overflow-hidden py-14">
-      <div
-        ref={sliderRef}
-        className="flex whitespace-nowrap animate-slide"
-      >
+      <div ref={sliderRef} className="flex whitespace-nowrap animate-slide">
         {logos.map((logo, index) => (
           <img
             key={index}
@@ -145,7 +142,7 @@ const LandingPage = () => {
             <img
               className="object-contain"
               src="src/assets/legend.webp"
-              alt="lengend"
+              alt="legend"
             />
           </div>
         </section>
@@ -183,7 +180,7 @@ const LandingPage = () => {
               <span className="text-xl">Artiheal</span>
             </div>
             <div className="flex flex-wrap justify-between items-center">
-              <div className="">
+              <div>
                 <p className="mb-4">Contactanos</p>
                 <p className="mb-4">
                   123 Main Street Anytown, USA Postal Code: 12345
