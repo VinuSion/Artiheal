@@ -140,7 +140,7 @@ const LandingPage = () => {
             <img
               className="object-contain"
               src="src/assets/legend.webp"
-              alt="lengend"
+              alt="legend"
             />
           </div>
         </section>
