@@ -3,10 +3,13 @@ import { Button } from "./ui/button";
 import { Helmet } from "react-helmet-async";
 
 
+
 interface CardProps {
   spanMessage: string;
   buttonMessage: string;
 }
+
+
 
 
 const Card: React.FC<CardProps> = ({ spanMessage, buttonMessage }) => {
@@ -40,6 +43,12 @@ const LandingPage = () => {
       buttonMessage: "Más información 3",
     },
   ];
+
+  const logosSlide: any = document.querySelector(".logos-slide");
+  // Duplica el contenido para evitar espacios en blanco
+  const originalContent: any = logosSlide.innerHTML;
+  logosSlide.innerHTML += originalContent + originalContent;
+
 
   return (
     <div>
@@ -128,8 +137,8 @@ const LandingPage = () => {
         </h2>
              
         <section>
-          <div className="overflow-hidden pt-14 pb-14 hover:paused">
-            <div className=" flex whitespace-nowrap animate-slide hover:paused">
+          <div className="logos overflow-hidden pt-14 pb-14 running hover:paused">
+            <div className="logos-slide flex whitespace-nowrap animate-slide running hover:paused">
               <img src="src/assets/adidas.svg" className="h-36 mr-10 ml-10"></img>
               <img src="src/assets/adidas.svg" className="h-36 mr-10 ml-10"></img>
               <img src="src/assets/adidas.svg" className="h-36 mr-10 ml-10"></img>
