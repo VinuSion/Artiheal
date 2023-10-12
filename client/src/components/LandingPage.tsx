@@ -84,7 +84,7 @@ const LandingPage = () => {
 
       <main className="pt-28">
         <section className="flex flex-row m-auto w-9/12 mt-20 pb-48">
-          <div className="flex  flex-col w-1/2  gap-10 pt-8">
+          <div className="flex  flex-col w-1/2  gap-10 pt-8 mr-8">
             <h2 className=" text-6xl font-semibold ">Bienvenido a Artiheal</h2>
             <p className="w-80">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore
