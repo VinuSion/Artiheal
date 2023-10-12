@@ -106,11 +106,11 @@ const Reset = () => {
       </Helmet>
       <div className="min-h-screen flex items-center justify-center bg-splash-image bg-cover bg-no-repeat bg-center">
         <main className="flex flex-col place-items-center">
-          <div className="shadow-2xl p-6 rounded-lg bg-background w-[450px]">
+          <div className="shadow-2xl p-6 rounded-lg bg-background w-11/12 sm:w-[450px]">
             <div className="icon flex items-center justify-center">
               <img
                 className="h-12, w-12 select-none"
-                src="/artiheal-logo.svg"
+                src="/artiheal-logo-purple.svg"
                 alt="logo"
               />
               <span className="font-bold ml-1 select-none text-lg">
@@ -122,7 +122,7 @@ const Reset = () => {
 
             <form onSubmit={handleSubmit(submitData)}>
               <div className="grid w-full max-w items-center gap-1.5 mt-2">
-                <Label htmlFor="password">Nueva Contraseña</Label>
+                <Label htmlFor="password" className="text-tertiary">Nueva Contraseña</Label>
                 <div className="flex flex-row space-x-2">
                   <Input
                     type={passwordShown ? "text" : "password"}
@@ -155,7 +155,7 @@ const Reset = () => {
               </div>
 
               <div className="grid w-full max-w items-center gap-1.5 mt-2">
-                <Label htmlFor="repeatPassword">
+                <Label htmlFor="repeatPassword" className="text-tertiary">
                   Confirmar Nueva Contraseña
                 </Label>
                 <Input

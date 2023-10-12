@@ -9,11 +9,11 @@ module.exports = {
     './src/**/*.{ts,tsx}',
 	],
   theme: {
-    container: {
-      center: true,
-      padding: "2rem",
-    },
     extend: {
+      container: {
+        center: true,
+        padding: "2rem",
+      },
       backgroundImage: {
         "splash-image": "url('/src/assets/bg.png')",
       },
@@ -23,6 +23,7 @@ module.exports = {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        tertiary: "hsl(var(--tertiary))",
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",

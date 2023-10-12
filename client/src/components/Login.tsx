@@ -85,11 +85,11 @@ const Login = () => {
       </Helmet>
       <div className="min-h-screen flex items-center justify-center bg-splash-image bg-cover bg-no-repeat bg-center">
         <main className="flex flex-col place-items-center">
-          <div className="shadow-2xl p-6 rounded-lg bg-background w-11/12 sm:w-[450px] mx-auto">
-            <div className="icon flex items-center justify-start sm:justify-center">
+          <div className="shadow-2xl p-6 rounded-lg bg-background w-11/12 sm:w-[450px]">
+            <div className="icon flex items-center justify-center">
               <img
                 className="h-12 w-12 select-none"
-                src="/artiheal-logo.svg"
+                src="/artiheal-logo-purple.svg"
                 alt="logo"
               />
               <span className="font-bold ml-1 select-none text-lg">
@@ -108,7 +108,7 @@ const Login = () => {
 
             <form onSubmit={handleSubmit(submitData)}>
               <div className="grid w-full max-w items-center gap-1.5 mt-2">
-                <Label htmlFor="email">Correo electrónico</Label>
+                <Label htmlFor="email" className="text-tertiary">Correo electrónico</Label>
                 <Input
                   type="email"
                   id="email"
@@ -123,7 +123,7 @@ const Login = () => {
               </div>
 
               <div className="grid w-full max-w items-center gap-1.5 mt-2">
-                <Label htmlFor="password">Contraseña</Label>
+                <Label htmlFor="password" className="text-tertiary">Contraseña</Label>
                 <div className="flex flex-row space-x-2">
                   <Input
                     type={passwordShown ? "text" : "password"}
@@ -158,7 +158,7 @@ const Login = () => {
 
               <div className="items-top flex space-x-1 w-full max-w items-center gap-1.5 mt-2 mb-1">
                 <Checkbox id="sesion" />
-                <Label htmlFor="sesion" className="text-xs sm:text-base">Mantener iniciada mi sesión</Label>
+                <Label htmlFor="sesion" className="text-tertiary text-xs sm:text-base">Mantener iniciada mi sesión</Label>
               </div>
 
               <Button
@@ -173,7 +173,7 @@ const Login = () => {
             </form>
 
             <div className="flex flex-col">
-              <span className="text-xs sm:text-sm">
+              <span className="text-tertiary text-xs sm:text-sm">
                 ¿No tienes cuenta?
                 <Link
                   className="text-primary ml-1 hover:underline"
@@ -182,7 +182,7 @@ const Login = () => {
                   Crear cuenta
                 </Link>
               </span>
-              <span className="text-xs sm:text-sm">
+              <span className="text-tertiary text-xs sm:text-sm">
                 ¿Olvidaste la Contraseña?
                 <Forgot />
               </span>

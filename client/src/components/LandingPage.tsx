@@ -123,8 +123,8 @@ const LandingPage = () => {
         </div>
       </header>
 
-      <main className="pt-28 gap-14">
-        <section id="home"className="flex flex-row m-auto w-9/12 mt-20 pb-48 ">
+      <main id="home" className="pt-28 gap-14">
+        <section className="flex flex-row m-auto w-9/12 mt-20 pb-48">
           <div className="flex  flex-col w-1/2  gap-10 pt-8 mr-8">
             <h2 className=" text-6xl font-semibold ">Bienvenido a Artiheal</h2>
             <p className="w-80">
@@ -148,27 +148,24 @@ const LandingPage = () => {
         </section>
 
         <section id="services">
-          
-            <h2 className="text-5xl text-primary font-semibold text-center pb-24 ">
-              Los Servicios que ofrecemos
-            </h2>
-            <div className="flex justify-evenly">
-              {cardInfo.map((info, index) => (
-                <Card
-                  key={index}
-                  spanMessage={info.spanMessage}
-                  buttonMessage={info.buttonMessage}
-                />
-              ))}
-            </div>
-          
+          <h2 className="text-5xl text-primary font-semibold text-center pb-24 ">
+            Los Servicios que ofrecemos
+          </h2>
+          <div className="flex justify-evenly">
+            {cardInfo.map((info, index) => (
+              <Card
+                key={index}
+                spanMessage={info.spanMessage}
+                buttonMessage={info.buttonMessage}
+              />
+            ))}
+          </div>
         </section>
 
-        <h2 className="text-5xl text-primary font-semibold text-center">
-          Canjea tus puntos en nuestras tiendas aliadas
-        </h2>
-
         <section id="product">
+          <h2 className="text-5xl text-primary font-semibold text-center">
+            Canjea tus puntos en nuestras tiendas aliadas
+          </h2>
           <LogoSlider />
         </section>
 

@@ -130,11 +130,11 @@ const SignUp = () => {
       </Helmet>
       <div className="min-h-screen flex items-center justify-center bg-splash-image bg-cover bg-no-repeat bg-center">
         <main className="flex flex-col place-items-center">
-          <div className="sign-up shadow-2xl p-6 rounded-lg bg-background w-11/12 sm:w-[450px] sm: h-[655px] ">
-            <div className="icon flex items-center justify-start sm:justify-center">
+          <div className="shadow-2xl p-6 rounded-lg bg-background w-11/12 sm:w-[450px]">
+            <div className="icon flex items-center justify-center">
               <img
                 className="h-12, w-12 select-none"
-                src="/artiheal-logo.svg"
+                src="/artiheal-logo-purple.svg"
                 alt="logo"
               />
               <span className="font-bold ml-1 select-none">Artiheal</span>
@@ -154,7 +154,7 @@ const SignUp = () => {
             <form onSubmit={handleSubmit(submitData)}>
               <div className="inputs flex flex-row gap-3.5">
                 <div className="grid w-full max-w-sm items-center gap-1.5">
-                  <Label htmlFor="firstName">Nombre</Label>
+                  <Label htmlFor="firstName" className="text-tertiary">Nombre</Label>
                   <Input
                     type="text"
                     id="firstName"
@@ -172,7 +172,7 @@ const SignUp = () => {
                 </div>
 
                 <div className="grid w-full max-w-sm items-center gap-1.5">
-                  <Label htmlFor="lastName">Apellido</Label>
+                  <Label htmlFor="lastName" className="text-tertiary">Apellido</Label>
                   <Input
                     type="text"
                     id="lastName"
@@ -192,7 +192,7 @@ const SignUp = () => {
 
               <div>
                 <div className="grid w-full max-w items-center gap-1.5 mt-2">
-                  <Label htmlFor="email">Correo electronico</Label>
+                  <Label htmlFor="email" className="text-tertiary">Correo electronico</Label>
                   <Input
                     type="email"
                     id="email"
@@ -213,7 +213,7 @@ const SignUp = () => {
                 </div>
 
                 <div className="grid w-full max-w items-center gap-1.5 mt-2">
-                  <Label htmlFor="password">Contraseña</Label>
+                  <Label htmlFor="password" className="text-tertiary">Contraseña</Label>
                   <div className="flex flex-row space-x-2">
                     <Input
                       type={passwordShown ? "text" : "password"}
@@ -246,7 +246,7 @@ const SignUp = () => {
                 </div>
 
                 <div className="grid w-full max-w items-center gap-1.5 mt-2">
-                  <Label htmlFor="repeatPassword">Confirmar Contraseña</Label>
+                  <Label htmlFor="repeatPassword" className="text-tertiary">Confirmar Contraseña</Label>
                   <Input
                     type="password"
                     id="repeatPassword"
@@ -268,7 +268,7 @@ const SignUp = () => {
 
                 <div className="items-top flex space-x-1 w-full max-w items-center gap-1.5 mt-2 mb-1">
                   <Checkbox id="terms" />
-                  <Label htmlFor="terms" className="text-xs sm:text-base">Aceptar terminos y condiciones</Label>
+                  <Label htmlFor="terms" className="text-tertiary text-xs sm:text-base">Aceptar terminos y condiciones</Label>
                 </div>
               </div>
               <Button
@@ -281,7 +281,7 @@ const SignUp = () => {
                 Continuar
               </Button>
 
-              <span className="pb-´6 text-xs sm:text-base">
+              <span className="text-tertiary text-xs sm:text-base">
                 ¿Ya estás en Artiheal?
                 <Link className="text-primary ml-1 hover:underline text-xs sm:text-base" to="/login">
                   Iniciar sesión

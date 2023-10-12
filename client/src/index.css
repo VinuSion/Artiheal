@@ -1,17 +1,28 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-
 @layer base {
+  *::-webkit-scrollbar {
+    width: 0.35rem;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: hsl(var(--muted));
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background: hsl(var(--ring));
+  }
 
   /* All of these colors are in HSL */
   :root {
-    font-family: 'Poppins', sans-serif;
+    font-family: "Poppins", sans-serif;
     --background: 0 0% 100%;
     --foreground: 224 71.4% 4.1%;
+    --tertiary: 224 71.4% 4.1%;
     --card: 0 0% 100%;
     --card-foreground: 224 71.4% 4.1%;
     --popover: 0 0% 100%;
@@ -54,18 +65,31 @@
     --ring: 263.4 70% 50.4%;
   }
 
-
-  @layer utilities {
-    .pause {
-      animation-play-state: paused;
+  /* @media (prefers-color-scheme: dark) {
+    :root {
+      --background: 263 71.4% 10%;
+      --foreground: 210 20% 98%;
+      --tertiary: 254 20% 87%;
+      --card: 263 71.4% 10%;
+      --card-foreground: 254 20% 87%;
+      --popover: 224 71.4% 4.1%;
+      --popover-foreground: 254 20% 87%;
+      --primary: 249 100% 68%;
+      --primary-foreground: 254 20% 87%;
+      --secondary: 256 27.9% 16.9%;
+      --secondary-foreground: 254 20% 87%;
+      --muted: 238 27.9% 16.9%;
+      --muted-foreground: 217.9 10.6% 64.9%;
+      --accent: 238 27.9% 16.9%;
+      --accent-foreground: 254 20% 87%;
+      --destructive: 349 66% 41%;
+      --destructive-foreground: 254 20% 87%;
+      --border: 246 27.9% 26%;
+      --input: 238 27.9% 16.9%;
+      --ring: 249 100% 68%;
     }
-
-    .running{
-      animation-play-state: running;
-    }
-  }
+  } */
 }
-
 
 @layer base {
   * {
