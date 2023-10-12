@@ -99,13 +99,13 @@ const LandingPage = () => {
           <div>
             <img
               className="object-contain"
-              src="src/assets/robado.webp"
-              alt=""
+              src="src/assets/legend.webp"
+              alt="lengend"
             />
           </div>
         </section>
 
-        <section className="">
+        <section>
           <div>
             <h2 className="text-5xl text-primary font-semibold text-center pb-24 ">
               Los Servicios que ofrecemos
