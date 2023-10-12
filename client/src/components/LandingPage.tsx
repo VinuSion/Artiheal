@@ -1,16 +1,12 @@
 import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
 import { Helmet } from "react-helmet-async";
-
-
+import { useEffect, useRef } from "react";
 
 interface CardProps {
   spanMessage: string;
   buttonMessage: string;
 }
-
-
-
 
 const Card: React.FC<CardProps> = ({ spanMessage, buttonMessage }) => {
   return (
@@ -23,6 +19,57 @@ const Card: React.FC<CardProps> = ({ spanMessage, buttonMessage }) => {
           </div>
         </div>
         <Button variant="landing">{buttonMessage}</Button>
+      </div>
+    </div>
+  );
+};
+
+const LogoSlider = () => {
+
+  const sliderRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const cloneElements = () => {
+      const slider = sliderRef.current;
+      if (slider) {
+        const originalContent = slider.innerHTML;
+        slider.innerHTML = originalContent + originalContent;
+      }
+    };
+    cloneElements();
+  }, []);
+
+  return (
+    <div className="logos overflow-hidden pt-14 pb-14 running">
+      <div
+        ref={sliderRef}
+        className="logos-slide flex whitespace-nowrap animate-slide running"
+      >
+        <img
+          src="src/assets/adidas.svg"
+          className="h-36 mr-10 ml-10"
+          alt="Logo"
+        />
+        <img
+          src="src/assets/adidas.svg"
+          className="h-36 mr-10 ml-10"
+          alt="Logo"
+        />
+        <img
+          src="src/assets/adidas.svg"
+          className="h-36 mr-10 ml-10"
+          alt="Logo"
+        />
+        <img
+          src="src/assets/adidas.svg"
+          className="h-36 mr-10 ml-10"
+          alt="Logo"
+        />
+        <img
+          src="src/assets/adidas.svg"
+          className="h-36 mr-10 ml-10"
+          alt="Logo"
+        />
       </div>
     </div>
   );
@@ -43,12 +90,6 @@ const LandingPage = () => {
       buttonMessage: "Más información 3",
     },
   ];
-
-  const logosSlide: any = document.querySelector(".logos-slide");
-  // Duplica el contenido para evitar espacios en blanco
-  const originalContent: any = logosSlide.innerHTML;
-  logosSlide.innerHTML += originalContent + originalContent;
-
 
   return (
     <div>
@@ -133,26 +174,18 @@ const LandingPage = () => {
         </section>
 
         <h2 className="text-5xl text-primary font-semibold text-center">
-        Canjea tus puntos en nuestras tiendas aliadas
+          Canjea tus puntos en nuestras tiendas aliadas
         </h2>
-             
+
         <section>
-          <div className="logos overflow-hidden pt-14 pb-14 running hover:paused">
-            <div className="logos-slide flex whitespace-nowrap animate-slide running hover:paused">
-              <img src="src/assets/adidas.svg" className="h-36 mr-10 ml-10"></img>
-              <img src="src/assets/adidas.svg" className="h-36 mr-10 ml-10"></img>
-              <img src="src/assets/adidas.svg" className="h-36 mr-10 ml-10"></img>
-              <img src="src/assets/adidas.svg" className="h-36 mr-10 ml-10"></img>
-              <img src="src/assets/adidas.svg" className="h-36 mr-10 ml-10"></img>
-            </div>
-          </div>
+          <LogoSlider />
         </section>
-
-
 
         <footer className="bg-primary text-white flex flex-col ">
           <div className="container mx-auto py-8 w-1/2">
-            <div className="flex row place-items-center justify-start py-10"> <img className="h-20 w-20" src="/artiheal-logo.svg" alt="logo" />
+            <div className="flex row place-items-center justify-start py-10">
+              {" "}
+              <img className="h-20 w-20" src="/artiheal-logo.svg" alt="logo" />
               <span className="text-xl">Artiheal</span>
             </div>
             <div className="flex flex-wrap justify-between items-center">
@@ -190,10 +223,7 @@ const LandingPage = () => {
                   </li>
                 </ul>
               </div>
-
-
             </div>
-
           </div>
           <div className="flex  justify-center">
             <p className="mb-4">
