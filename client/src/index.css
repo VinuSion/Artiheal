@@ -3,9 +3,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
- 
+
 
 @layer base {
+
   /* All of these colors are in HSL */
   :root {
     font-family: 'Poppins', sans-serif;
@@ -30,7 +31,7 @@
     --ring: 249 100% 68%;
     --radius: 0.5rem;
   }
- 
+
   .dark {
     --background: 224 71.4% 4.1%;
     --foreground: 210 20% 98%;
@@ -52,13 +53,21 @@
     --input: 215 27.9% 16.9%;
     --ring: 263.4 70% 50.4%;
   }
+
+
+  @layer utilities {
+    .pause {
+      animation-play-state: paused;
+    }
+  }
 }
 
- 
+
 @layer base {
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }

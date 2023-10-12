@@ -8,6 +8,7 @@ interface CardProps {
   buttonMessage: string;
 }
 
+
 const Card: React.FC<CardProps> = ({ spanMessage, buttonMessage }) => {
   return (
     <div className="w-60 h-80 bg-gray-50 p-3 flex flex-col gap-1 rounded-2xl m-5 shadow-2xl mb-32">
@@ -122,9 +123,20 @@ const LandingPage = () => {
           </div>
         </section>
 
+        <h2 className="text-5xl text-primary font-semibold text-center">
+        Canjea tus puntos en nuestras tiendas aliadas
+        </h2>
+             
         <section>
-          
-
+          <div className="overflow-hidden pt-14 pb-14 hover:paused">
+            <div className=" flex whitespace-nowrap animate-slide hover:paused">
+              <img src="src/assets/adidas.svg" className="h-36 mr-10 ml-10"></img>
+              <img src="src/assets/adidas.svg" className="h-36 mr-10 ml-10"></img>
+              <img src="src/assets/adidas.svg" className="h-36 mr-10 ml-10"></img>
+              <img src="src/assets/adidas.svg" className="h-36 mr-10 ml-10"></img>
+              <img src="src/assets/adidas.svg" className="h-36 mr-10 ml-10"></img>
+            </div>
+          </div>
         </section>
 
 
