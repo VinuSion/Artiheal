@@ -85,7 +85,7 @@ const Login = () => {
       </Helmet>
       <div className="min-h-screen flex items-center justify-center bg-splash-image bg-cover bg-no-repeat bg-center">
         <main className="flex flex-col place-items-center">
-          <div className="shadow-2xl p-6 rounded-lg bg-background xs:w-11/12 sm:w-11/12 md:w-11/12 lg:w-11/12 xl:w-[450px] 2xl:w-[450px] mx-auto">
+          <div className="shadow-2xl p-6 rounded-lg bg-background w-11/12 sm:w-[450px] mx-auto">
             <div className="icon flex items-center justify-center">
               <img
                 className="h-12 w-12 select-none"
