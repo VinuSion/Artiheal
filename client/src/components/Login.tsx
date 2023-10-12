@@ -173,7 +173,7 @@ const Login = () => {
             </form>
 
             <div className="flex flex-col">
-              <span className="text-xs sm:text-sm md:text-base lg:text-base xl:text-md 2xl:text-md">
+              <span className="text-xs sm:text-sm">
                 ¿No tienes cuenta?
                 <Link
                   className="text-primary ml-1 hover:underline"
@@ -182,7 +182,7 @@ const Login = () => {
                   Crear cuenta
                 </Link>
               </span>
-              <span className="text-xs sm:text-sm md:text-base lg:text-base xl:text-md 2xl:text-md">
+              <span className="text-xs sm:text-sm">
                 ¿Olvidaste la Contraseña?
                 <Forgot />
               </span>
