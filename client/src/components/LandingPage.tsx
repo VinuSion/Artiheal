@@ -129,7 +129,7 @@ const LandingPage = () => {
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore
               dolorum ad repellat quasi saepe. Iure sunt fugit, inventore
               perferendis cupiditate a voluptas rerum distinctio nostrum dolor
-              magnam sequi, ducimus voluptatum.
+              magnam sequi, ducimus voluptatu.
             </p>
             <Link to="/signup" className="w-28">
               <Button variant="landing">Comenzar</Button>
