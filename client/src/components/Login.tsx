@@ -65,8 +65,8 @@ const Login = () => {
       ctxDispatch({ type: "USER_SIGNIN", payload: userData });
       // Set new localStorage auth with userInfo
       localStorage.setItem("userInfo", JSON.stringify(userData));
-      // Navigate to /dashboard
-      navigate("/dashboard");
+      // Navigate to /home
+      navigate("/home/dashboard");
     } catch (err: any) {
       if (err.response && err.response.status === 401) {
         setApiError("Correo o Contraseña inválidos. Inténtelo nuevamente.");

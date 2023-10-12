@@ -4,7 +4,7 @@ import LandingPage from "./components/LandingPage";
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
 import Reset from "./components/Reset";
-import DashboardPage from "./components/DashboardPage";
+import Home from "./components/Home";
 
 import { Store } from "./Store";
 
@@ -23,21 +23,18 @@ function App() {
       <Routes>
         {userInfo ? (
           <>
-            <Route path="*" element={<Navigate to="/dashboard" />} />
             <Route
-              path="/dashboard"
-              element={<DashboardPage handleLogout={handleLogout} />}
+              path="home/*"
+              element={<Home handleLogout={handleLogout} />}
             />
+            <Route path="*" element={<Navigate to="/home/dashboard" />} />
           </>
         ) : (
           <>
             <Route path="*" element={<Navigate to="/" />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
-            <Route
-              path="/reset-password/:token"
-              element={<Reset />}
-            />
+            <Route path="/reset-password/:token" element={<Reset />} />
             <Route path="/" element={<LandingPage />} />
           </>
         )}
