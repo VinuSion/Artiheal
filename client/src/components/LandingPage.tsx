@@ -88,7 +88,7 @@ const LandingPage = () => {
         <title>Bienvenido a Artiheal</title>
       </Helmet>
 
-      <header className="bg-primary py-4 flex flex-row justify-between h-28 items-center p-2 fixed top-0 z-20 w-full ">
+      <header className="bg-primary py-4 flex flex-row justify-between h-20 items-center p-2 fixed top-0 z-20 w-full ">
         <div className="flex flex-row items-center text-white">
           <img className="h-20 w-20" src="/artiheal-logo.svg" alt="logo" />
           <div className="ml-4 flex flex-col">
@@ -99,13 +99,13 @@ const LandingPage = () => {
         <nav>
           <ul className="flex flex-row gap-6">
             <li className="text-white hover:scale-105 transform transition-transform duration-300">
-              <a href="#">Inicio</a>
+              <a href="#home">Inicio</a>
             </li>
             <li className="text-white hover:scale-105 transform transition-transform duration-300">
-              <a href="#">Servicios</a>
+              <a href="#services">Servicios</a>
             </li>
             <li className="text-white hover:scale-105 transform transition-transform duration-300">
-              <a href="#">Producto</a>
+              <a href="#product">Producto</a>
             </li>
             <li className="text-white hover:scale-105 transform transition-transform duration-300">
               <a href="#">Sobre nosotros</a>
@@ -123,8 +123,8 @@ const LandingPage = () => {
         </div>
       </header>
 
-      <main className="pt-28">
-        <section className="flex flex-row m-auto w-9/12 mt-20 pb-48">
+      <main className="pt-28 gap-14">
+        <section id="home"className="flex flex-row m-auto w-9/12 mt-20 pb-48 ">
           <div className="flex  flex-col w-1/2  gap-10 pt-8 mr-8">
             <h2 className=" text-6xl font-semibold ">Bienvenido a Artiheal</h2>
             <p className="w-80">
@@ -147,8 +147,8 @@ const LandingPage = () => {
           </div>
         </section>
 
-        <section>
-          <div>
+        <section id="services">
+          
             <h2 className="text-5xl text-primary font-semibold text-center pb-24 ">
               Los Servicios que ofrecemos
             </h2>
@@ -161,14 +161,14 @@ const LandingPage = () => {
                 />
               ))}
             </div>
-          </div>
+          
         </section>
 
         <h2 className="text-5xl text-primary font-semibold text-center">
           Canjea tus puntos en nuestras tiendas aliadas
         </h2>
 
-        <section className="w-9/12 m-auto">
+        <section id="product">
           <LogoSlider />
         </section>
 

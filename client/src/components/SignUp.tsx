@@ -112,7 +112,7 @@ const SignUp = () => {
 
       // Navigate to /login
       navigate("/login");
-    } catch (err: any) {
+    } catch (err:any) {
       if (err.response && err.response.status === 401) {
         setApiError(
           "Ya existe un usuario con ese correo electrónico."
@@ -130,8 +130,8 @@ const SignUp = () => {
       </Helmet>
       <div className="min-h-screen flex items-center justify-center bg-splash-image bg-cover bg-no-repeat bg-center">
         <main className="flex flex-col place-items-center">
-          <div className="sign-up shadow-2xl p-6 rounded-lg bg-background ">
-            <div className="icon flex items-center justify-center">
+          <div className="sign-up shadow-2xl p-6 rounded-lg bg-background w-11/12 sm:w-[450px] sm: h-[655px] ">
+            <div className="icon flex items-center justify-start sm:justify-center">
               <img
                 className="h-12, w-12 select-none"
                 src="/artiheal-logo.svg"
@@ -141,7 +141,7 @@ const SignUp = () => {
             </div>
 
             <div className="flex items-center justify-between">
-              <h2 className="font-bold text-lg my-7">
+              <h2 className="font-bold my-7  text-base sm:text-lg">
                 Crear Cuenta en Artiheal
               </h2>
               <div className="p-1 inline-flex items-center justify-center transition duration-300 hover:shadow-md focus:shadow-md border-solid border-2 rounded-lg bg-transparent">
@@ -268,11 +268,11 @@ const SignUp = () => {
 
                 <div className="items-top flex space-x-1 w-full max-w items-center gap-1.5 mt-2 mb-1">
                   <Checkbox id="terms" />
-                  <Label htmlFor="terms">Aceptar terminos y condiciones</Label>
+                  <Label htmlFor="terms" className="text-xs sm:text-base">Aceptar terminos y condiciones</Label>
                 </div>
               </div>
               <Button
-                className="my-3 py-3 px-6"
+                className="my-3 py-3 px-6 "
                 variant="special"
                 size="sp"
                 type="submit"
@@ -281,9 +281,9 @@ const SignUp = () => {
                 Continuar
               </Button>
 
-              <span>
+              <span className="pb-´6 text-xs sm:text-base">
                 ¿Ya estás en Artiheal?
-                <Link className="text-primary ml-1 hover:underline" to="/login">
+                <Link className="text-primary ml-1 hover:underline text-xs sm:text-base" to="/login">
                   Iniciar sesión
                 </Link>
               </span>
