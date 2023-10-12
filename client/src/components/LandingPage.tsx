@@ -3,26 +3,22 @@ import { Button } from "./ui/button";
 import { Helmet } from "react-helmet-async";
 import { useEffect, useRef } from "react";
 
-interface CardProps {
-  spanMessage: string;
-  buttonMessage: string;
-}
-
-const Card: React.FC<CardProps> = ({ spanMessage, buttonMessage }) => {
-  return (
-    <div className="w-60 h-80 bg-gray-50 p-3 flex flex-col gap-1 rounded-2xl m-5 shadow-2xl mb-32">
-      <div className="h-48 bg-gray-700 rounded-xl"></div>
-      <div className="flex flex-col gap-4">
-        <div className="flex flex-row justify-between">
-          <div className="flex flex-col">
-            <span className="text-xl font-bold">{spanMessage}</span>
-          </div>
+const Card: React.FC<{ spanMessage: string; buttonMessage: string }> = ({
+  spanMessage,
+  buttonMessage,
+}) => (
+  <div className="w-60 h-80 bg-gray-50 p-3 flex flex-col gap-1 rounded-2xl m-5 shadow-2xl mb-32">
+    <div className="h-48 bg-gray-700 rounded-xl"></div>
+    <div className="flex flex-col gap-4">
+      <div className="flex flex-row justify-between">
+        <div className="flex flex-col">
+          <span className="text-xl font-bold">{spanMessage}</span>
         </div>
-        <Button variant="landing">{buttonMessage}</Button>
       </div>
+      <Button variant="landing">{buttonMessage}</Button>
     </div>
-  );
-};
+  </div>
+);
 
 const LogoSlider = () => {
   const sliderRef = useRef<HTMLDivElement>(null);
@@ -52,16 +48,13 @@ const LogoSlider = () => {
 
   return (
     <div className="overflow-hidden py-14">
-      <div
-        ref={sliderRef}
-        className="flex whitespace-nowrap animate-slide"
-      >
+      <div ref={sliderRef} className="flex whitespace-nowrap animate-slide">
         {logos.map((logo, index) => (
           <img
             key={index}
             src={`src/assets/SVGs/${logo}`}
             className="h-10 mx-5 sm:h-20 sm:mx-10"
-            alt={`${logo}`}
+            alt={logo}
           />
         ))}
       </div>
@@ -91,45 +84,47 @@ const LandingPage = () => {
         <title>Bienvenido a Artiheal</title>
       </Helmet>
 
-      <header className="bg-primary py-4 flex flex-row justify-between h-20 items-center p-2 fixed top-0 z-20 w-full ">
-        <div className="flex flex-row items-center text-white">
-          <img className="h-20 w-20" src="/artiheal-logo.svg" alt="logo" />
-          <div className="ml-4 flex flex-col">
-            <h1 className="text-4xl font-bold">Artiheal</h1>
-            <span className="text-lg">Cambiando Vidas</span>
+      <header className="bg-primary fixed top-0 w-full h-90px">
+        <nav className="flex flex-row justify-between  items-center ">
+          <div className="flex flex-row items-center text-white">
+            <img className="h-20 w-20" src="/artiheal-logo.svg" alt="logo" />
+            <div className="ml-4 flex flex-col">
+              <h1 className="text-4xl font-bold">Artiheal</h1>
+              <span className="text-lg">Cambiando Vidas</span>
+            </div>
           </div>
-        </div>
-        <nav>
-          <ul className="flex flex-row gap-6">
-            <li className="text-white hover:scale-105 transform transition-transform duration-300">
-              <a href="#home">Inicio</a>
-            </li>
-            <li className="text-white hover:scale-105 transform transition-transform duration-300">
-              <a href="#services">Servicios</a>
-            </li>
-            <li className="text-white hover:scale-105 transform transition-transform duration-300">
-              <a href="#product">Producto</a>
-            </li>
-            <li className="text-white hover:scale-105 transform transition-transform duration-300">
-              <a href="#">Sobre nosotros</a>
-            </li>
-          </ul>
-        </nav>
+          <div>
+            <ul className="flex flex-row gap-6">
+              <li className="text-white hover:scale-105 transform transition-transform duration-300">
+                <a href="#home">Inicio</a>
+              </li>
+              <li className="text-white hover:scale-105 transform transition-transform duration-300">
+                <a href="#services">Servicios</a>
+              </li>
+              <li className="text-white hover:scale-105 transform transition-transform duration-300">
+                <a href="#product">Producto</a>
+              </li>
+              <li className="text-white hover:scale-105 transform transition-transform duration-300">
+                <a href="#">Sobre nosotros</a>
+              </li>
+            </ul>
+          </div>
 
-        <div className="flex flex-row space-x-4 mr-4">
-          <Link to="/signup">
-            <Button variant="outline">Registrarse</Button>
-          </Link>
-          <Link to="/login">
-            <Button variant="outline">Iniciar Sesión</Button>
-          </Link>
-        </div>
+          <div className="flex flex-row space-x-4 mr-4">
+            <Link to="/signup">
+              <Button variant="outline">Registrarse</Button>
+            </Link>
+            <Link to="/login">
+              <Button variant="outline">Iniciar Sesión</Button>
+            </Link>
+          </div>
+        </nav>
       </header>
 
-      <main className="pt-28 gap-14">
-        <section id="home"className="flex flex-row m-auto w-9/12 mt-20 pb-48 ">
-          <div className="flex  flex-col w-1/2  gap-10 pt-8 mr-8">
-            <h2 className=" text-6xl font-semibold ">Bienvenido a Artiheal</h2>
+      <main>
+        <section id="home" className="flex flex-row m-auto w-9/12  pt-48">
+          <div className="flex flex-col w-1/2 gap-10 pt-8 mr-8">
+            <h2 className="text-6xl font-semibold">Bienvenido a Artiheal</h2>
             <p className="w-80">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore
               dolorum ad repellat quasi saepe. Iure sunt fugit, inventore
@@ -150,40 +145,38 @@ const LandingPage = () => {
           </div>
         </section>
 
-        <section id="services">
-          
-            <h2 className="text-5xl text-primary font-semibold text-center pb-24 ">
-              Los Servicios que ofrecemos
-            </h2>
-            <div className="flex justify-evenly">
-              {cardInfo.map((info, index) => (
-                <Card
-                  key={index}
-                  spanMessage={info.spanMessage}
-                  buttonMessage={info.buttonMessage}
-                />
-              ))}
-            </div>
-          
+        <section id="services" className="pt-48">
+          <h2 className="text-5xl text-primary font-semibold text-center pb-24">
+            Los Servicios que ofrecemos
+          </h2>
+          <div className="flex justify-evenly">
+            {cardInfo.map((info, index) => (
+              <Card
+                key={index}
+                spanMessage={info.spanMessage}
+                buttonMessage={info.buttonMessage}
+              />
+            ))}
+          </div>
         </section>
 
+       
+
+        <section id="product" className="pt-48 pb-8">
         <h2 className="text-5xl text-primary font-semibold text-center">
           Canjea tus puntos en nuestras tiendas aliadas
         </h2>
-
-        <section id="product">
           <LogoSlider />
         </section>
 
-        <footer className="bg-primary text-white flex flex-col ">
+        <footer className="bg-primary text-white flex flex-col">
           <div className="container mx-auto py-8 w-1/2">
             <div className="flex row place-items-center justify-start py-10">
-              {" "}
               <img className="h-20 w-20" src="/artiheal-logo.svg" alt="logo" />
               <span className="text-xl">Artiheal</span>
             </div>
             <div className="flex flex-wrap justify-between items-center">
-              <div className="">
+              <div>
                 <p className="mb-4">Contactanos</p>
                 <p className="mb-4">
                   123 Main Street Anytown, USA Postal Code: 12345
@@ -219,7 +212,7 @@ const LandingPage = () => {
               </div>
             </div>
           </div>
-          <div className="flex  justify-center">
+          <div className="flex justify-center">
             <p className="mb-4">
               Copyright © 2023 Artiheal. Todos los derechos.
             </p>
