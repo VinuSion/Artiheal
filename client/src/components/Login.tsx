@@ -69,11 +69,11 @@ const Login = () => {
       navigate("/dashboard");
     } catch (err: any) {
       if (err.response && err.response.status === 401) {
-        setApiError(
-          "Correo o Contraseña inválidos. Inténtelo nuevamente."
-        );
+        setApiError("Correo o Contraseña inválidos. Inténtelo nuevamente.");
       } else {
-        setApiError("Ha ocurrido un error. Por favor, inténtelo de nuevo más tarde.");
+        setApiError(
+          "Ha ocurrido un error. Por favor, inténtelo de nuevo más tarde."
+        );
       }
     }
   };
@@ -85,10 +85,10 @@ const Login = () => {
       </Helmet>
       <div className="min-h-screen flex items-center justify-center bg-splash-image bg-cover bg-no-repeat bg-center">
         <main className="flex flex-col place-items-center">
-          <div className="shadow-2xl p-6 rounded-lg bg-background w-[450px]">
+          <div className="shadow-2xl p-6 rounded-lg bg-background xs:w-11/12 sm:w-11/12 md:w-11/12 lg:w-11/12 xl:w-[450px] 2xl:w-[450px] mx-auto">
             <div className="icon flex items-center justify-center">
               <img
-                className="h-12, w-12 select-none"
+                className="h-12 w-12 select-none"
                 src="/artiheal-logo.svg"
                 alt="logo"
               />
@@ -108,14 +108,14 @@ const Login = () => {
 
             <form onSubmit={handleSubmit(submitData)}>
               <div className="grid w-full max-w items-center gap-1.5 mt-2">
-                <Label htmlFor="email">Correo electronico</Label>
+                <Label htmlFor="email">Correo electrónico</Label>
                 <Input
                   type="email"
                   id="email"
-                  placeholder="Correo electronico"
+                  placeholder="Correo electrónico"
                   {...register("email")}
                 />
-                <div className="h-[20px]">
+                <div className="h-6">
                   {errors.email && (
                     <SignLabel variant="error" message={errors.email.message} />
                   )}
@@ -145,7 +145,7 @@ const Login = () => {
                     )}
                   </Button>
                 </div>
-                <div className="h-[20px]">
+                <div className="h-6">
                   {errors.password && !apiError && (
                     <SignLabel
                       variant="error"
@@ -173,7 +173,7 @@ const Login = () => {
             </form>
 
             <div className="flex flex-col">
-              <span>
+              <span className="text-xs sm:text-sm md:text-base lg:text-base xl:text-md 2xl:text-md">
                 ¿No tienes cuenta?
                 <Link
                   className="text-primary ml-1 hover:underline"
@@ -182,7 +182,7 @@ const Login = () => {
                   Crear cuenta
                 </Link>
               </span>
-              <span>
+              <span className="text-xs sm:text-sm md:text-base lg:text-base xl:text-md 2xl:text-md">
                 ¿Olvidaste la Contraseña?
                 <Forgot />
               </span>
@@ -258,11 +258,11 @@ const Forgot = () => {
       startCountdown();
     } catch (err: any) {
       if (err.response && err.response.status === 401) {
-        setEmailError(
-          "No existe un usuario con ese correo electrónico."
-        );
+        setEmailError("No existe un usuario con ese correo electrónico.");
       } else {
-        setEmailError("Ha ocurrido un error. Por favor, inténtelo de nuevo más tarde.");
+        setEmailError(
+          "Ha ocurrido un error. Por favor, inténtelo de nuevo más tarde."
+        );
       }
     }
   };
@@ -274,12 +274,15 @@ const Forgot = () => {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Solicitar cambiar la contraseña</DialogTitle>
+          <DialogTitle>
+            Solicitar cambiar la contraseña
+          </DialogTitle>
           <DialogDescription>
-            Ingresa el correo electronico que tienes asociado a tu cuenta.
+            Ingresa el correo electrónico que tienes asociado a tu cuenta.
             Nosotros nos encargamos de enviarte un enlace para cambiarlo.
           </DialogDescription>
         </DialogHeader>
+
         <form onSubmit={handleSubmit(send)}>
           <div className="grid w-full max-w items-center gap-1.5">
             <div className="text-sm text-primary">
