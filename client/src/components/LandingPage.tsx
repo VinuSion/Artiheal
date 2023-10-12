@@ -197,7 +197,7 @@ const LandingPage = () => {
           Canjea tus puntos en nuestras tiendas aliadas
         </h2>
 
-        <section>
+        <section className="w-9/12 m-auto">
           <LogoSlider />
         </section>
 
