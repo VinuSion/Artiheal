@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
 import { Helmet } from "react-helmet-async";
+import { link } from "fs";
 
 interface CardProps {
   spanMessage: string;
@@ -120,12 +121,30 @@ const LandingPage = () => {
             </div>
           </div>
         </section>
-        <footer className="bg-primary text-white flex flex-col ">
 
-          <div className="container mx-auto py-8 w-1/2">
-          <div className="flex row place-items-center justify-start py-10"> <img className="h-20 w-20" src="/artiheal-logo.svg" alt="logo" />
-          <span className="text-xl">Artiheal</span>
+        <section>
+          <div className="logos p-16 relative bg-white whitespace-nowrap overflow-hidden">
+            <div className="logos-slide inline-block animation-35s-slide-infinite-linear">
+              <img src="./logos/3m.svg" className="h-12 mx-10" alt="3M" />
+              <img src="./logos/barstool-store.svg" className="h-12 mx-10" alt="Barstool Store" />
+              <img src="./logos/budweiser.svg" className="h-12 mx-10" alt="Budweiser" />
+              <img src="./logos/buzzfeed.svg" className="h-12 mx-10" alt="Buzzfeed" />
+              <img src="./logos/forbes.svg" className="h-12 mx-10" alt="Forbes" />
+              <img src="./logos/macys.svg" className="h-12 mx-10" alt="Macy's" />
+              <img src="./logos/menshealth.svg" className="h-12 mx-10" alt="Men's Health" />
+              <img src="./logos/mrbeast.svg" className="h-12 mx-10" alt="MrBeast" />
+            </div>
           </div>
+
+        </section>
+
+
+
+        <footer className="bg-primary text-white flex flex-col ">
+          <div className="container mx-auto py-8 w-1/2">
+            <div className="flex row place-items-center justify-start py-10"> <img className="h-20 w-20" src="/artiheal-logo.svg" alt="logo" />
+              <span className="text-xl">Artiheal</span>
+            </div>
             <div className="flex flex-wrap justify-between items-center">
               <div className="">
                 <p className="mb-4">Contactanos</p>
@@ -162,15 +181,15 @@ const LandingPage = () => {
                 </ul>
               </div>
 
-              
+
             </div>
-           
+
           </div>
           <div className="flex  justify-center">
-                <p className="mb-4">
-                  Copyright © 2023 Artiheal. Todos los derechos.
-                </p>
-              </div>
+            <p className="mb-4">
+              Copyright © 2023 Artiheal. Todos los derechos.
+            </p>
+          </div>
         </footer>
       </main>
     </div>
