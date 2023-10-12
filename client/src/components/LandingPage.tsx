@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
 import { Helmet } from "react-helmet-async";
-import { link } from "fs";
+
 
 interface CardProps {
   spanMessage: string;
@@ -123,18 +123,7 @@ const LandingPage = () => {
         </section>
 
         <section>
-          <div className="logos p-16 relative bg-white whitespace-nowrap overflow-hidden">
-            <div className="logos-slide inline-block animation-35s-slide-infinite-linear">
-              <img src="./logos/3m.svg" className="h-12 mx-10" alt="3M" />
-              <img src="./logos/barstool-store.svg" className="h-12 mx-10" alt="Barstool Store" />
-              <img src="./logos/budweiser.svg" className="h-12 mx-10" alt="Budweiser" />
-              <img src="./logos/buzzfeed.svg" className="h-12 mx-10" alt="Buzzfeed" />
-              <img src="./logos/forbes.svg" className="h-12 mx-10" alt="Forbes" />
-              <img src="./logos/macys.svg" className="h-12 mx-10" alt="Macy's" />
-              <img src="./logos/menshealth.svg" className="h-12 mx-10" alt="Men's Health" />
-              <img src="./logos/mrbeast.svg" className="h-12 mx-10" alt="MrBeast" />
-            </div>
-          </div>
+          
 
         </section>
 
