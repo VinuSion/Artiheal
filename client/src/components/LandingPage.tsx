@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
 import { Helmet } from "react-helmet-async";
 
+
 interface CardProps {
   spanMessage: string;
   buttonMessage: string;
@@ -120,12 +121,19 @@ const LandingPage = () => {
             </div>
           </div>
         </section>
-        <footer className="bg-primary text-white flex flex-col ">
 
+        <section>
+          
+
+        </section>
+
+
+
+        <footer className="bg-primary text-white flex flex-col ">
           <div className="container mx-auto py-8 w-1/2">
-          <div className="flex row place-items-center justify-start py-10"> <img className="h-20 w-20" src="/artiheal-logo.svg" alt="logo" />
-          <span className="text-xl">Artiheal</span>
-          </div>
+            <div className="flex row place-items-center justify-start py-10"> <img className="h-20 w-20" src="/artiheal-logo.svg" alt="logo" />
+              <span className="text-xl">Artiheal</span>
+            </div>
             <div className="flex flex-wrap justify-between items-center">
               <div className="">
                 <p className="mb-4">Contactanos</p>
@@ -162,15 +170,15 @@ const LandingPage = () => {
                 </ul>
               </div>
 
-              
+
             </div>
-           
+
           </div>
           <div className="flex  justify-center">
-                <p className="mb-4">
-                  Copyright © 2023 Artiheal. Todos los derechos.
-                </p>
-              </div>
+            <p className="mb-4">
+              Copyright © 2023 Artiheal. Todos los derechos.
+            </p>
+          </div>
         </footer>
       </main>
     </div>
