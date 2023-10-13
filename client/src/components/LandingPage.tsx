@@ -84,17 +84,17 @@ const LandingPage = () => {
         <title>Bienvenido a Artiheal</title>
       </Helmet>
 
-      <header className="bg-primary pt-4 h-28  p-2 fixed top-0 w-full">
+      <header className="bg-primary p-2 fixed top-0 w-full h-14 sm:h-24 ">
         <nav className="flex flex-row justify-between  items-center ">
           <div className="flex flex-row items-center text-white">
-            <img className="h-20 w-20" src="/artiheal-logo.svg" alt="logo" />
-            <div className="ml-4 flex flex-col">
-              <h1 className="text-4xl font-bold">Artiheal</h1>
-              <span className="text-lg">Cambiando Vidas</span>
+            <img className="h-10 w-10 sm:w-20 sm:h-20" src="/artiheal-logo.svg" alt="logo" />
+            <div className="flex flex-col">
+              <h1 className="font-bold text-base sm:text-2xl">Artiheal</h1>
+              <span className="text-xs sm:text-lg">Cambiando Vidas</span>
             </div>
           </div>
           <div>
-            <ul className="flex flex-row gap-6">
+            <ul className="flex-row gap-6  hidden sm:flex">
               <li className="text-white hover:scale-105 transform transition-transform duration-300">
                 <a href="#home">Inicio</a>
               </li>
@@ -112,41 +112,41 @@ const LandingPage = () => {
 
           <div className="flex flex-row space-x-4 mr-4">
             <Link to="/signup">
-              <Button variant="outline">Registrarse</Button>
+              <Button variant="outline" className=" text-[10px] sm:text-base">Registrarse</Button>
             </Link>
             <Link to="/login">
-              <Button variant="outline">Iniciar Sesión</Button>
+              <Button variant="outline" className="text-[10px] sm:text-base">Iniciar Sesión</Button>
             </Link>
           </div>
         </nav>
       </header>
 
       <main>
-        <section id="home" className="flex flex-row m-auto w-9/12 mt-20 pt-52">
-          <div className="flex  flex-col w-1/2  gap-10 pt-8 mr-8">
-            <h2 className="text-6xl font-semibold ">Bienvenido a Artiheal</h2>
-            <p className="w-80">
+        <section id="home" className="flex flex-col sm:flex-row p-0 mt-10 sm:mt-20 sm:pt-40  w-full sm:w-9/12 m-4 sm:m-auto">
+          <div className="flex  flex-col w-1/2  pt-8 mr-8 gap-2 sm:gap-10">
+            <h2 className=" font-semibold text-2xl sm:text-6xl">Bienvenido a Artiheal</h2>
+            <p className="w-80 text-base">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore
               dolorum ad repellat quasi saepe. Iure sunt fugit, inventore
               perferendis cupiditate a voluptas rerum distinctio nostrum dolor
               magnam sequi, ducimus voluptatu.
             </p>
             <Link to="/signup" className="w-28">
-              <Button variant="landing">Comenzar</Button>
+              <Button variant="landing" className="mb-6 sm:m-0">Comenzar</Button>
             </Link>
           </div>
 
           <div>
             <img
-              className="object-contain"
+              className="object-contain w-[500px] sm:w-11/12"
               src="src/assets/legend.webp"
               alt="legend"
             />
           </div>
         </section>
 
-        <section id="services" className="pt-52">
-          <h2 className="text-5xl text-primary font-semibold text-center pb-24">
+        <section id="services" className=" p-10  sm:py-48">
+          <h2 className="text-5xl text-primary font-semibold text-center pb-10">
             Nuestros servicios
           </h2>
           <div className="flex justify-evenly">
@@ -160,11 +160,11 @@ const LandingPage = () => {
           </div>
         </section>
 
-        <section id="product" className="pt-48 pb-8">
+        <section id="product" className="pb-8">
           <h2 className="text-5xl text-primary font-semibold text-center">
             Canjea tus puntos con nuestras marcas aliadas
           </h2>
-          <LogoSlider />
+         {/* <LogoSlider />*/}
         </section>
 
         <footer className="bg-primary text-white flex flex-col">
