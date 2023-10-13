@@ -147,7 +147,7 @@ const LandingPage = () => {
 
         <section id="services" className="pt-52">
           <h2 className="text-5xl text-primary font-semibold text-center pb-24">
-            Los Servicios que ofrecemos
+            Nuestros servicios
           </h2>
           <div className="flex justify-evenly">
             {cardInfo.map((info, index) => (
@@ -162,7 +162,7 @@ const LandingPage = () => {
 
         <section id="product" className="pt-48 pb-8">
           <h2 className="text-5xl text-primary font-semibold text-center">
-            Canjea tus puntos en nuestras tiendas aliadas
+            Canjea tus puntos con nuestras marcas aliadas
           </h2>
           <LogoSlider />
         </section>
