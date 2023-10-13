@@ -3,19 +3,18 @@ import { Button } from "./ui/button";
 import { Helmet } from "react-helmet-async";
 import { useEffect, useRef } from "react";
 
-const Card: React.FC<{spanTitle: string; spanMessage: string;}> = ({
+const Card: React.FC<{ spanTitle: string; spanMessage: string; cardImage: string; }> = ({
+  cardImage,
   spanTitle,
   spanMessage,
 }) => (
-  <div className="w-60 h-80 bg-gray-50 p-3 flex flex-col gap-1 rounded-2xl m-5 shadow-2xl mb-32">
-    <div className="h-48 bg-gray-700 rounded-xl"></div>
-    <div className="flex flex-col gap-4">
-      <div className="flex flex-row justify-between">
-        <div className="flex flex-col">
-          <span className="text-xl font-bold">{spanTitle}</span>
-        </div>
-      </div>
-      <span className="text-xl">{spanMessage}</span>
+  <div className="w-72 h-auto bg-gray-100 p-3 rounded-2xl m-5 shadow-2xl  flex-wrap">
+    <div className="flex items-center justify-center">
+      <img src={cardImage} alt={spanTitle} className="h-64 w-64" />
+    </div>
+    <span className="text-xl font-bold flex justify-center items-center mb-1">{spanTitle}</span>
+    <div className="overflow-hidden">
+      <p className="text-xs text-justify">{spanMessage}</p>
     </div>
   </div>
 );
@@ -23,16 +22,19 @@ const Card: React.FC<{spanTitle: string; spanMessage: string;}> = ({
 const LandingPage = () => {
   const cardInfo = [
     {
-      spanTitle: "Servicio 1",
-      spanMessage: "Más información 1",
+      cardImage: "src/assets/SVGs/rutinas.svg",
+      spanTitle: "Crea rutinas saludables",
+      spanMessage: "En Artiheal, te ayudamos a crear rutinas saludables adaptadas a tus necesidades, con enfoque en alimentación, ejercicio, descanso y bienestar emocional. ¡Comienza tu viaje hacia una vida más saludable hoy mismo!",
     },
     {
-      spanTitle: "Servicio 2",
-      spanMessage: "Más información 2",
+      cardImage: "src/assets/SVGs/dashboard.svg",
+      spanTitle: "Revisa tu progreso",
+      spanMessage: "En Artiheal, ofrecemos a nuestros usuarios un completo dashboard estadístico que les permite monitorear y revisar su progreso de manera efectiva en su búsqueda de una vida más saludable.",
     },
     {
-      spanTitle: "Servicio 3",
-      spanMessage: "Más información 3",
+      cardImage: "src/assets/SVGs/points.svg",
+      spanTitle: "Canjea tus puntos",
+      spanMessage: "Artiheal presenta un sistema de puntos que recompensa a los usuarios por su compromiso con un estilo de vida saludable. Al cumplir tus metas, ganas puntos canjeables en tiendas y marcas asociadas.",
     },
   ];
 
@@ -121,31 +123,31 @@ const LandingPage = () => {
       </header>
 
       <main>
-      <section id="home" className="flex flex-col sm:flex-row p-0 mt-10 sm:mt-20 sm:pt-40  sm:w-9/12 m-4 sm:m-auto">
-    <div className="flex flex-col w-full sm:w-1/2 pt-8 sm:pr-8 gap-2 sm:gap-10">
-        <h2 className="font-semibold text-2xl sm:text-6xl">Bienvenido a Artiheal</h2>
-        <p className="text-base sm:w-72">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore dolorum ad repellat quasi saepe. Iure sunt
-            fugit, inventore perferendis cupiditate a voluptas rerum distinctio nostrum dolor magnam sequi, ducimus
-            voluptatu.
-        </p>
-        <Link to="/signup" className="w-28">
-            <Button variant="landing" className="mb-6 sm:m-0">Comenzar</Button>
-        </Link>
-    </div>
+        <section id="home" className="flex flex-col sm:flex-row p-0 mt-10 sm:mt-20 sm:pt-24  sm:w-9/12 m-4 sm:m-auto">
+          <div className="flex flex-col w-full sm:w-1/2 pt-8 sm:pr-8 gap-2 sm:gap-10">
+            <h2 className="font-semibold text-2xl sm:text-6xl">Bienvenido a Artiheal</h2>
+            <p className="text-base sm:w-72">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore dolorum ad repellat quasi saepe. Iure sunt
+              fugit, inventore perferendis cupiditate a voluptas rerum distinctio nostrum dolor magnam sequi, ducimus
+              voluptatu.
+            </p>
+            <Link to="/signup" className="w-28">
+              <Button variant="landing" className="mb-6 sm:m-0">Comenzar</Button>
+            </Link>
+          </div>
 
-    <div className="w-full sm:w-1/2 flex justify-center">
-        <img
-            className="object-contain max-w-full h-auto"
-            src="src/assets/legend.webp"
-            alt="legend"
-        />
-    </div>
-</section>
+          <div className="w-full sm:w-1/2 flex justify-center">
+            <img
+              className="object-contain max-w-full h-auto"
+              src="src/assets/legend.webp"
+              alt="legend"
+            />
+          </div>
+        </section>
 
 
-        <section id="services" className=" p-10  sm:py-48">
-          <h2 className="text-5xl text-primary font-semibold text-center pb-10">
+        <section id="services" className=" p-10  sm:py-20">
+          <h2 className="text-5xl text-primary font-semibold text-center mt-6">
             Nuestros servicios
           </h2>
           <div className=" justify-evenly flex-wrap sm:flex">
@@ -154,6 +156,7 @@ const LandingPage = () => {
                 key={index}
                 spanTitle={info.spanTitle}
                 spanMessage={info.spanMessage}
+                cardImage={info.cardImage}
               />
             ))}
           </div>
@@ -163,7 +166,7 @@ const LandingPage = () => {
           <h2 className="text-5xl text-primary font-semibold text-center">
             Canjea tus puntos con nuestras marcas aliadas
           </h2>
-         {/* <LogoSlider />*/}
+          <LogoSlider />
         </section>
 
         <footer className="bg-primary text-white flex flex-col">
