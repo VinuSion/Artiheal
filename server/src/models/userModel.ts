@@ -6,6 +6,7 @@ interface User extends Document {
   email: string; // Correo electronico
   password: string; // Contraseña
   resetToken?: string; // Se utiliza para resetear/cambiar contraseña
+  pictureURL?: string; // URL de la foto de perfil
 }
 
 const UserSchema = new Schema(
@@ -15,6 +16,7 @@ const UserSchema = new Schema(
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     resetToken: { type: String },
+    pictureURL: { type: String },
   },
   { timestamps: true }
 );

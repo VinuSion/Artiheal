@@ -3,10 +3,11 @@ import cors from 'cors';
 import mongoose from "mongoose";
 import { config } from "dotenv";
 import path from "path";
+import { baseUrl } from './utils';
 
 import { ErrorRequestHandler } from "express";
 import userRouter from "./routes/userRoutes";
-import { baseUrl } from './utils';
+import uploadRouter from "./routes/uploadRoutes";
 
 config(); // Setup dotenv
 
@@ -39,8 +40,8 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// ALL API ENDPOINTS FOR THE SERVER GO HERE
-// Routes go here
+// ALL API ENDPOINTS FOR THE SERVER
+app.use("/api/upload", uploadRouter);
 app.use("/api/users", userRouter);
 
 // Resolving vite frontend path

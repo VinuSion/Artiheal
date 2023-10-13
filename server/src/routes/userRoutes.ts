@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 import nodemailer from 'nodemailer';
 import expressAsyncHandler from "express-async-handler";
 import User from "../models/userModel";
-import { isAuth, generateToken, baseUrl, template } from '../utils';
+import { generateToken, baseUrl, template } from '../utils';
 
 const userRouter = express.Router();
 
