@@ -122,34 +122,34 @@ const LandingPage = () => {
       </header>
 
       <main>
-        <section id="home" className="flex flex-col sm:flex-row p-0 mt-10 sm:mt-20 sm:pt-40  w-full sm:w-9/12 m-4 sm:m-auto">
-          <div className="flex  flex-col w-1/2  pt-8 mr-8 gap-2 sm:gap-10">
-            <h2 className=" font-semibold text-2xl sm:text-6xl">Bienvenido a Artiheal</h2>
-            <p className=" text-base w-80">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore
-              dolorum ad repellat quasi saepe. Iure sunt fugit, inventore
-              perferendis cupiditate a voluptas rerum distinctio nostrum dolor
-              magnam sequi, ducimus voluptatu.
-            </p>
-            <Link to="/signup" className="w-28">
-              <Button variant="landing" className="mb-6 sm:m-0">Comenzar</Button>
-            </Link>
-          </div>
+      <section id="home" className="flex flex-col sm:flex-row p-0 mt-10 sm:mt-20 sm:pt-40  sm:w-9/12 m-4 sm:m-auto">
+    <div className="flex flex-col w-full sm:w-1/2 pt-8 sm:pr-8 gap-2 sm:gap-10">
+        <h2 className="font-semibold text-2xl sm:text-6xl">Bienvenido a Artiheal</h2>
+        <p className="text-base sm:w-72">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore dolorum ad repellat quasi saepe. Iure sunt
+            fugit, inventore perferendis cupiditate a voluptas rerum distinctio nostrum dolor magnam sequi, ducimus
+            voluptatu.
+        </p>
+        <Link to="/signup" className="w-28">
+            <Button variant="landing" className="mb-6 sm:m-0">Comenzar</Button>
+        </Link>
+    </div>
 
-          <div>
-            <img
-              className="object-contain w-[350px] sm:w-11/12"
-              src="src/assets/legend.webp"
-              alt="legend"
-            />
-          </div>
-        </section>
+    <div className="w-full sm:w-1/2 flex justify-center">
+        <img
+            className="object-contain max-w-full h-auto"
+            src="src/assets/legend.webp"
+            alt="legend"
+        />
+    </div>
+</section>
+
 
         <section id="services" className=" p-10  sm:py-48">
           <h2 className="text-5xl text-primary font-semibold text-center pb-10">
             Nuestros servicios
           </h2>
-          <div className="flex justify-evenly">
+          <div className=" justify-evenly flex-wrap sm:flex">
             {cardInfo.map((info, index) => (
               <Card
                 key={index}
@@ -161,10 +161,10 @@ const LandingPage = () => {
         </section>
 
         <section id="product" className="pb-8">
-          <h2 className="text-5xl text-primary font-semibold text-center">
-            Canjea tus puntos con nuestras marcas aliadas
-          </h2>
-         <LogoSlider />
+          <h4 className="text-5xl text-primary font-semibold text-center">
+            Canjea tus puntos 
+          </h4>
+         {/*<LogoSlider />*/}
         </section>
 
         <footer className="bg-primary text-white flex flex-col">
@@ -211,9 +211,9 @@ const LandingPage = () => {
             </div>
           </div>
           <div className="flex justify-center">
-            <p className="mb-4">
+            <span className="mb-4">
               Copyright © 2023 Artiheal. Todos los derechos.
-            </p>
+            </span>
           </div>
         </footer>
       </main>
