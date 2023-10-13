@@ -85,7 +85,7 @@ const LandingPage = () => {
       </Helmet>
 
       <header className="bg-primary p-2 fixed top-0 w-full h-14 sm:h-24 ">
-        <nav className="flex flex-row justify-between  items-center ">
+        <nav className="flex flex-row items-center justify-around sm:justify-between  ">
           <div className="flex flex-row items-center text-white">
             <img className="h-10 w-10 sm:w-20 sm:h-20" src="/artiheal-logo.svg" alt="logo" />
             <div className="flex flex-col">
@@ -112,10 +112,10 @@ const LandingPage = () => {
 
           <div className="flex flex-row space-x-4 mr-4">
             <Link to="/signup">
-              <Button variant="outline" className=" text-[10px] sm:text-base">Registrarse</Button>
+              <Button variant="outline" className=" text-[10px] sm:text-base ">Registrarse</Button>
             </Link>
             <Link to="/login">
-              <Button variant="outline" className="text-[10px] sm:text-base">Iniciar Sesión</Button>
+              <Button variant="outline" className="text-[10px] sm:text-base hidden sm:block ">Iniciar Sesión</Button>
             </Link>
           </div>
         </nav>
@@ -125,7 +125,7 @@ const LandingPage = () => {
         <section id="home" className="flex flex-col sm:flex-row p-0 mt-10 sm:mt-20 sm:pt-40  w-full sm:w-9/12 m-4 sm:m-auto">
           <div className="flex  flex-col w-1/2  pt-8 mr-8 gap-2 sm:gap-10">
             <h2 className=" font-semibold text-2xl sm:text-6xl">Bienvenido a Artiheal</h2>
-            <p className="w-80 text-base">
+            <p className=" text-base w-80">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore
               dolorum ad repellat quasi saepe. Iure sunt fugit, inventore
               perferendis cupiditate a voluptas rerum distinctio nostrum dolor
@@ -138,7 +138,7 @@ const LandingPage = () => {
 
           <div>
             <img
-              className="object-contain w-[500px] sm:w-11/12"
+              className="object-contain w-[350px] sm:w-11/12"
               src="src/assets/legend.webp"
               alt="legend"
             />
@@ -164,7 +164,7 @@ const LandingPage = () => {
           <h2 className="text-5xl text-primary font-semibold text-center">
             Canjea tus puntos con nuestras marcas aliadas
           </h2>
-         {/* <LogoSlider />*/}
+         <LogoSlider />
         </section>
 
         <footer className="bg-primary text-white flex flex-col">
