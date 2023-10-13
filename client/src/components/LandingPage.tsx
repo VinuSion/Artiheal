@@ -58,8 +58,6 @@ const LandingPage = () => {
       "mcdonalds.svg",
       "microsoft.svg",
       "kfc.svg",
-      "crepes.svg",
-      "nintendo.svg",
       "apple.svg",
     ];
 
