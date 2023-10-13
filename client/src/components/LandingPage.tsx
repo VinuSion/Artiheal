@@ -8,7 +8,7 @@ const Card: React.FC<{ spanTitle: string; spanMessage: string; cardImage: string
   spanTitle,
   spanMessage,
 }) => (
-  <div className="w-72 h-auto bg-gray-100 p-3 rounded-2xl m-5 shadow-2xl  flex-wrap">
+  <div className="w-72 h-auto bg-gray-100 p-3 rounded-2xl m-5 shadow-2xl">
     <div className="flex items-center justify-center">
       <img src={cardImage} alt={spanTitle} className="h-64 w-64" />
     </div>
@@ -85,7 +85,7 @@ const LandingPage = () => {
         <title>Bienvenido a Artiheal</title>
       </Helmet>
 
-      <header className="bg-primary p-2 fixed top-0 w-full h-14 sm:h-24 ">
+      <header className="bg-primary p-2 fixed top-0 w-full h-14 sm:h-24 z-10">
         <nav className="flex flex-row items-center justify-around sm:justify-between  ">
           <div className="flex flex-row items-center text-white">
             <img className="h-10 w-10 sm:w-20 sm:h-20" src="/artiheal-logo.svg" alt="logo" />
@@ -126,10 +126,10 @@ const LandingPage = () => {
         <section id="home" className="flex flex-col sm:flex-row p-0 mt-10 sm:mt-20 sm:pt-24  sm:w-9/12 m-4 sm:m-auto">
           <div className="flex flex-col w-full sm:w-1/2 pt-8 sm:pr-8 gap-2 sm:gap-10">
             <h2 className="font-semibold text-2xl sm:text-6xl">Bienvenido a Artiheal</h2>
-            <p className="text-base sm:w-72">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore dolorum ad repellat quasi saepe. Iure sunt
-              fugit, inventore perferendis cupiditate a voluptas rerum distinctio nostrum dolor magnam sequi, ducimus
-              voluptatu.
+            <p className="text-base sm:w-76">
+            En nuestra plataforma, te ofrecemos un enfoque completo para lograr un estilo de vida más saludable y equilibrado.
+            Explora cómo podemos ayudarte a alcanzar tus metas de bienestar y vivir de manera más saludable.
+            ¡Únete a nuestra comunidad y comienza tu viaje hacia una vida mejor con Artiheal!
             </p>
             <Link to="/signup" className="w-28">
               <Button variant="landing" className="mb-6 sm:m-0">Comenzar</Button>
@@ -179,7 +179,7 @@ const LandingPage = () => {
               <div>
                 <p className="mb-4">Contactanos</p>
                 <p className="mb-4">
-                  123 Main Street Anytown, USA Postal Code: 12345
+                  123 Main Street Anytown, Postal Code: 12345
                 </p>
                 <p className="mb-4">Llamanos: 123-456-678</p>
               </div>
