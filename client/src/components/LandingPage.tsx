@@ -3,80 +3,81 @@ import { Button } from "./ui/button";
 import { Helmet } from "react-helmet-async";
 import { useEffect, useRef } from "react";
 
-const Card: React.FC<{ spanMessage: string; buttonMessage: string }> = ({
+const Card: React.FC<{spanTitle: string; spanMessage: string;}> = ({
+  spanTitle,
   spanMessage,
-  buttonMessage,
 }) => (
   <div className="w-60 h-80 bg-gray-50 p-3 flex flex-col gap-1 rounded-2xl m-5 shadow-2xl mb-32">
     <div className="h-48 bg-gray-700 rounded-xl"></div>
     <div className="flex flex-col gap-4">
       <div className="flex flex-row justify-between">
         <div className="flex flex-col">
-          <span className="text-xl font-bold">{spanMessage}</span>
+          <span className="text-xl font-bold">{spanTitle}</span>
         </div>
       </div>
-      <Button variant="landing">{buttonMessage}</Button>
+      <span className="text-xl">{spanMessage}</span>
     </div>
   </div>
 );
 
-const LogoSlider = () => {
-  const sliderRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const cloneElements = () => {
-      const slider = sliderRef.current;
-      if (slider) {
-        const originalContent = slider.innerHTML;
-        slider.innerHTML = originalContent + originalContent;
-      }
-    };
-    cloneElements();
-  }, []);
-
-  const logos = [
-    "adidas.svg",
-    "exito.svg",
-    "funko.svg",
-    "mcdonalds.svg",
-    "microsoft.svg",
-    "kfc.svg",
-    "crepes.svg",
-    "nintendo.svg",
-    "apple.svg",
-  ];
-
-  return (
-    <div className="overflow-hidden py-14">
-      <div ref={sliderRef} className="flex whitespace-nowrap animate-slide">
-        {logos.map((logo, index) => (
-          <img
-            key={index}
-            src={`src/assets/SVGs/${logo}`}
-            className="h-10 mx-5 sm:h-20 sm:mx-10"
-            alt={logo}
-          />
-        ))}
-      </div>
-    </div>
-  );
-};
-
 const LandingPage = () => {
   const cardInfo = [
     {
-      spanMessage: "Servicio 1",
-      buttonMessage: "Más información 1",
+      spanTitle: "Servicio 1",
+      spanMessage: "Más información 1",
     },
     {
-      spanMessage: "Servicio 2",
-      buttonMessage: "Más información 2",
+      spanTitle: "Servicio 2",
+      spanMessage: "Más información 2",
     },
     {
-      spanMessage: "Servicio 3",
-      buttonMessage: "Más información 3",
+      spanTitle: "Servicio 3",
+      spanMessage: "Más información 3",
     },
   ];
+
+
+  const LogoSlider = () => {
+    const sliderRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+      const cloneElements = () => {
+        const slider = sliderRef.current;
+        if (slider) {
+          const originalContent = slider.innerHTML;
+          slider.innerHTML = originalContent + originalContent;
+        }
+      };
+      cloneElements();
+    }, []);
+
+    const logos = [
+      "adidas.svg",
+      "exito.svg",
+      "funko.svg",
+      "mcdonalds.svg",
+      "microsoft.svg",
+      "kfc.svg",
+      "crepes.svg",
+      "nintendo.svg",
+      "apple.svg",
+    ];
+
+    return (
+      <div className="overflow-hidden py-14">
+        <div ref={sliderRef} className="flex whitespace-nowrap animate-slide">
+          {logos.map((logo, index) => (
+            <img
+              key={index}
+              src={`src/assets/SVGs/${logo}`}
+              className="h-10 mx-5 sm:h-20 sm:mx-10"
+              alt={logo}
+            />
+          ))}
+        </div>
+      </div>
+    );
+  };
 
   return (
     <div>
@@ -153,8 +154,8 @@ const LandingPage = () => {
             {cardInfo.map((info, index) => (
               <Card
                 key={index}
+                spanTitle={info.spanTitle}
                 spanMessage={info.spanMessage}
-                buttonMessage={info.buttonMessage}
               />
             ))}
           </div>
@@ -164,7 +165,7 @@ const LandingPage = () => {
           <h2 className="text-5xl text-primary font-semibold text-center">
             Canjea tus puntos con nuestras marcas aliadas
           </h2>
-         {/* <LogoSlider />*/}
+           <LogoSlider />
         </section>
 
         <footer className="bg-primary text-white flex flex-col">
