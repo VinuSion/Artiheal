@@ -79,7 +79,7 @@ const LandingPage = () => {
   ];
 
   return (
-    <div>
+    <>
       <Helmet>
         <title>Bienvenido a Artiheal</title>
       </Helmet>
@@ -217,7 +217,7 @@ const LandingPage = () => {
           </div>
         </footer>
       </main>
-    </div>
+    </>
   );
 };
 
