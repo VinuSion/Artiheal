@@ -38,7 +38,7 @@ const Home: React.FC<HomeProps> = ({ handleLogout }: HomeProps) => {
   return (
     <>
       {/* Navbar */}
-      <nav className="fixed bottom-0 sm:top-0 w-screen sm:w-20 h-20 sm:h-screen sm:shadow-2xl bg-background transition-[width] duration-300 ease-in-out">
+      <nav className="fixed bottom-0 sm:top-0 w-screen sm:w-20 h-[4.2rem] sm:h-screen sm:shadow-2xl bg-background transition-[width] duration-300 ease-in-out">
         <ul className="list-none p-0 m-0 flex flex-row sm:flex-col justify-center sm:justify-between h-full">
           <div>
             <li
@@ -51,7 +51,7 @@ const Home: React.FC<HomeProps> = ({ handleLogout }: HomeProps) => {
               <Link
                 to="/home/account"
                 onClick={() => handleLinkClick("/home/account")}
-                className={`flex flex-col justify-center items-center h-20 no-underline ${
+                className={`flex flex-col justify-center items-center h-[4.2rem] sm:h-20 no-underline ${
                   selectedLink === "/home/account"
                     ? "text-background"
                     : "text-foreground"
@@ -78,7 +78,7 @@ const Home: React.FC<HomeProps> = ({ handleLogout }: HomeProps) => {
               <Link
                 to="/home/routine"
                 onClick={() => handleLinkClick("/home/routine")}
-                className={`flex flex-col justify-center items-center h-20 no-underline ${
+                className={`flex flex-col justify-center items-center h-[4.2rem] sm:h-20 no-underline ${
                   selectedLink === "/home/routine"
                     ? "text-background"
                     : "text-foreground"
@@ -103,7 +103,7 @@ const Home: React.FC<HomeProps> = ({ handleLogout }: HomeProps) => {
               <Link
                 to="/home/dashboard"
                 onClick={() => handleLinkClick("/home/dashboard")}
-                className={`flex flex-col justify-center items-center h-20 no-underline ${
+                className={`flex flex-col justify-center items-center h-[4.2rem] sm:h-20 no-underline ${
                   selectedLink === "/home/dashboard"
                     ? "text-background"
                     : "text-foreground"
@@ -128,7 +128,7 @@ const Home: React.FC<HomeProps> = ({ handleLogout }: HomeProps) => {
               <Link
                 to="/home/points"
                 onClick={() => handleLinkClick("/home/points")}
-                className={`flex flex-col justify-center items-center h-20 no-underline ${
+                className={`flex flex-col justify-center items-center h-[4.2rem] sm:h-20 no-underline ${
                   selectedLink === "/home/points"
                     ? "text-background"
                     : "text-foreground"
@@ -155,7 +155,7 @@ const Home: React.FC<HomeProps> = ({ handleLogout }: HomeProps) => {
               <Link
                 to="/home/help"
                 onClick={() => handleLinkClick("/home/help")}
-                className={`flex flex-col justify-center items-center h-20 no-underline ${
+                className={`flex flex-col justify-center items-center h-[4.2rem] sm:h-20 no-underline ${
                   selectedLink === "/home/help"
                     ? "text-background"
                     : "text-foreground"
