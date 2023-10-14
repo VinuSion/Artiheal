@@ -18,7 +18,7 @@ module.exports = {
         padding: "2rem",
       },
       backgroundImage: {
-        "splash-image": "url('/src/assets/bg.png')",
+        "splash-image": "url('/src/assets/bg.webp')",
       },
       colors: {
         border: "hsl(var(--border))",

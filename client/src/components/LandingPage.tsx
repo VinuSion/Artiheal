@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, ReactNode } from "react";
+import { useEffect, useRef, ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
 import { Helmet } from "react-helmet-async";
@@ -60,11 +60,10 @@ const CardOp: React.FC<{
 );
 
 const LandingPage = () => {
-  const [isXsScreen] = useState(window.innerWidth <= 400);
 
   const cardInfo = [
     {
-      cardImage: "src/assets/SVGs/rutinas.svg",
+      cardImage: "src/assets/SVGs/routine.svg",
       spanTitle: "Rutinas a tu ritmo",
       icon: <CalendarHeart className="h-5 w-5 mr-2" />,
       spanMessage:
@@ -82,25 +81,25 @@ const LandingPage = () => {
       spanTitle: "Redime tus puntos",
       icon: <Receipt className="h-5 w-5 mr-2" />,
       spanMessage:
-        "Contamos con un sistema de puntos que recompensa a los usuarios por su compromiso. Al cumplir tus metas, ganas puntos canjeables en tiendas y marcas asociadas.",
+        "Contamos con un sistema de puntos que recompensa a los usuarios por su compromiso. Al cumplir tus metas, ganas puntos redimibles en tiendas y marcas asociadas.",
     },
   ];
 
   const cardOpInfo = [
     {
-      opinionImage: "src/assets/UsersImgs/user1.jpg",
+      opinionImage: "src/assets/opinions/user1.webp",
       spanName: "Verónica Gil",
       spanOpinion:
-        '"Artiheal es genial. Ha marcado la diferencia en mi salud. ¡Una herramienta increible!"',
+        '"Artiheal es genial. Ha marcado la diferencia en mi salud. ¡Una herramienta increíble!"',
     },
     {
-      opinionImage: "src/assets/UsersImgs/user2.webp",
+      opinionImage: "src/assets/opinions/user2.webp",
       spanName: "Andrés Martínez",
       spanOpinion:
         '"No puedo dejar de usar Artiheal. ¡Me encanta ganar puntos redimibles mientras me cuido!"',
     },
     {
-      opinionImage: "src/assets/UsersImgs/user3.jpg",
+      opinionImage: "src/assets/opinions/user3.webp",
       spanName: "Salvio Peña",
       spanOpinion:
         '"Me encanta Artiheal. Hace que la vida saludable sea más fácil. Cinco estrellas merecidas."',
@@ -235,8 +234,7 @@ const LandingPage = () => {
         </section>
 
         <section className="flex flex-col px-10 sm:flex-row sm:pt-24 sm:w-9/12 m-2 gap-3 sm:space-x-3 sm:m-auto">
-          {isXsScreen ? (
-            <>
+            <div className="block sm:hidden">
               <div className="flex flex-col w-full sm:mt-0 sm:w-1/2 sm:mr-8 gap-2 sm:gap-5">
                 <h4 className="font-semibold text-primary text-base">
                   Pon tu salud primero
@@ -253,22 +251,22 @@ const LandingPage = () => {
                   vida más saludable. ¡Inspírate, apóyate y celebra tus logros
                   con Artiheal!{" "}
                   <span className="text-primary">
-                    (Aplican terminos y condiciones)
+                    (Aplican términos y condiciones)
                   </span>
                 </p>
               </div>
 
               <div className="w-full sm:w-2/4 flex items-center justify-center">
-                <img src="src/assets/legend.webp" alt="legend_image" />
+                <img src="src/assets/section-2.webp" alt="legend_image" />
               </div>
-            </>
-          ) : (
-            <>
+            </div>
+
+            <div className="hidden sm:flex">
               <div className="w-full sm:w-2/4 flex items-center justify-center">
-                <img src="src/assets/legend.webp" alt="legend_image" />
+                <img src="src/assets/section-2.webp" alt="legend_image" />
               </div>
 
-              <div className="flex flex-col w-full sm:mt-0 sm:w-1/2 sm:mr-8 gap-2 sm:gap-5">
+              <div className="flex flex-col w-full sm:mt-0 sm:w-1/2 sm:ml-10 gap-2 sm:gap-5">
                 <h4 className="font-semibold text-primary text-base">
                   Pon tu salud primero
                 </h4>
@@ -284,12 +282,11 @@ const LandingPage = () => {
                   vida más saludable. ¡Inspírate, apóyate y celebra tus logros
                   con Artiheal!{" "}
                   <span className="text-primary">
-                    (Aplican terminos y condiciones)
+                    (Aplican términos y condiciones)
                   </span>
                 </p>
               </div>
-            </>
-          )}
+            </div>
         </section>
 
         <section
@@ -353,7 +350,7 @@ const LandingPage = () => {
 
                 <p className="mt-4 max-w-xs text-background">
                   Este proyecto no tiene afiliaciones reales con las marcas
-                  mencionadas. Todo el contenido en esta pagina es meramente
+                  mencionadas. Todo el contenido en esta página es meramente
                   ilustrativo.
                 </p>
 
@@ -499,14 +496,14 @@ const LandingPage = () => {
                         href="#"
                         className="text-background transition opacity-80 hover:opacity-100"
                       >
-                        Gestion de Cuentas
+                        Sede Central
                       </a>
                     </li>
                   </ul>
                 </div>
 
                 <div>
-                  <p className="font-medium text-background">Recursos</p>
+                  <p className="font-medium text-background">Enlaces externos</p>
 
                   <ul className="mt-6 space-y-4 text-sm">
                     <li>
@@ -523,7 +520,7 @@ const LandingPage = () => {
                         href="#"
                         className="text-background transition opacity-80 hover:opacity-100"
                       >
-                        FAQs
+                        Preguntas frecuentes
                       </a>
                     </li>
 
@@ -532,7 +529,7 @@ const LandingPage = () => {
                         href="#"
                         className="text-background transition opacity-80 hover:opacity-100"
                       >
-                        Asistente de Chat
+                        Chat interactivo
                       </a>
                     </li>
                   </ul>
@@ -556,7 +553,7 @@ const LandingPage = () => {
                         href="#"
                         className="text-background transition opacity-80 hover:opacity-100"
                       >
-                        Terminos y Condiciones
+                        Términos y Condiciones
                       </a>
                     </li>
 
@@ -565,7 +562,7 @@ const LandingPage = () => {
                         href="#"
                         className="text-background transition opacity-80 hover:opacity-100"
                       >
-                        Politica de Privacidad
+                        Política de Privacidad
                       </a>
                     </li>
                   </ul>
