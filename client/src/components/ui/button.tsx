@@ -10,8 +10,6 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default: "bg-primary text-primary-foreground hover:bg-primary/90",
-        landing:
-          "bg-indigo-500 rounded-3xl text-primary-foreground hover:bg-indigo-600 ",
         special:
           "bg-gradient-to-r from-indigo-400 to-primary hover:from-indigo-500 hover:to-primary text-white font-bold shadow-lg transition-transform duration-300 ease-in-out",
         destructive:
