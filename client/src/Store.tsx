@@ -6,6 +6,7 @@ interface UserInfo {
   firstName: string;
   lastName: string;
   email: string;
+  pictureURL: string;
 }
 
 // Defines the shape of the state
