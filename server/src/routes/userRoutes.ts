@@ -18,6 +18,7 @@ userRouter.post(
         lastName: req.body.lastName,
         email: req.body.email,
         password: bcrypt.hashSync(req.body.password, 12),
+        pictureURL: "",
       });
       const user = await newUser.save();
       res.send({
@@ -26,6 +27,7 @@ userRouter.post(
         lastName: user.lastName,
         email: user.email,
         token: generateToken(user),
+        pictureURL: "",
       });
     } else {
       res.status(401).send({ message: 'Ya existe un usuario con ese correo' });
@@ -45,6 +47,7 @@ userRouter.post(
           lastName: user.lastName,
           email: user.email,
           token: generateToken(user),
+          pictureURL: user.pictureURL,
         });
         return;
       }

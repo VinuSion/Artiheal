@@ -29,9 +29,8 @@ const Home: React.FC<HomeProps> = ({ handleLogout }: HomeProps) => {
   const navigate = useNavigate();
   const [selectedLink, setSelectedLink] = useState("/home/dashboard");
 
-  // You can remove this when you're done testing
   const userInfoString = localStorage.getItem("userInfo")!;
-  const userInfo = JSON.parse(userInfoString);
+  const userInfo = JSON.parse(userInfoString); // We'll get user info as a string from here
 
   const handleLogoutClick = () => {
     handleLogout(); // handleLogout in App component
@@ -44,6 +43,7 @@ const Home: React.FC<HomeProps> = ({ handleLogout }: HomeProps) => {
 
   return (
     <>
+      {/* NAVBAR */}
       <nav className="fixed bottom-0 sm:top-0 w-screen sm:w-20 h-[4.2rem] sm:h-screen sm:shadow-2xl bg-background transition-[width] duration-300 ease-in-out">
         <ul className="list-none p-0 m-0 flex flex-row sm:flex-col justify-center sm:justify-between h-full">
           <li
@@ -58,7 +58,10 @@ const Home: React.FC<HomeProps> = ({ handleLogout }: HomeProps) => {
               <PopoverTrigger asChild>
                 <div className="cursor-pointer flex flex-col justify-center items-center h-[4.2rem] sm:h-20 no-underline">
                   <Avatar className="h-7 w-7 min-w-[1rem] mx-6">
-                    <AvatarImage src="https://github.com/shadcn.png" alt={`${userInfo.firstName}_profile_picture`} />
+                    <AvatarImage
+                      src={`${userInfo.pictureURL}`}
+                      alt={`${userInfo.firstName}_profile_picture`}
+                    />
                     <AvatarFallback className="font-semibold text-sm">
                       {userInfo.firstName.charAt(0)}
                       {userInfo.lastName.charAt(0)}
@@ -203,8 +206,6 @@ const Home: React.FC<HomeProps> = ({ handleLogout }: HomeProps) => {
 
       {/* MAIN CONTENT RENDERED DEPENDING ON THE ROUTE YOURE AT */}
       <main className="m-0 sm:ml-20 p-4 bg-slate-100 h-screen">
-        {/* ONLY USE THIS TO TEST THINGS, REMOVE THIS WHEN YOURE DONE */}
-        <h1>User ID: {userInfo._id}</h1>
         <Routes>
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="routine" element={<Routine />} />
@@ -213,7 +214,6 @@ const Home: React.FC<HomeProps> = ({ handleLogout }: HomeProps) => {
           <Route path="account" element={<UserAccount />} />
           <Route path="profile" element={<UserProfile />} />
           <Route path="*" element={<Navigate to="/home/dashboard" />} />
-          {/* Additional authenticated routes */}
         </Routes>
       </main>
     </>
