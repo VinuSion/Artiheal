@@ -17,7 +17,8 @@ interface State {
 // Defines the action types
 type Action =
   | { type: "USER_SIGNIN"; payload: UserInfo }
-  | { type: "USER_SIGNOUT" };
+  | { type: "USER_SIGNOUT" }
+  | { type: "UPDATE_PICTURE_URL"; payload: string };
 
 // Creates initial state by checking localStorage
 const initialState: State = {
@@ -36,13 +37,22 @@ export const reducer = (state: State, action: Action): State => {
         ...state,
         userInfo: null,
       };
+      case "UPDATE_PICTURE_URL":
+        return {
+          ...state,
+          userInfo: state.userInfo
+            ? { ...state.userInfo, pictureURL: action.payload }
+            : null,
+        };
     default:
       return state;
   }
-}
+};
 
 // Creates the context
-export const Store = createContext<{ state: State; dispatch: React.Dispatch<Action> } | undefined>(undefined);
+export const Store = createContext<
+  { state: State; dispatch: React.Dispatch<Action> } | undefined
+>(undefined);
 
 // Creates the provider component
 export const StoreProvider = ({ children }: { children: ReactNode }) => {
@@ -50,4 +60,4 @@ export const StoreProvider = ({ children }: { children: ReactNode }) => {
   const value = { state, dispatch };
 
   return <Store.Provider value={value}> {children} </Store.Provider>;
-}
+};

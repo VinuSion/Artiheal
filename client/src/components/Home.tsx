@@ -1,3 +1,5 @@
+import { useContext, useEffect, useState } from "react";
+import { Store } from "../Store";
 import { Link, Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import {
   CalendarDaysIcon,
@@ -19,18 +21,43 @@ import Points from "./auth/Points";
 import Help from "./auth/Help";
 import UserAccount from "./auth/UserAccount";
 import UserProfile from "./auth/UserProfile";
-import { useState } from "react";
 
 interface HomeProps {
   handleLogout: () => void;
 }
 
 const Home: React.FC<HomeProps> = ({ handleLogout }: HomeProps) => {
-  const navigate = useNavigate();
-  const [selectedLink, setSelectedLink] = useState("/home/dashboard");
+  const { state } = useContext(Store)!;
+  const [userInfo, setUserInfo] = useState(state.userInfo);
 
-  const userInfoString = localStorage.getItem("userInfo")!;
-  const userInfo = JSON.parse(userInfoString); // We'll get user info as a string from here
+  const navigate = useNavigate();
+  const currentPath = window.location.pathname;
+  const [selectedLink, setSelectedLink] = useState(currentPath);
+  const [isXsScreen, setIsXsScreen] = useState(window.innerWidth <= 400);
+
+  const conditionalClassnames = `${
+    (selectedLink === '/home/account' ||
+      selectedLink === '/home/profile' ||
+      (isXsScreen && selectedLink === '/home/help'))
+      ? 'bg-primary text-primary'
+      : 'bg-background text-foreground hover:bg-slate-100'
+  }`;
+
+  useEffect(() => {
+    setUserInfo(state.userInfo);
+  }, [state.userInfo]);
+
+  useEffect(() => {
+    // Update isXsScreen whenever the window is resized
+    const handleResize = () => {
+      setIsXsScreen(window.innerWidth <= 400);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [isXsScreen]);
 
   const handleLogoutClick = () => {
     handleLogout(); // handleLogout in App component
@@ -47,30 +74,26 @@ const Home: React.FC<HomeProps> = ({ handleLogout }: HomeProps) => {
       <nav className="fixed bottom-0 sm:top-0 w-screen sm:w-20 h-[4.2rem] sm:h-screen sm:shadow-2xl bg-background transition-[width] duration-300 ease-in-out">
         <ul className="list-none p-0 m-0 flex flex-row sm:flex-col justify-center sm:justify-between h-full">
           <li
-            className={`${
-              selectedLink === "/home/account" ||
-              selectedLink === "/home/profile"
-                ? "bg-primary text-primary"
-                : "bg-background text-foreground hover:bg-slate-100"
-            }`}
+            className={conditionalClassnames}
           >
             <Popover>
               <PopoverTrigger asChild>
                 <div className="cursor-pointer flex flex-col justify-center items-center h-[4.2rem] sm:h-20 no-underline">
-                  <Avatar className="h-7 w-7 min-w-[1rem] mx-6">
+                  <Avatar className="border-2 h-7 w-7 min-w-[1rem] mx-6">
                     <AvatarImage
-                      src={`${userInfo.pictureURL}`}
-                      alt={`${userInfo.firstName}_profile_picture`}
+                      src={`${userInfo?.pictureURL}`}
+                      alt={`${userInfo?.firstName}_profile_picture`}
                     />
-                    <AvatarFallback className="font-semibold text-sm">
-                      {userInfo.firstName.charAt(0)}
-                      {userInfo.lastName.charAt(0)}
+                    <AvatarFallback className="font-semibold text-xs">
+                      {userInfo?.firstName.charAt(0)}
+                      {userInfo?.lastName.charAt(0)}
                     </AvatarFallback>
                   </Avatar>
                   <span
                     className={`text-xs sm:hidden ${
-                      selectedLink === "/home/account" ||
-                      selectedLink === "/home/profile"
+                      (selectedLink === "/home/account" ||
+                      selectedLink === "/home/profile" ||
+                      (isXsScreen && selectedLink === '/home/help'))
                         ? "text-background"
                         : "text-foreground"
                     }`}
@@ -107,7 +130,7 @@ const Home: React.FC<HomeProps> = ({ handleLogout }: HomeProps) => {
                   </div>
                   <div
                     className="xs:hidden cursor-pointer px-4 py-2 text-muted-foreground hover:bg-slate-100 hover:text-foreground"
-                    onClick={() => handleLinkClick("/home/profile")}
+                    onClick={() => handleLinkClick("/home/help")}
                   >
                     <Link
                       to="/home/help"

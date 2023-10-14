@@ -40,23 +40,7 @@ uploadRouter.post(
         api_secret: process.env.CLOUDINARY_API_SECRET,
       });
 
-      // Checks if a file was uploaded.
-      if (!req.file) {
-        return res.status(400).json({
-          message: "No subistes ninguna imagen. Intentelo nuevamente.",
-        });
-      }
-
-      // Check if the file size exceeds the limit.
-      if (req.file.size > 1024 * 1024) {
-        return res.status(400).json({
-          message:
-            "Limite excedido. Por favor suba una imagen menos de 1MB.",
-        });
-      }
-
       const userId = req.body.userId?.toString();
-
       if (!userId) {
         return res.status(400).json({ message: "ID Usuario no fue enviado." });
       }
@@ -109,7 +93,7 @@ uploadRouter.post(
       // After a successful file upload.
       const publicUrl = result.secure_url;
 
-      // Find the user by ID.
+      // Find the user in mongodb by ID.
       const user = await User.findOne({ _id: req.body.userId });
 
       if (!user) {
@@ -121,6 +105,7 @@ uploadRouter.post(
       // Update the user document with the pictureURL or create it if it doesnt exist.
       user.pictureURL = publicUrl;
       await user.save();
+
       res.json({ publicUrl });
     } catch (error) {
       console.error("Error uploading file to Cloudinary: ", error);
