@@ -2,7 +2,7 @@ import { Input } from "./ui/input";
 import { useState } from "react";
 import { Label } from "./ui/label";
 import { Button } from "./ui/button";
-import SignLabel from "./ui/signlabel";
+import SignLabel from "./ui/sign-label";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import { useNavigate, useParams } from "react-router-dom";
 import { z, ZodType } from "zod";
@@ -106,7 +106,7 @@ const Reset = () => {
       </Helmet>
       <div className="min-h-screen flex items-center justify-center bg-splash-image bg-cover bg-no-repeat bg-center">
         <main className="flex flex-col place-items-center">
-          <div className="shadow-2xl p-6 rounded-lg bg-background w-11/12 sm:w-[450px]">
+          <div className="shadow-2xl p-6 rounded-lg bg-background w-full">
             <div className="icon flex items-center justify-center">
               <img
                 className="h-12, w-12 select-none"

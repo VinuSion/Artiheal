@@ -3,7 +3,7 @@ import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Button } from "./ui/button";
 import { Checkbox } from "./ui/checkbox";
-import SignLabel from "./ui/signlabel";
+import SignLabel from "./ui/sign-label";
 import {
   EyeIcon,
   EyeSlashIcon,

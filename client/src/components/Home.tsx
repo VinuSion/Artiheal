@@ -36,11 +36,11 @@ const Home: React.FC<HomeProps> = ({ handleLogout }: HomeProps) => {
   const [isXsScreen, setIsXsScreen] = useState(window.innerWidth <= 400);
 
   const conditionalClassnames = `${
-    (selectedLink === '/home/account' ||
-      selectedLink === '/home/profile' ||
-      (isXsScreen && selectedLink === '/home/help'))
-      ? 'bg-primary text-primary'
-      : 'bg-background text-foreground hover:bg-slate-100'
+    selectedLink === "/home/account" ||
+    selectedLink === "/home/profile" ||
+    (isXsScreen && selectedLink === "/home/help")
+      ? "bg-primary text-primary"
+      : "bg-background text-foreground hover:bg-slate-100"
   }`;
 
   useEffect(() => {
@@ -53,9 +53,9 @@ const Home: React.FC<HomeProps> = ({ handleLogout }: HomeProps) => {
       setIsXsScreen(window.innerWidth <= 400);
     };
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, [isXsScreen]);
 
@@ -73,9 +73,7 @@ const Home: React.FC<HomeProps> = ({ handleLogout }: HomeProps) => {
       {/* NAVBAR */}
       <nav className="fixed bottom-0 sm:top-0 w-screen sm:w-20 h-[4.2rem] sm:h-screen sm:shadow-2xl bg-background transition-[width] duration-300 ease-in-out">
         <ul className="list-none p-0 m-0 flex flex-row sm:flex-col justify-center sm:justify-between h-full">
-          <li
-            className={conditionalClassnames}
-          >
+          <li className={conditionalClassnames}>
             <Popover>
               <PopoverTrigger asChild>
                 <div className="cursor-pointer flex flex-col justify-center items-center h-[4.2rem] sm:h-20 no-underline">

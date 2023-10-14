@@ -3,7 +3,7 @@ import { useContext, useState, useEffect } from "react";
 import { Label } from "./ui/label";
 import { Button } from "./ui/button";
 import { Checkbox } from "./ui/checkbox";
-import SignLabel from "./ui/signlabel";
+import SignLabel from "./ui/sign-label";
 import {
   Dialog,
   DialogContent,
@@ -272,12 +272,12 @@ const Forgot = () => {
       <DialogTrigger className="text-primary ml-1 hover:underline">
         Cambiar Contraseña
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="w-11/12 sm:w-full">
         <DialogHeader>
-          <DialogTitle>
+          <DialogTitle className="text-left">
             Solicitar cambiar la contraseña
           </DialogTitle>
-          <DialogDescription>
+          <DialogDescription className="text-left text-xs sm:text-sm">
             Ingresa el correo electrónico que tienes asociado a tu cuenta.
             Nosotros nos encargamos de enviarte un enlace para cambiarlo.
           </DialogDescription>

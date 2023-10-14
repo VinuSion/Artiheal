@@ -38,9 +38,6 @@ const CardOp: React.FC<{ spanName: string; spanOpinion: string; opinionImage: st
   </div>
 );
 
-
-
-
 const LandingPage = () => {
   const cardInfo = [
     {
@@ -221,6 +218,13 @@ const LandingPage = () => {
           </div>
         </section>
 
+        <section id="product" className="pb-8">
+          <h2 className="text-5xl text-primary font-semibold text-center">
+            Canjea tus puntos con nuestras marcas aliadas
+          </h2>
+          <LogoSlider />
+        </section>
+
         <section id="opinions" className="mt-10 mb-32">
           <h2 className="text-5xl text-primary font-semibold text-center">
             Nuestros usuaros opinan
@@ -235,13 +239,6 @@ const LandingPage = () => {
               />
             ))}
           </div>
-        </section>
-
-        <section id="product" className="pb-8">
-          <h2 className="text-5xl text-primary font-semibold text-center">
-            Canjea tus puntos con nuestras marcas aliadas
-          </h2>
-          <LogoSlider />
         </section>
 
         <footer className="bg-primary text-white flex flex-col">
