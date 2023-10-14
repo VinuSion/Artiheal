@@ -19,22 +19,62 @@ const Card: React.FC<{ spanTitle: string; spanMessage: string; cardImage: string
   </div>
 );
 
+const CardOp: React.FC<{ spanName: string; spanOpinion: string; opinionImage: string; }> = ({
+  opinionImage,
+  spanName,
+  spanOpinion,
+}) => (
+  <div className="w-60 h-auto bg-gray-100 p-3 rounded-2xl m-5 shadow-2xl">
+    <div className="flex items-center justify-center">
+      <img src={opinionImage} alt={spanName} className="h-16 w-16 rounded-full" />
+    </div>
+    <span className="text-xl font-bold flex justify-center items-center">{spanName}</span>
+    <div className="text-[#745cff] text-xl tracking-[2px] flex items-center justify-center">
+        ★★★★★
+      </div>
+    <div className="overflow-hidden p-2">
+      <p className="italic text-[14px] text-[#4b587c] font-normal text-justify">{spanOpinion}</p>
+    </div>
+  </div>
+);
+
+
+
+
 const LandingPage = () => {
   const cardInfo = [
     {
       cardImage: "src/assets/SVGs/rutinas.svg",
       spanTitle: "Crea rutinas saludables",
-      spanMessage: "En Artiheal, te ayudamos a crear rutinas saludables adaptadas a tus necesidades, con enfoque en alimentación, ejercicio, descanso y bienestar emocional. ¡Comienza tu viaje hacia una vida más saludable hoy mismo!",
+      spanMessage: "En Artiheal, te ayudamos a crear rutinas saludables adaptadas a tus necesidades, con enfoque único y diverso. ¡Comienza tu viaje hacia una vida más saludable hoy mismo!",
     },
     {
       cardImage: "src/assets/SVGs/dashboard.svg",
       spanTitle: "Revisa tu progreso",
-      spanMessage: "En Artiheal, ofrecemos a nuestros usuarios un completo dashboard estadístico que les permite monitorear y revisar su progreso de manera efectiva en su búsqueda de una vida más saludable.",
+      spanMessage: "En Artiheal, ofrecemos a nuestros usuarios un dashboard estadístico que les permite monitorear y revisar su progreso de manera efectiva en su búsqueda de una vida más saludable.",
     },
     {
       cardImage: "src/assets/SVGs/points.svg",
       spanTitle: "Canjea tus puntos",
-      spanMessage: "Artiheal presenta un sistema de puntos que recompensa a los usuarios por su compromiso con un estilo de vida saludable. Al cumplir tus metas, ganas puntos canjeables en tiendas y marcas asociadas.",
+      spanMessage: "Artiheal presenta un sistema de puntos que recompensa a los usuarios por su compromiso. Al cumplir tus metas, ganas puntos canjeables en tiendas y marcas asociadas.",
+    },
+  ];
+
+  const cardOpInfo = [
+    {
+      opinionImage: "src/assets/UsersImgs/user1.jpg",
+      spanName: "Yoshi",
+      spanOpinion: '"Artiheal es genial. Ha marcado la diferencia en mi salud. ¡Una herramienta increible!."',
+    },
+    {
+      opinionImage: "src/assets/UsersImgs/user2.jpg",
+      spanName: "Alexis Messino",
+      spanOpinion: '"No puedo dejar de usar Artiheal. ¡Me encanta ganar puntos redimibles mientras me cuido!"',
+    },
+    {
+      opinionImage: "src/assets/UsersImgs/user3.jpg",
+      spanName: "Calamardo",
+      spanOpinion: '"Me encanta Artiheal. Hace que la vida saludable sea más fácil. Cinco estrellas merecidas."',
     },
   ];
 
@@ -127,9 +167,9 @@ const LandingPage = () => {
           <div className="flex flex-col w-full sm:w-1/2 pt-8 sm:pr-8 gap-2 sm:gap-10">
             <h2 className="font-semibold text-2xl sm:text-6xl">Bienvenido a Artiheal</h2>
             <p className="text-base sm:w-76">
-            En nuestra plataforma, te ofrecemos un enfoque completo para lograr un estilo de vida más saludable y equilibrado.
-            Explora cómo podemos ayudarte a alcanzar tus metas de bienestar y vivir de manera más saludable.
-            ¡Únete a nuestra comunidad y comienza tu viaje hacia una vida mejor con Artiheal!
+              En nuestra plataforma, te ofrecemos un enfoque completo para lograr un estilo de vida más saludable y equilibrado.
+              Explora cómo podemos ayudarte a alcanzar tus metas de bienestar y vivir de manera más saludable.
+              ¡Únete a nuestra comunidad y comienza tu viaje hacia una vida mejor con Artiheal!
             </p>
             <Link to="/signup" className="w-28">
               <Button variant="landing" className="mb-6 sm:m-0">Comenzar</Button>
@@ -145,6 +185,25 @@ const LandingPage = () => {
           </div>
         </section>
 
+        <section id="home" className="flex flex-col sm:flex-row p-0 sm:mt-4 sm:pt-8  sm:w-9/12 m-4 sm:m-auto">
+          <div className="w-full sm:w-1/2 flex justify-center">
+            <img
+              className="object-contain max-w-full h-auto"
+              src="src/assets/legend.webp"
+              alt="legend"
+            />
+          </div>
+
+          <div className="flex flex-col w-full sm:w-1/2 pt-8 sm:pr-8 gap-2 sm:gap-10">
+            <h2 className="font-semibold text-2xl sm:text-6xl">Descubre un estilo de vida más saludable</h2>
+            <p className="text-base sm:w-76">
+            Desde consejos personalizados hasta seguimiento de progreso,
+             Artiheal tiene todo lo que necesitas para lograr un estilo de vida más saludable.
+            ¡Inspírate, apóyate y celebra tus logros con Artiheal!           
+            </p>
+          </div>
+        </section>
+
 
         <section id="services" className=" p-10  sm:py-20">
           <h2 className="text-5xl text-primary font-semibold text-center mt-6">
@@ -157,6 +216,22 @@ const LandingPage = () => {
                 spanTitle={info.spanTitle}
                 spanMessage={info.spanMessage}
                 cardImage={info.cardImage}
+              />
+            ))}
+          </div>
+        </section>
+
+        <section id="opinions" className="mt-10 mb-32">
+          <h2 className="text-5xl text-primary font-semibold text-center">
+            Nuestros usuaros opinan
+          </h2>
+          <div className=" justify-evenly flex-wrap sm:flex">
+            {cardOpInfo.map((Opinfo, index) => (
+              <CardOp
+                key={index}
+                spanName={Opinfo.spanName}
+                spanOpinion={Opinfo.spanOpinion}
+                opinionImage={Opinfo.opinionImage}
               />
             ))}
           </div>
