@@ -18,7 +18,8 @@ interface State {
 type Action =
   | { type: "USER_SIGNIN"; payload: UserInfo }
   | { type: "USER_SIGNOUT" }
-  | { type: "UPDATE_PICTURE_URL"; payload: string };
+  | { type: "UPDATE_PICTURE_URL"; payload: string }
+  | { type: "REMOVE_PICTURE_URL" };
 
 // Creates initial state by checking localStorage
 const initialState: State = {
@@ -37,13 +38,18 @@ export const reducer = (state: State, action: Action): State => {
         ...state,
         userInfo: null,
       };
-      case "UPDATE_PICTURE_URL":
-        return {
-          ...state,
-          userInfo: state.userInfo
-            ? { ...state.userInfo, pictureURL: action.payload }
-            : null,
-        };
+    case "UPDATE_PICTURE_URL":
+      return {
+        ...state,
+        userInfo: state.userInfo
+          ? { ...state.userInfo, pictureURL: action.payload }
+          : null,
+      };
+    case "REMOVE_PICTURE_URL":
+      return {
+        ...state,
+        userInfo: state.userInfo ? { ...state.userInfo, pictureURL: "" } : null,
+      };
     default:
       return state;
   }

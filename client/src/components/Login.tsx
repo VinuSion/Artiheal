@@ -272,7 +272,7 @@ const Forgot = () => {
       <DialogTrigger className="text-primary ml-1 hover:underline">
         Cambiar Contraseña
       </DialogTrigger>
-      <DialogContent className="w-11/12 sm:w-full">
+      <DialogContent className="w-11/12 sm:w-full rounded-md">
         <DialogHeader>
           <DialogTitle className="text-left">
             Solicitar cambiar la contraseña

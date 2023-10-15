@@ -126,7 +126,7 @@ const SignUp = () => {
   return (
     <>
       <Helmet>
-        <title>Registrar | Artiheal</title>
+        <title>Crear Cuenta | Artiheal</title>
       </Helmet>
       <div className="min-h-screen flex items-center justify-center bg-splash-image bg-cover bg-no-repeat bg-center">
         <main className="flex flex-col place-items-center">

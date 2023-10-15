@@ -116,4 +116,29 @@ uploadRouter.post(
   }
 );
 
+uploadRouter.delete("/remove", async (req: Request, res: Response) => {
+  try {
+    const userId = req.body.userId;
+
+    // Find the user in MongoDB by ID.
+    const user = await User.findOne({ _id: userId });
+
+    if (!user) {
+      return res.status(404).json({ message: "Usuario no se pudo encontrar." });
+    }
+
+    // Set the profile picture URL to an empty string.
+    user.pictureURL = "";
+    // Save the updated user document.
+    await user.save();
+
+    res.json({ message: "Foto de perfil removida exitosamente." });
+  } catch (error) {
+    console.error("Error removing profile picture: ", error);
+    res.status(500).json({
+      message: "Error al remover la foto del perfil. Por favor intentelo de nuevo.",
+    });
+  }
+});
+
 export default uploadRouter;

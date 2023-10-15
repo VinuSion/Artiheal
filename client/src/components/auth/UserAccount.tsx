@@ -5,6 +5,7 @@ import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import SignLabel from "../ui/sign-label";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Trash2 } from "lucide-react";
 import { Store } from "../../Store";
 import Axios, { AxiosError } from "axios";
 import { getError } from "@/lib/utils";
@@ -15,6 +16,7 @@ const UserAccount = () => {
 
   const [apiError, setApiError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  const [pfpDeleting, setPfpDeleting] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -56,9 +58,9 @@ const UserAccount = () => {
         type: "UPDATE_PICTURE_URL",
         payload: response.data.publicUrl,
       });
-      setSuccess("Foto de perfil cambiada exitosamente.");
+      setSuccess("Foto de perfil actualizada exitosamente.");
       if (fileInputRef.current) {
-        fileInputRef.current.value = '';
+        fileInputRef.current.value = "";
       }
       // Clear the success message after 5 seconds
       setTimeout(() => {
@@ -80,6 +82,38 @@ const UserAccount = () => {
       }
     }
     setIsLoading(false); // Reset loading state
+  };
+
+  const removeProfilePicture = async () => {
+    setPfpDeleting(true);
+    // Let the user know in 3 seconds that their pfp is being deleted before attempting to delete it.
+    await new Promise((resolve) => setTimeout(resolve, 3000));
+    try {
+      const response = await Axios.delete("/api/upload/remove", {
+        data: { userId: userInfo._id },
+      });
+
+      if (response.status === 200) {
+        setPfpDeleting(false);
+        setApiError(null);
+        userInfo.pictureURL = "";
+        localStorage.setItem("userInfo", JSON.stringify(userInfo));
+        ctxDispatch({
+          type: "REMOVE_PICTURE_URL",
+        });
+        setSuccess("Foto de perfil eliminada con éxito.");
+        // Clear the success message after 4 seconds
+        setTimeout(() => {
+          setSuccess(null);
+        }, 4000);
+      }
+    } catch (error) {
+      setPfpDeleting(false);
+      setSuccess(null);
+      setApiError(
+        "Ha ocurrido un error. Por favor, inténtelo de nuevo más tarde."
+      );
+    }
   };
 
   return (
@@ -104,6 +138,14 @@ const UserAccount = () => {
                   {userInfo.firstName.charAt(0)}
                   {userInfo.lastName.charAt(0)}
                 </AvatarFallback>
+                {userInfo.pictureURL && !pfpDeleting && (
+                  <div
+                    className="cursor-pointer absolute top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 transition-opacity hover:opacity-100 opacity-0 text-background text-2xl"
+                    onClick={removeProfilePicture}
+                  >
+                    <Trash2 className="h-8 w-8 text-destructive" />
+                  </div>
+                )}
               </Avatar>
             </div>
 
@@ -121,6 +163,7 @@ const UserAccount = () => {
                     onChange={handleFileUpload}
                     disabled={isLoading}
                     accept=".jpg, .jpeg, .png, .webp"
+                    className="cursor-pointer"
                   />
                   <Button variant="special" type="submit" disabled={isLoading}>
                     {isLoading ? (
@@ -155,12 +198,12 @@ const UserAccount = () => {
                 <div className="flex flex-row justify-start w-full mt-3 h-[20px]">
                   {apiError && <SignLabel variant="error" message={apiError} />}
                   {success && <SignLabel variant="success" message={success} />}
+                  {pfpDeleting && <SignLabel variant="info" message="Tratando de eliminar tu foto de perfil..." />}
                 </div>
               </form>
             </div>
           </div>
         </div>
-
       </div>
     </>
   );
