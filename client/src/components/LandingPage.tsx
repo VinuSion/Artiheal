@@ -174,7 +174,7 @@ const LandingPage = () => {
                 <a href="#services">Servicios</a>
               </li>
               <li className="text-background">
-                <a href="#product">Producto</a>
+                <a href="#patrocinadores">Clientes</a>
               </li>
               <li className="text-background">
                 <a href="#about">Sobre nosotros</a>
@@ -309,7 +309,7 @@ const LandingPage = () => {
           </div>
         </section>
 
-        <section id="product" className="sm:pt-10">
+        <section id="patrocinadores" className="sm:pt-10">
           <h2 className="text-4xl sm:text-5xl font-bold px-5 text-center mt-6 text-primary">
             Nuestras marcas aliadas
           </h2>
