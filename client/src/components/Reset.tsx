@@ -16,6 +16,7 @@ const Reset = () => {
   const { token } = useParams();
 
   const [passwordShown, setPasswordShown] = useState(false);
+  const [isRedirecting, setIsRedirecting] = useState(false);
   const [apiError, setApiError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
@@ -34,7 +35,7 @@ const Reset = () => {
             return /[A-Z]/.test(password);
           },
           {
-            message: "Contraseña debe tener por lo menos una letra mayuscula",
+            message: "Contraseña debe contener al menos una letra mayúscula",
           }
         )
         .refine(
@@ -42,7 +43,7 @@ const Reset = () => {
             return /\d/.test(password);
           },
           {
-            message: "Contraseña debe tener por lo menos un numero",
+            message: "Contraseña debe contener al menos un número",
           }
         )
         .refine(
@@ -50,7 +51,7 @@ const Reset = () => {
             return /[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]/.test(password);
           },
           {
-            message: "Contraseña debe tener por lo menos un caracter especial",
+            message: "Contraseña debe incluir al menos un carácter especial",
           }
         ),
       repeatPassword: z
@@ -80,11 +81,13 @@ const Reset = () => {
       });
       setApiError(null);
       setSuccess(response.data.message);
-      // Delay navigation to /login by 5 seconds
+      setIsRedirecting(true);
+      // Delay navigation to /login by 3 seconds
       setTimeout(() => {
         navigate("/login");
       }, 3000);
     } catch (err: any) {
+      setSuccess(null);
       if (err.response && err.response.status === 401) {
         setApiError(
           "Este enlace ha caducado. Por favor, solicite uno nuevo."
@@ -106,7 +109,7 @@ const Reset = () => {
       </Helmet>
       <div className="min-h-screen flex items-center justify-center bg-splash-image bg-cover bg-no-repeat bg-center">
         <main className="flex flex-col place-items-center">
-          <div className="shadow-2xl p-6 rounded-lg bg-background w-full">
+          <div className="shadow-2xl p-6 rounded-lg bg-background w-[330px] sm:w-[450px]">
             <div className="icon flex items-center justify-center">
               <img
                 className="h-12, w-12 select-none"
@@ -144,7 +147,7 @@ const Reset = () => {
                     )}
                   </Button>
                 </div>
-                <div className="h-[20px]">
+                <div className="sm:h-[20px]">
                   {errors.password && (
                     <SignLabel
                       variant="error"
@@ -164,7 +167,7 @@ const Reset = () => {
                   placeholder="Confirmar Contraseña"
                   {...register("repeatPassword")}
                 />
-                <div className="h-[20px]">
+                <div className="sm:h-[20px]">
                   {errors.repeatPassword && !apiError && (
                     <SignLabel
                       variant="error"
@@ -181,7 +184,7 @@ const Reset = () => {
                 variant="special"
                 size="sp"
                 type="submit"
-                disabled={isSubmitting}
+                disabled={isSubmitting || isRedirecting}
               >
                 Cambiar Contrasaña
               </Button>

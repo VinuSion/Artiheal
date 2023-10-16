@@ -35,17 +35,17 @@ const SignUp = () => {
     .object({
       firstName: z
         .string()
-        .min(3, { message: "Mínimo 3 caracteres" })
-        .max(20, { message: "Maximo 20 caracteres" })
+        .min(3, { message: "Mínimo 3 caracteres (Nombre)" })
+        .max(20, { message: "Maximo 20 caracteres (Nombre)" })
         .refine((value) => /^[a-zA-ZáéíóúÁÉÍÓÚ]+$/.test(value), {
-          message: "Solo letras en el nombre",
+          message: "Solo letras en el Nombre",
         }),
       lastName: z
         .string()
-        .min(3, { message: "Mínimo 3 caracteres" })
-        .max(20, { message: "Maximo 20 caracteres" })
+        .min(3, { message: "Mínimo 3 caracteres (Apellido)" })
+        .max(20, { message: "Maximo 20 caracteres (Apellido)" })
         .refine((value) => /^[a-zA-ZáéíóúÁÉÍÓÚ]+$/.test(value), {
-          message: "Solo letras en el apellido",
+          message: "Solo letras en el Apellido",
         }),
       email: z.string().email({ message: "Correo electronico invalido" }),
       password: z
@@ -56,7 +56,7 @@ const SignUp = () => {
             return /[A-Z]/.test(password);
           },
           {
-            message: "Contraseña debe tener por lo menos una letra mayuscula",
+            message: "Contraseña debe contener al menos una letra mayúscula",
           }
         )
         .refine(
@@ -64,7 +64,7 @@ const SignUp = () => {
             return /\d/.test(password);
           },
           {
-            message: "Contraseña debe tener por lo menos un numero",
+            message: "Contraseña debe contener al menos un número",
           }
         )
         .refine(
@@ -72,7 +72,7 @@ const SignUp = () => {
             return /[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]/.test(password);
           },
           {
-            message: "Contraseña debe tener por lo menos un caracter especial",
+            message: "Contraseña debe incluir al menos un carácter especial",
           }
         ),
       repeatPassword: z
@@ -112,13 +112,13 @@ const SignUp = () => {
 
       // Navigate to /login
       navigate("/login");
-    } catch (err:any) {
+    } catch (err: any) {
       if (err.response && err.response.status === 401) {
-        setApiError(
-          "Ya existe un usuario con ese correo electrónico."
-        );
+        setApiError("Ya existe un usuario con ese correo electrónico.");
       } else {
-        setApiError("Ha ocurrido un error. Por favor, inténtelo de nuevo más tarde.");
+        setApiError(
+          "Ha ocurrido un error. Por favor, inténtelo de nuevo más tarde."
+        );
       }
     }
   };
@@ -152,68 +152,102 @@ const SignUp = () => {
             </div>
 
             <form onSubmit={handleSubmit(submitData)}>
-              <div className="inputs flex flex-row gap-3.5">
+              <div className="flex flex-row gap-3.5">
                 <div className="grid w-full max-w-sm items-center gap-1.5">
-                  <Label htmlFor="firstName" className="text-tertiary">Nombre</Label>
+                  <Label htmlFor="firstName" className="text-tertiary">
+                    Nombre
+                  </Label>
                   <Input
                     type="text"
                     id="firstName"
                     placeholder="Nombre"
                     {...register("firstName")}
                   />
-                  <div className="h-[20px]">
-                    {errors.firstName && (
-                      <SignLabel
-                        variant="error"
-                        message={errors.firstName.message}
-                      />
-                    )}
-                  </div>
                 </div>
 
                 <div className="grid w-full max-w-sm items-center gap-1.5">
-                  <Label htmlFor="lastName" className="text-tertiary">Apellido</Label>
+                  <Label htmlFor="lastName" className="text-tertiary">
+                    Apellido
+                  </Label>
                   <Input
                     type="text"
                     id="lastName"
                     placeholder="Apellido"
                     {...register("lastName")}
                   />
-                  <div className="h-[20px]">
-                    {errors.lastName && (
-                      <SignLabel
-                        variant="error"
-                        message={errors.lastName.message}
-                      />
-                    )}
-                  </div>
                 </div>
+              </div>
+
+              <div className="mt-2 sm:h-[20px] sm:mt-[0.4rem]">
+                {errors.firstName && errors.lastName && (
+                  <SignLabel
+                    variant="error"
+                    message={
+                      errors.firstName.message ===
+                        "Mínimo 3 caracteres (Nombre)" &&
+                      errors.lastName.message ===
+                        "Mínimo 3 caracteres (Apellido)"
+                        ? "Minimo 3 caracteres (Nombre/Apellido)"
+                        : errors.firstName.message ===
+                            "Maximo 20 caracteres (Nombre)" &&
+                          errors.lastName.message ===
+                            "Maximo 20 caracteres (Apellido)"
+                        ? "Maximo 20 caracteres (Nombre/Apellido)"
+                        : errors.firstName.message ===
+                            "Solo letras en el Nombre" &&
+                          errors.lastName.message ===
+                            "Solo letras en el Apellido"
+                        ? "Solo letras en el Nombre/Apellido"
+                        : "Nombre o Apellido invalido"
+                    }
+                  />
+                )}
+                {errors.firstName && !errors.lastName && (
+                  <SignLabel
+                    variant="error"
+                    message={errors.firstName.message}
+                  />
+                )}
+                {errors.lastName && !errors.firstName && (
+                  <SignLabel
+                    variant="error"
+                    message={errors.lastName.message}
+                  />
+                )}
               </div>
 
               <div>
                 <div className="grid w-full max-w items-center gap-1.5 mt-2">
-                  <Label htmlFor="email" className="text-tertiary">Correo electronico</Label>
+                  <Label htmlFor="email" className="text-tertiary">
+                    Correo electronico
+                  </Label>
                   <Input
                     type="email"
                     id="email"
                     placeholder="Correo electronico"
                     {...register("email")}
                   />
-                  <div className="h-[20px]">
+                  <div className="sm:h-[20px]">
                     {errors.email && !apiError && (
                       <SignLabel
                         variant="error"
                         message={errors.email.message}
                       />
                     )}
-                    {apiError && apiError == "Ya existe un usuario con ese correo electrónico." ? (
+                    {apiError &&
+                    apiError ==
+                      "Ya existe un usuario con ese correo electrónico." ? (
                       <SignLabel variant="error" message={apiError} />
-                    ) : (!apiError)}
+                    ) : (
+                      !apiError
+                    )}
                   </div>
                 </div>
 
                 <div className="grid w-full max-w items-center gap-1.5 mt-2">
-                  <Label htmlFor="password" className="text-tertiary">Contraseña</Label>
+                  <Label htmlFor="password" className="text-tertiary">
+                    Contraseña
+                  </Label>
                   <div className="flex flex-row space-x-2">
                     <Input
                       type={passwordShown ? "text" : "password"}
@@ -235,7 +269,7 @@ const SignUp = () => {
                       )}
                     </Button>
                   </div>
-                  <div className="h-[20px]">
+                  <div className="sm:h-[20px]">
                     {errors.password && (
                       <SignLabel
                         variant="error"
@@ -246,29 +280,40 @@ const SignUp = () => {
                 </div>
 
                 <div className="grid w-full max-w items-center gap-1.5 mt-2">
-                  <Label htmlFor="repeatPassword" className="text-tertiary">Confirmar Contraseña</Label>
+                  <Label htmlFor="repeatPassword" className="text-tertiary">
+                    Confirmar Contraseña
+                  </Label>
                   <Input
                     type="password"
                     id="repeatPassword"
                     placeholder="Confirmar Contraseña"
                     {...register("repeatPassword")}
                   />
-                  <div className="h-[20px]">
+                  <div className="sm:h-[20px]">
                     {errors.repeatPassword && (
                       <SignLabel
                         variant="error"
                         message={errors.repeatPassword.message}
                       />
                     )}
-                    {apiError && apiError == "Ha ocurrido un error. Por favor, inténtelo de nuevo más tarde." ? (
+                    {apiError &&
+                    apiError ==
+                      "Ha ocurrido un error. Por favor, inténtelo de nuevo más tarde." ? (
                       <SignLabel variant="error" message={apiError} />
-                    ) : (!apiError)}
+                    ) : (
+                      !apiError
+                    )}
                   </div>
                 </div>
 
                 <div className="items-top flex space-x-1 w-full max-w items-center gap-1.5 mt-2 mb-1">
                   <Checkbox id="terms" />
-                  <Label htmlFor="terms" className="text-tertiary text-xs sm:text-base">Aceptar terminos y condiciones</Label>
+                  <Label
+                    htmlFor="terms"
+                    className="text-tertiary text-xs sm:text-base"
+                  >
+                    Aceptar terminos y condiciones
+                  </Label>
                 </div>
               </div>
               <Button
@@ -283,12 +328,14 @@ const SignUp = () => {
 
               <span className="text-tertiary text-xs sm:text-base">
                 ¿Ya estás en Artiheal?
-                <Link className="text-primary ml-1 hover:underline text-xs sm:text-base" to="/login">
+                <Link
+                  className="text-primary ml-1 hover:underline text-xs sm:text-base"
+                  to="/login"
+                >
                   Iniciar sesión
                 </Link>
               </span>
             </form>
-
           </div>
         </main>
       </div>

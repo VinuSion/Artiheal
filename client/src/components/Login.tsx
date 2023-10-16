@@ -40,8 +40,8 @@ const Login = () => {
   };
 
   const formSchema: ZodType<FormData> = z.object({
-    email: z.string().min(1, "Ingrese un correo electronico"),
-    password: z.string().min(1, "Ingrese una contraseña"),
+    email: z.string().min(1, "Este campo es requerido"),
+    password: z.string().min(1, "Este campo es requerido"),
   });
 
   const {
@@ -115,7 +115,7 @@ const Login = () => {
                   placeholder="Correo electrónico"
                   {...register("email")}
                 />
-                <div className="h-6">
+                <div className="sm:h-[20px]">
                   {errors.email && (
                     <SignLabel variant="error" message={errors.email.message} />
                   )}
@@ -145,7 +145,7 @@ const Login = () => {
                     )}
                   </Button>
                 </div>
-                <div className="h-6">
+                <div className="sm:h-[20px]">
                   {errors.password && !apiError && (
                     <SignLabel
                       variant="error"

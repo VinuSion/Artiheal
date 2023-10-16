@@ -138,7 +138,7 @@ const UserAccount = () => {
                   {userInfo.firstName.charAt(0)}
                   {userInfo.lastName.charAt(0)}
                 </AvatarFallback>
-                {userInfo.pictureURL && !pfpDeleting && (
+                {userInfo.pictureURL !== "" && !pfpDeleting && (
                   <div
                     className="cursor-pointer absolute top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 transition-opacity hover:opacity-100 opacity-0 text-background text-2xl"
                     onClick={removeProfilePicture}
@@ -195,7 +195,7 @@ const UserAccount = () => {
                     )}
                   </Button>
                 </div>
-                <div className="flex flex-row justify-start w-full mt-3 h-[20px]">
+                <div className="flex flex-row justify-start w-full mt-3 sm:h-[20px]">
                   {apiError && <SignLabel variant="error" message={apiError} />}
                   {success && <SignLabel variant="success" message={success} />}
                   {pfpDeleting && <SignLabel variant="info" message="Tratando de eliminar tu foto de perfil..." />}
