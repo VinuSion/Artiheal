@@ -8,6 +8,7 @@ import { baseUrl } from './utils';
 import { ErrorRequestHandler } from "express";
 import userRouter from "./routes/userRoutes";
 import uploadRouter from "./routes/uploadRoutes";
+import dataRouter from "./routes/dataRoutes";
 
 config(); // Setup dotenv
 
@@ -42,6 +43,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // ALL API ENDPOINTS FOR THE SERVER
 app.use("/api/upload", uploadRouter);
+app.use("/api/data", dataRouter);
 app.use("/api/users", userRouter);
 
 // Resolving vite frontend path

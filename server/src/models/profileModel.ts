@@ -4,7 +4,7 @@ import mongoose, { Schema, Document } from "mongoose";
 interface FoodEntry {
   date: Date; // Fecha del registro
   foods: { // Array de todos los alimentos
-    foodId: Schema.Types.ObjectId; // Referencia a -> "foodModel.ts"
+    food: Schema.Types.String; // Referencia a -> "foodModel.ts"
     quantity: number; // Cantidad de dicho alimento en gramos
     mealType: string; // Tipo de Comida de este registro (Desayuno, Almuerzo, Cena, Merienda)
     caloriesConsumed: number; // Calorias consumidas de este alimento => (Cantidad / Porcion del alimento) * Calorias del alimento
@@ -17,7 +17,7 @@ const FoodEntrySchema = new Schema({
   date: { type: Date, required: true },
   foods: [
     {
-      foodId: { type: Schema.Types.ObjectId, ref: "Food", required: true },
+      food: { type: Schema.Types.String, ref: "Food", required: true },
       quantity: { type: Number, required: true },
       mealType: { type: String, required: true },
       caloriesConsumed: { type: Number, required: true },
