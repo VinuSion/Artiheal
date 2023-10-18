@@ -370,17 +370,6 @@ const EditAccountDetails = () => {
     }
   };
 
-  const clearInputs = () => {
-    reset({
-      firstName: "",
-      lastName: "",
-      email: "",
-      currentPassword: "",
-      newPassword: "",
-      repeatNewPassword: "",
-    });
-  };
-
   return (
     <div className="flex flex-row justify-center mb-6">
       <div className="rounded-xl bg-background shadow-xl w-full sm:w-9/12 p-4 flex flex-col items-center">
@@ -576,7 +565,10 @@ const EditAccountDetails = () => {
                 <Button
                   variant="secondary"
                   disabled={isSubmitting}
-                  onClick={clearInputs}
+                  onClick={() => {
+                    clearErrors();
+                    reset();
+                  }}
                 >
                   Limpiar
                 </Button>
