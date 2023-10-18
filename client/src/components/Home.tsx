@@ -226,7 +226,7 @@ const Home: React.FC<HomeProps> = ({ handleLogout }: HomeProps) => {
       </nav>
 
       {/* MAIN CONTENT RENDERED DEPENDING ON THE ROUTE YOURE AT */}
-      <main className="m-0 sm:ml-20 p-4 bg-slate-100 h-screen">
+      <main className="m-0 mb-10 sm:mb-0 sm:ml-20 p-4 bg-slate-100 h-[100vh] overflow-y-auto">
         <Routes>
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="routine" element={<Routine />} />

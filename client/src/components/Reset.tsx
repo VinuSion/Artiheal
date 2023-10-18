@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Label } from "./ui/label";
 import { Button } from "./ui/button";
 import SignLabel from "./ui/sign-label";
-import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
+import { Eye, EyeOff } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { z, ZodType } from "zod";
 import { useForm } from "react-hook-form";
@@ -141,9 +141,9 @@ const Reset = () => {
                     onClick={() => setPasswordShown(!passwordShown)}
                   >
                     {passwordShown ? (
-                      <EyeIcon className="h-5 w-5 text-primary" />
+                      <Eye className="h-5 w-5 text-primary" />
                     ) : (
-                      <EyeSlashIcon className="h-5 w-5 text-primary" />
+                      <EyeOff className="h-5 w-5 text-primary" />
                     )}
                   </Button>
                 </div>

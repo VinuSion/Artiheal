@@ -12,11 +12,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import {
-  EyeIcon,
-  EyeSlashIcon,
-  ArrowLeftIcon,
-} from "@heroicons/react/24/outline";
+import { ArrowLeft, Eye, EyeOff } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { z, ZodType } from "zod";
@@ -101,7 +97,7 @@ const Login = () => {
               <h2 className="font-bold text-lg my-7 ">Iniciar Sesión</h2>
               <div className="p-1 inline-flex items-center justify-center transition duration-300 hover:shadow-md focus:shadow-md border-solid border-2 rounded-lg bg-transparent">
                 <Link className="text-primary" to="/">
-                  <ArrowLeftIcon className="h-5 w-5 text-primary" />
+                  <ArrowLeft className="h-5 w-5 text-primary" />
                 </Link>
               </div>
             </div>
@@ -139,9 +135,9 @@ const Login = () => {
                     onClick={() => setPasswordShown(!passwordShown)}
                   >
                     {passwordShown ? (
-                      <EyeIcon className="h-5 w-5 text-primary" />
+                      <Eye className="h-5 w-5 text-primary" />
                     ) : (
-                      <EyeSlashIcon className="h-5 w-5 text-primary" />
+                      <EyeOff className="h-5 w-5 text-primary" />
                     )}
                   </Button>
                 </div>

@@ -4,11 +4,7 @@ import { Label } from "./ui/label";
 import { Button } from "./ui/button";
 import { Checkbox } from "./ui/checkbox";
 import SignLabel from "./ui/sign-label";
-import {
-  EyeIcon,
-  EyeSlashIcon,
-  ArrowLeftIcon,
-} from "@heroicons/react/24/outline";
+import { ArrowLeft, Eye, EyeOff } from "lucide-react";
 import { Link } from "react-router-dom";
 import { z, ZodType } from "zod";
 import { useForm } from "react-hook-form";
@@ -146,7 +142,7 @@ const SignUp = () => {
               </h2>
               <div className="p-1 inline-flex items-center justify-center transition duration-300 hover:shadow-md focus:shadow-md border-solid border-2 rounded-lg bg-transparent">
                 <Link className="text-primary" to="/">
-                  <ArrowLeftIcon className="h-5 w-5 text-primary" />
+                  <ArrowLeft className="h-5 w-5 text-primary" />
                 </Link>
               </div>
             </div>
@@ -263,9 +259,9 @@ const SignUp = () => {
                       onClick={() => setPasswordShown(!passwordShown)}
                     >
                       {passwordShown ? (
-                        <EyeIcon className="h-5 w-5 text-primary" />
+                        <Eye className="h-5 w-5 text-primary" />
                       ) : (
-                        <EyeSlashIcon className="h-5 w-5 text-primary" />
+                        <EyeOff className="h-5 w-5 text-primary" />
                       )}
                     </Button>
                   </div>
@@ -317,13 +313,13 @@ const SignUp = () => {
                 </div>
               </div>
               <Button
-                className="my-3 py-3 px-6 "
+                className="my-3 py-3 px-6"
                 variant="special"
                 size="sp"
                 type="submit"
                 disabled={isSubmitting}
               >
-                Continuar
+                Crear Cuenta
               </Button>
 
               <span className="text-tertiary text-xs sm:text-base">

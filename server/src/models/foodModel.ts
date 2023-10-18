@@ -6,6 +6,7 @@ interface Food extends Document {
     servingSize: number; // Porcion del alimento en gramos (5g, 20g, etc.)
     calories: number; // Calorias del alimento en kilocalorias (20kcal, 57kcal, etc.)
     foodType: string; // Tipo de alimento (Bebida o Comida)
+    picture: string; // Imagen del alimento (puede ser una URL publica de algun servicio)
 }
 
 const FoodSchema = new Schema({
@@ -14,6 +15,7 @@ const FoodSchema = new Schema({
     servingSize: { type: Number, required: true },
     calories: { type: Number, required: true },
     foodType: { type: String, required: true },
+    picture: { type: String, required: true },
 })
 
 const FoodModel = mongoose.model<Food>('Food', FoodSchema);
