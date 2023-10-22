@@ -11,16 +11,22 @@ interface HealthData extends Document {
   medications: string[]; // Medicamentos (puede ser general o basado en alergias)
 }
 
-const HealthDataSchema = new Schema({
-  userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
-  dateOfBirth: { type: Date, required: true },
-  height: { type: Number, required: true },
-  weight: { type: Number, required: true },
-  bmi: { type: Number, required: true },
-  dietaryPreferences: [String],
-  allergies: [String],
-  medications: [String],
-});
+const HealthDataSchema = new Schema(
+  {
+    userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
+    dateOfBirth: { type: Date, required: true },
+    height: { type: Number, required: true },
+    weight: { type: Number, required: true },
+    bmi: { type: Number, required: true },
+    dietaryPreferences: [String],
+    allergies: [String],
+    medications: [String],
+  },
+  { collection: "healthData" }
+);
 
-const HealthDataModel = mongoose.model<HealthData>("HealthData", HealthDataSchema);
+const HealthDataModel = mongoose.model<HealthData>(
+  "HealthData",
+  HealthDataSchema
+);
 export default HealthDataModel;

@@ -9,6 +9,7 @@ import { ErrorRequestHandler } from "express";
 import userRouter from "./routes/userRoutes";
 import uploadRouter from "./routes/uploadRoutes";
 import dataRouter from "./routes/dataRoutes";
+import healthProfileRouter from "./routes/healthProfileRoutes";
 
 config(); // Setup dotenv
 
@@ -45,6 +46,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/upload", uploadRouter);
 app.use("/api/data", dataRouter);
 app.use("/api/users", userRouter);
+app.use("/api/health-profile", healthProfileRouter);
 
 // Resolving vite frontend path
 app.use(express.static(frontend));
