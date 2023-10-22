@@ -1,9 +1,9 @@
-import { Input } from "./ui/input";
 import { useContext, useState, useEffect } from "react";
-import { Label } from "./ui/label";
-import { Button } from "./ui/button";
-import { Checkbox } from "./ui/checkbox";
-import SignLabel from "./ui/sign-label";
+import { Input } from "@ui/input";
+import { Label } from "@ui/label";
+import { Button } from "@ui/button";
+import { Checkbox } from "@ui/checkbox";
+import SignLabel from "@ui/sign-label";
 import {
   Dialog,
   DialogContent,
@@ -11,7 +11,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
+} from "@ui/dialog";
 import { ArrowLeft, Eye, EyeOff } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -19,7 +19,7 @@ import { z, ZodType } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Helmet } from "react-helmet-async";
-import { Store } from "../Store";
+import { Store } from "../../Store";
 import Axios from "axios";
 
 const Login = () => {

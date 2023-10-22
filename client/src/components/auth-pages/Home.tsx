@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Store } from "../Store";
+import { Store } from "@/Store";
 import { Link, Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import {
   CalendarDaysIcon,
@@ -12,15 +12,15 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Separator } from "@/components/ui/separator";
-import Dashboard from "./auth/Dashboard";
-import Routine from "./auth/Routine";
-import Points from "./auth/Points";
-import Help from "./auth/Help";
-import UserAccount from "./auth/UserAccount";
-import UserProfile from "./auth/UserProfile";
+} from "@ui/popover";
+import { Avatar, AvatarFallback, AvatarImage } from "@ui/avatar";
+import { Separator } from "@ui/separator";
+import Dashboard from "./Dashboard";
+import Routine from "./Routine";
+import Points from "./Points";
+import Help from "./Help";
+import UserAccount from "./UserAccount";
+import UserProfile from "./UserProfile";
 
 interface HomeProps {
   handleLogout: () => void;

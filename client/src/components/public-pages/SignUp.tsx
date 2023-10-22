@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { Input } from "./ui/input";
-import { Label } from "./ui/label";
-import { Button } from "./ui/button";
-import { Checkbox } from "./ui/checkbox";
-import SignLabel from "./ui/sign-label";
+import { Input } from "@ui/input";
+import { Label } from "@ui/label";
+import { Button } from "@ui/button";
+import { Checkbox } from "@ui/checkbox";
+import SignLabel from "@ui/sign-label";
 import { ArrowLeft, Eye, EyeOff } from "lucide-react";
 import { Link } from "react-router-dom";
 import { z, ZodType } from "zod";

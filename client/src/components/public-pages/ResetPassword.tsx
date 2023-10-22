@@ -1,8 +1,8 @@
-import { Input } from "./ui/input";
 import { useState } from "react";
-import { Label } from "./ui/label";
-import { Button } from "./ui/button";
-import SignLabel from "./ui/sign-label";
+import { Input } from "@ui/input";
+import { Label } from "@ui/label";
+import { Button } from "@ui/button";
+import SignLabel from "@ui/sign-label";
 import { Eye, EyeOff } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { z, ZodType } from "zod";
@@ -11,7 +11,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Helmet } from "react-helmet-async";
 import Axios from "axios";
 
-const Reset = () => {
+const ResetPassword = () => {
   const navigate = useNavigate();
   const { token } = useParams();
 
@@ -196,4 +196,4 @@ const Reset = () => {
   );
 };
 
-export default Reset;
+export default ResetPassword;

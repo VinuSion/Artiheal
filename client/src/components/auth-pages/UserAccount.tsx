@@ -1,16 +1,16 @@
 import { useContext, useState, useRef } from "react";
 import { Helmet } from "react-helmet-async";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
-import { Label } from "../ui/label";
-import SignLabel from "../ui/sign-label";
+import { Input } from "@ui/input";
+import { Button } from "@ui/button";
+import { Label } from "@ui/label";
+import SignLabel from "@ui/sign-label";
 import { Switch } from "@/components/ui/switch";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Trash2, Eye, EyeOff } from "lucide-react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Store } from "../../Store";
+import { Store } from "@/Store";
 import Axios, { AxiosError } from "axios";
 import { getError } from "@/lib/utils";
 

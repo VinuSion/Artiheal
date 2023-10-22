@@ -1,6 +1,6 @@
 import { useEffect, useRef, ReactNode } from "react";
 import { Link } from "react-router-dom";
-import { Button } from "./ui/button";
+import { Button } from "@ui/button";
 import { Helmet } from "react-helmet-async";
 import { Receipt, ActivitySquare, CalendarHeart } from "lucide-react";
 
