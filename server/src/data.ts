@@ -495,7 +495,7 @@ const data = {
       height: 175,
       weight: 70,
       bmi: 22.86,
-      dietaryPreferences: ["Vegetarian", "Sin Gluten"],
+      dietaryPreferences: "Vegetarian",
       allergies: ["Maní", "Leche"],
       medications: ["Aspirin"],
     },
