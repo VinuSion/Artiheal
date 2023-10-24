@@ -22,10 +22,9 @@ const Home: React.FC<HomeProps> = ({ handleLogout }: HomeProps) => {
 
   const checkHealthProfile = async () => {
     try {
-      const healthProfile = await Axios.get(
+      await Axios.get(
         `/api/health-profile/${userInfo._id}`
       );
-      console.log("Se encontro el perfil de salud: ", healthProfile.data);
     } catch (err: any) {
       if (err.response) {
         if (err.response.status === 404) {

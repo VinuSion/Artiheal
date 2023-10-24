@@ -3,6 +3,7 @@ import { Input } from "@ui/input";
 import { Label } from "@ui/label";
 import { Button } from "@ui/button";
 import { Separator } from "@ui/separator";
+import { useToast } from "@ui/use-toast";
 import RadioButton from "@ui/radio-button";
 import Check from "@ui/check";
 import SignLabel from "@ui/sign-label";
@@ -15,8 +16,8 @@ import { es } from "date-fns/locale";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-// import Axios, { AxiosError } from "axios";
-import { Range, formatWeekday, isDateValid } from "@/lib/utils";
+import Axios, { AxiosError } from "axios";
+import { getError, Range, formatWeekday, isDateValid } from "@/lib/utils";
 
 interface HPFormProps {
   open: boolean;
@@ -24,12 +25,18 @@ interface HPFormProps {
 }
 
 const HPForm: React.FC<HPFormProps> = ({ open, onClose }) => {
+  const userInfoString = localStorage.getItem("userInfo")!;
+  const userInfo = JSON.parse(userInfoString);
+
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [birthdateError, setBirthdateError] = useState<string | null>(null);
   const [selectedDietaryPreference, setSelectedDietaryPreference] =
-    useState<string>("none");
+    useState<string>("NA");
   const [selectedAllergies, setSelectedAllergies] = useState<string[]>([]);
   const years = Range(1900, getYear(new Date()));
+
+  const [apiError, setApiError] = useState<string | null>(null);
+  const { toast } = useToast();
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, checked } = e.target;
@@ -93,19 +100,34 @@ const HPForm: React.FC<HPFormProps> = ({ open, onClose }) => {
     resolver: zodResolver(healthProfileFormSchema),
   });
 
-  const submitHealthProfileRequest = (data: HealthProfileForm) => {
+  const submitHealthProfileRequest = async (data: HealthProfileForm) => {
     if (isDateValid(selectedDate) === null) {
       setBirthdateError(null);
-      console.log(data);
-      console.log(format(selectedDate!, "MM/dd/yyyy"));
-      console.log(selectedDietaryPreference);
-      console.log(selectedAllergies);
-      // Handle form submission logic here
+      const requestData = {
+        dateOfBirth: format(selectedDate!, "yyyy-MM-dd"),
+        height: data.height,
+        weight: data.weight,
+        bmi: Number((data.weight / (data.height / 100) ** 2).toFixed(1)),
+        dietaryPreference: selectedDietaryPreference,
+        allergies: selectedAllergies,
+        medications: [], // Empty for all users since this feature hasnt been developed yet.
+      };
 
-      // Close the modal after successful request
-      setTimeout(() => {
+      try {
+        await Axios.post(`/api/health-profile/create/${userInfo._id}`, requestData);
+        setApiError(null);
         onClose();
-      }, 1500);
+        toast({
+          title: "✅ Perfil de salud creado exitosamente",
+          description: "Lo puedes ver en Cuenta -> Perfil de Salud.",
+        });
+      } catch (err: any) {
+        if (err.response && err.response.status === 500) {
+          setApiError("Ha ocurrido un error. Por favor, inténtelo de nuevo más tarde.");
+        } else {
+          setApiError(getError(err as AxiosError) as string);
+        }
+      }
     } else {
       setBirthdateError(isDateValid(selectedDate));
     }
@@ -287,7 +309,7 @@ const HPForm: React.FC<HPFormProps> = ({ open, onClose }) => {
 
                 <Separator className="mb-5 sm:mt-5" />
 
-                <div className="flex flex-col sm:flex-row gap-5 mb-5">
+                <div className="flex flex-col sm:flex-row gap-5 mb-3">
                   <div className="grid w-full max-w-full items-center gap-2.5">
                     <div className="flex flex-col sm:flex-row space-y-1.5 sm:space-y-0">
                       <span className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
@@ -301,8 +323,8 @@ const HPForm: React.FC<HPFormProps> = ({ open, onClose }) => {
                     <div className="grid gap-2">
                       <RadioButton
                         id="none"
-                        value="none"
-                        checked={selectedDietaryPreference === "none"}
+                        value="NA"
+                        checked={selectedDietaryPreference === "NA"}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                           setSelectedDietaryPreference(e.target.value);
                         }}
@@ -310,8 +332,8 @@ const HPForm: React.FC<HPFormProps> = ({ open, onClose }) => {
                       />
                       <RadioButton
                         id="vegetarian"
-                        value="vegetarian"
-                        checked={selectedDietaryPreference === "vegetarian"}
+                        value="Vegetariano"
+                        checked={selectedDietaryPreference === "Vegetariano"}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                           setSelectedDietaryPreference(e.target.value);
                         }}
@@ -319,8 +341,8 @@ const HPForm: React.FC<HPFormProps> = ({ open, onClose }) => {
                       />
                       <RadioButton
                         id="vegan"
-                        value="vegan"
-                        checked={selectedDietaryPreference === "vegan"}
+                        value="Vegano"
+                        checked={selectedDietaryPreference === "Vegano"}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                           setSelectedDietaryPreference(e.target.value);
                         }}
@@ -328,10 +350,8 @@ const HPForm: React.FC<HPFormProps> = ({ open, onClose }) => {
                       />
                       <RadioButton
                         id="lactoseIntolerant"
-                        value="lactoseIntolerant"
-                        checked={
-                          selectedDietaryPreference === "lactoseIntolerant"
-                        }
+                        value="Sin Lactosa"
+                        checked={selectedDietaryPreference === "Sin Lactosa"}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                           setSelectedDietaryPreference(e.target.value);
                         }}
@@ -351,34 +371,45 @@ const HPForm: React.FC<HPFormProps> = ({ open, onClose }) => {
                     </div>
                     <div className="space-y-1.5" id="allergies">
                       <Check
-                        id="driedFruits"
+                        id="Frutos secos"
                         onChange={handleCheckboxChange}
-                        checked={selectedAllergies.includes("driedFruits")}
+                        checked={selectedAllergies.includes("Frutos secos")}
                         labelMessage="Frutos secos"
                       />
                       <Check
-                        id="lactose"
+                        id="Productos lacteos"
                         onChange={handleCheckboxChange}
-                        checked={selectedAllergies.includes("lactose")}
+                        checked={selectedAllergies.includes(
+                          "Productos lacteos"
+                        )}
                         labelMessage="Productos lacteos"
                       />
                       <Check
-                        id="gluten"
+                        id="Trigo y gluten"
                         onChange={handleCheckboxChange}
-                        checked={selectedAllergies.includes("gluten")}
+                        checked={selectedAllergies.includes("Trigo y gluten")}
                         labelMessage="Trigo y gluten"
                       />
                       <Check
-                        id="seafood"
+                        id="Mariscos"
                         onChange={handleCheckboxChange}
-                        checked={selectedAllergies.includes("seafood")}
+                        checked={selectedAllergies.includes("Mariscos")}
                         labelMessage="Mariscos"
                       />
                     </div>
                   </div>
                 </div>
 
-                <Button type="submit" variant="special" disabled={isSubmitting}>
+                <div className="sm:h-[20px] mb-3">
+                  {apiError && <SignLabel variant="error" message={apiError} />}
+                </div>
+
+                <Button
+                  type="submit"
+                  variant="special"
+                  className="w-full sm:w-40"
+                  disabled={isSubmitting}
+                >
                   Crear Perfil
                 </Button>
               </form>

@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import { HelmetProvider } from "react-helmet-async";
+import { Toaster } from "@ui/toaster"
 import { StoreProvider } from "./Store";
 import "./index.css";
 
@@ -10,6 +11,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <StoreProvider>
       <HelmetProvider>
         <App />
+        <Toaster />
       </HelmetProvider>
     </StoreProvider>
   </React.StrictMode>

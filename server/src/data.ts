@@ -351,7 +351,7 @@ const data = {
   routines: [
     {
       name: "Rutina Vegetariana",
-      dietaryPreferences: ["Vegetariano"],
+      dietaryPreference: "Vegetariano",
       daysOfWeek: [
         {
           day: "Lunes",
@@ -379,7 +379,7 @@ const data = {
     },
     {
       name: "Rutina Vegana",
-      dietaryPreferences: ["Vegano"],
+      dietaryPreference: "Vegano",
       daysOfWeek: [
         {
           day: "Lunes",
@@ -404,7 +404,7 @@ const data = {
     },
     {
       name: "Rutina Regular",
-      dietaryPreferences: [],
+      dietaryPreference: "NA",
       daysOfWeek: [
         {
           day: "Lunes",
@@ -465,7 +465,7 @@ const data = {
     },
     {
       name: "Rutina Sin Lactosa",
-      dietaryPreferences: ["Sin Lactosa"],
+      dietaryPreference: "Sin Lactosa",
       daysOfWeek: [
         {
           day: "Miércoles",
@@ -495,9 +495,9 @@ const data = {
       height: 175,
       weight: 70,
       bmi: 22.86,
-      dietaryPreferences: "Vegetarian",
-      allergies: ["Maní", "Leche"],
-      medications: ["Aspirin"],
+      dietaryPreference: "NA",
+      allergies: ["Alergia_Uno", "Alergia_Dos"],
+      medications: ["Medicamento_Uno"],
     },
   ],
 };
