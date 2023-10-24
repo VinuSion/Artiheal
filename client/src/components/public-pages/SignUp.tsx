@@ -33,14 +33,14 @@ const SignUp = () => {
         .string()
         .min(3, { message: "Mínimo 3 caracteres (Nombre)" })
         .max(20, { message: "Maximo 20 caracteres (Nombre)" })
-        .refine((value) => /^[a-zA-ZáéíóúÁÉÍÓÚ]+$/.test(value), {
+        .refine((value) => /^\s*[a-zA-ZáéíóúÁÉÍÓÚ]+\s*$/.test(value), {
           message: "Solo letras en el Nombre",
         }),
       lastName: z
         .string()
         .min(3, { message: "Mínimo 3 caracteres (Apellido)" })
         .max(20, { message: "Maximo 20 caracteres (Apellido)" })
-        .refine((value) => /^[a-zA-ZáéíóúÁÉÍÓÚ]+$/.test(value), {
+        .refine((value) => /^\s*[a-zA-ZáéíóúÁÉÍÓÚ]+\s*$/.test(value), {
           message: "Solo letras en el Apellido",
         }),
       email: z.string().email({ message: "Correo electronico invalido" }),
@@ -91,12 +91,15 @@ const SignUp = () => {
 
   // Submit SignUp Data with Axios
   const submitData = async (data: FormData) => {
+    const trimmedFirstName = data.firstName.trim(); // Remove leading and trailing white spaces
     const first =
-      data.firstName.charAt(0).toUpperCase() +
-      data.firstName.slice(1).toLowerCase();
+      trimmedFirstName.charAt(0).toUpperCase() +
+      trimmedFirstName.slice(1).toLowerCase();
+
+    const trimmedLastName = data.lastName.trim(); // Remove leading and trailing white spaces
     const last =
-      data.lastName.charAt(0).toUpperCase() +
-      data.lastName.slice(1).toLowerCase();
+      trimmedLastName.charAt(0).toUpperCase() +
+      trimmedLastName.slice(1).toLowerCase();
     // Create new User with Axios
     try {
       await Axios.post("/api/users/signup", {

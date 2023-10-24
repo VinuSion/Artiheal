@@ -4,21 +4,21 @@ import HealthData from "../models/healthDataModel";
 import Routine from "../models/routineModel";
 import Profile from "../models/profileModel";
 
-const healthProfileRouter = express.Router();
+const healthDataRouter = express.Router();
 
-healthProfileRouter.get(
+healthDataRouter.get(
   "/:id",
   expressAsyncHandler(async (req: Request, res: Response) => {
     try {
-      // Find the health profile that matches the user's ID
-      const profile = await HealthData.findOne({ userId: req.params.id });
+      // Find health data that matches the user's ID
+      const healthData = await HealthData.findOne({ userId: req.params.id });
 
-      if (profile) {
-        // Health profile found, send it as a response
-        res.json(profile);
+      if (healthData) {
+        // Health data found, send it as a response
+        res.json(healthData);
       } else {
         // Health profile not found
-        res.status(404).json({ message: 'El perfil de salud no se pudo encontrar.' });
+        res.status(404).json({ message: 'Los datos de salud no se pudieron encontrar.' });
       }
     } catch (error) {
       res.status(500).json({ message: 'Ha ocurrido un error interno en el servidor.'});
@@ -26,7 +26,7 @@ healthProfileRouter.get(
   })
 );
 
-healthProfileRouter.post(
+healthDataRouter.post(
   "/create/:id",
   expressAsyncHandler(async (req: Request, res: Response) => {
     try {
@@ -68,11 +68,11 @@ healthProfileRouter.post(
       // Saves the new user profile document
       await newProfile.save();
       
-      res.status(201).json({ message: 'Perfil de salud creado exitosamente.', data: newHealthData });
+      res.status(201).json(newHealthData);
     } catch (error) {
       res.status(500).send({ message: 'Ha ocurrido un error. Por favor, inténtelo de nuevo más tarde.'});
     }
   })
 );
 
-export default healthProfileRouter;
+export default healthDataRouter;

@@ -26,7 +26,7 @@ const EditAccountDetailsSection = () => {
         .string()
         .min(3, { message: "Mínimo 3 caracteres (Nombre)" })
         .max(20, { message: "Maximo 20 caracteres (Nombre)" })
-        .refine((value) => /^[a-zA-ZáéíóúÁÉÍÓÚ]+$/.test(value), {
+        .refine((value) => /^\s*[a-zA-ZáéíóúÁÉÍÓÚ]+\s*$/.test(value), {
           message: "Solo letras en el Nombre",
         })
         .optional()
@@ -35,7 +35,7 @@ const EditAccountDetailsSection = () => {
         .string()
         .min(3, { message: "Mínimo 3 caracteres (Apellido)" })
         .max(20, { message: "Maximo 20 caracteres (Apellido)" })
-        .refine((value) => /^[a-zA-ZáéíóúÁÉÍÓÚ]+$/.test(value), {
+        .refine((value) => /^\s*[a-zA-ZáéíóúÁÉÍÓÚ]+\s*$/.test(value), {
           message: "Solo letras en el Apellido",
         })
         .optional()
@@ -140,23 +140,32 @@ const EditAccountDetailsSection = () => {
         // Clear the success message after 1.5 seconds
         setTimeout(() => {
           setSuccess(null);
-          reset();
           window.location.reload();
         }, 1500);
       } catch (err: any) {
         setSuccess(null);
         if (err.response) {
           const { status } = err.response;
-          status === 401
-            ? setError("currentPassword", {
-                type: "manual",
-                message: "No es la contraseña correcta de tu cuenta.",
-              })
-            : status === 404
-            ? setApiError(getError(err as AxiosError) as string)
-            : setApiError(
-                "Ha ocurrido un error. Por favor, inténtelo de nuevo más tarde."
-              );
+          if (status === 401) {
+            setError("currentPassword", {
+              type: "manual",
+              message: "No es la contraseña correcta de tu cuenta.",
+            });
+          } else if (status === 404) {
+            setApiError(getError(err as AxiosError) as string);
+          } else if (
+            status === 400 &&
+            err.response.data.message === "Otro usuario ya está usando este correo."
+          ) {
+            setError("email", {
+              type: "manual",
+              message: "Otro usuario ya está usando este correo.",
+            });
+          } else {
+            setApiError(
+              "Ha ocurrido un error. Por favor, inténtelo de nuevo más tarde."
+            );
+          }
         }
       }
     }

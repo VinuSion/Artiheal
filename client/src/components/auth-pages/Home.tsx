@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useContext, useEffect, useState, useRef } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import Dashboard from "./Dashboard";
 import Routine from "./Routine";
@@ -9,40 +9,73 @@ import UserProfile from "./UserProfile";
 import Navbar from "./modules/Navbar";
 import HPForm from "./modules/HPForm";
 import Axios from "axios";
+import { Store } from "@/Store";
 
 interface HomeProps {
   handleLogout: () => void;
 }
 
 const Home: React.FC<HomeProps> = ({ handleLogout }: HomeProps) => {
-  const userInfoString = localStorage.getItem('userInfo')!;
+  const userInfoString = localStorage.getItem("userInfo")!;
   const userInfo = JSON.parse(userInfoString);
+  // Check if healthData and profile is already in localStorage
+  const storedHealthData = localStorage.getItem("healthData");
+  const storedProfile = localStorage.getItem("profile");
+  const { dispatch: ctxDispatch } = useContext(Store)!;
+
   const [isHPFormOpen, setIsHPFormOpen] = useState(false);
   const isMounted = useRef(false);
 
-  const checkHealthProfile = async () => {
+  const checkHealthData = async () => {
     try {
-      await Axios.get(
-        `/api/health-profile/${userInfo._id}`
+      const healthDataResponse = await Axios.get(
+        `/api/health-data/${userInfo._id}`
       );
+      const healthData = healthDataResponse.data;
+      if (healthData) {
+        ctxDispatch({ type: "CREATE_HEALTH_DATA", payload: healthData });
+      }
     } catch (err: any) {
       if (err.response) {
         if (err.response.status === 404) {
-          console.error("El perfil de salud no se pudo encontrar. (Llena el Formulario)");
+          console.error(
+            "Los datos de salud no se pudieron encontrar. (Llena el Formulario)"
+          );
           setIsHPFormOpen(true); // Health profile not found, show health profile form popup.
         } else if (err.response.status === 500) {
-          console.error("Error al encontrar el perfil de salud (Server is offline)");
+          console.error(
+            "Error al encontrar los datos de salud (Servidor offline)"
+          );
         }
       } else {
-        console.error("Error al encontrar el perfil de salud: ", err);
+        console.error(err);
       }
+    }
+  };
+
+  const checkProfile = async () => {
+    try {
+      const healthProfileResponse = await Axios.get(
+        `/api/profile/${userInfo._id}`
+      );
+      const userProfile = healthProfileResponse.data;
+      if (userProfile) {
+        ctxDispatch({ type: "CREATE_PROFILE", payload: userProfile });
+      }
+    } catch (err: any) {
+      console.error("El perfil de salud no se pudo encontrar (No has llenado ese formulario todavia)");
     }
   };
 
   useEffect(() => {
     if (!isMounted.current) {
       isMounted.current = true;
-      checkHealthProfile();
+      if (!storedHealthData) {
+        checkHealthData(); // If healthData is not in localStorage, make the request
+      }
+      if (!storedProfile) {
+        checkProfile(); // If profile is not in localStorage, make the request
+      }
     }
   }, []);
 

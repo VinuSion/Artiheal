@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Input } from "@ui/input";
 import { Label } from "@ui/label";
 import { Button } from "@ui/button";
@@ -17,6 +17,7 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Axios, { AxiosError } from "axios";
+import { Store } from "@/Store";
 import { getError, Range, formatWeekday, isDateValid } from "@/lib/utils";
 
 interface HPFormProps {
@@ -27,6 +28,7 @@ interface HPFormProps {
 const HPForm: React.FC<HPFormProps> = ({ open, onClose }) => {
   const userInfoString = localStorage.getItem("userInfo")!;
   const userInfo = JSON.parse(userInfoString);
+  const { dispatch: ctxDispatch } = useContext(Store)!;
 
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [birthdateError, setBirthdateError] = useState<string | null>(null);
@@ -114,13 +116,25 @@ const HPForm: React.FC<HPFormProps> = ({ open, onClose }) => {
       };
 
       try {
-        await Axios.post(`/api/health-profile/create/${userInfo._id}`, requestData);
+        const health = await Axios.post(`/api/health-data/create/${userInfo._id}`, requestData);
+        ctxDispatch({ type: "CREATE_HEALTH_DATA", payload: health.data }); // Dispatch to create healthData
         setApiError(null);
         onClose();
         toast({
           title: "✅ Perfil de salud creado exitosamente",
           description: "Lo puedes ver en Cuenta -> Perfil de Salud.",
         });
+        try {
+          const healthProfileResponse = await Axios.get(
+            `/api/profile/${userInfo._id}`
+          );
+          const userProfile = healthProfileResponse.data;
+          if (userProfile) {
+            ctxDispatch({ type: "CREATE_PROFILE", payload: userProfile });
+          }
+        } catch (err: any) {
+          console.error("El perfil de salud no se pudo encontrar");
+        }
       } catch (err: any) {
         if (err.response && err.response.status === 500) {
           setApiError("Ha ocurrido un error. Por favor, inténtelo de nuevo más tarde.");
@@ -168,6 +182,7 @@ const HPForm: React.FC<HPFormProps> = ({ open, onClose }) => {
                         id="height"
                         min="5"
                         max="300"
+                        step="any"
                         autoComplete="off"
                         placeholder="Altura en cm"
                         {...register("height")}
@@ -191,6 +206,7 @@ const HPForm: React.FC<HPFormProps> = ({ open, onClose }) => {
                         id="weight"
                         min="20"
                         max="700"
+                        step="any"
                         autoComplete="off"
                         placeholder="Peso en kg"
                         {...register("weight")}

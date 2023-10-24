@@ -153,20 +153,34 @@ userRouter.put(
             req.body.firstName !== undefined &&
             req.body.firstName.trim() !== ""
           ) {
+            const trimmedFirstName = req.body.firstName.trim();
             user.firstName =
-              req.body.firstName.charAt(0).toUpperCase() +
-              req.body.firstName.slice(1).toLowerCase();
+              trimmedFirstName.charAt(0).toUpperCase() +
+              trimmedFirstName.slice(1).toLowerCase();
           }
           if (
             req.body.lastName !== undefined &&
             req.body.lastName.trim() !== ""
           ) {
+            const trimmedLastName = req.body.lastName.trim();
             user.lastName =
-              req.body.lastName.charAt(0).toUpperCase() +
-              req.body.lastName.slice(1).toLowerCase();
+              trimmedLastName.charAt(0).toUpperCase() +
+              trimmedLastName.slice(1).toLowerCase();
           }
           if (req.body.email !== undefined && req.body.email.trim() !== "") {
-            user.email = req.body.email;
+            // Checks if the new email is different from the current email
+            if (req.body.email !== user.email) {
+              // Find a user with the new email
+              const userWithNewEmail = await User.findOne({ email: req.body.email });
+
+              // If a user with the new email exists and is not the current user
+              if (userWithNewEmail && userWithNewEmail._id.toString() !== user._id.toString()) {
+                res.status(400).send({ message: "Otro usuario ya está usando este correo." });
+                return;
+              }
+              // Update the email
+              user.email = req.body.email;
+            }
           }
           if (
             req.body.password !== undefined &&
