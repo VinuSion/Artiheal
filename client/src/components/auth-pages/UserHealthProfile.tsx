@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet-async";
 
-const UserProfile = () => {
+const UserHealthProfile = () => {
   return (
     <div>
       <Helmet>
@@ -8,7 +8,7 @@ const UserProfile = () => {
       </Helmet>
       <p>My Health Profile Page</p>
     </div>
-  )
-}
+  );
+};
 
-export default UserProfile
+export default UserHealthProfile;

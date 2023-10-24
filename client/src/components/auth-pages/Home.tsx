@@ -5,7 +5,7 @@ import Routine from "./Routine";
 import Points from "./Points";
 import Help from "./Help";
 import UserAccount from "./UserAccount";
-import UserProfile from "./UserProfile";
+import UserHealthProfile from "./UserHealthProfile";
 import Navbar from "./modules/Navbar";
 import HPForm from "./modules/HPForm";
 import Axios from "axios";
@@ -93,7 +93,7 @@ const Home: React.FC<HomeProps> = ({ handleLogout }: HomeProps) => {
           <Route path="points" element={<Points />} />
           <Route path="help" element={<Help />} />
           <Route path="account" element={<UserAccount />} />
-          <Route path="profile" element={<UserProfile />} />
+          <Route path="profile" element={<UserHealthProfile />} />
           <Route path="*" element={<Navigate to="/home/dashboard" />} />
         </Routes>
       </main>
