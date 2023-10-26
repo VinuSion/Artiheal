@@ -128,7 +128,7 @@ const UserHealthProfile = () => {
                 <Utensils className="h-5 w-5 mr-1 text-primary" />
                 Preferencias de Dieta
               </span>
-              <div className="flex flex-col sm:flex-row items-center sm:items-start justify-center my-3 gap-4">
+              <div className="flex flex-col lg:flex-row items-center sm:items-start justify-center my-3 gap-4">
                 <img
                   className="rounded-xl w-[250px]"
                   src={
