@@ -86,30 +86,26 @@ const Navbar = ({ handleLogout }: NavbarProps) => {
             </PopoverTrigger>
             <PopoverContent className="w-50 p-0">
               <div className="grid">
-                <div
+                <Link
+                  to="/home/account"
                   className="cursor-pointer px-4 py-2 text-muted-foreground hover:bg-slate-100 hover:text-foreground"
                   onClick={() => handleLinkClick("/home/account")}
                 >
-                  <Link
-                    to="/home/account"
-                    className="flex flex-row items-center"
-                  >
+                  <div className="flex flex-row items-center">
                     <User className="h-5 w-8 mr-1" />
                     <span className="text-sm">Mi Cuenta</span>
-                  </Link>
-                </div>
-                <div
+                  </div>
+                </Link>
+                <Link
+                  to="/home/profile"
                   className="cursor-pointer px-4 py-2 text-muted-foreground hover:bg-slate-100 hover:text-foreground"
                   onClick={() => handleLinkClick("/home/profile")}
                 >
-                  <Link
-                    to="/home/profile"
-                    className="flex flex-row items-center"
-                  >
+                  <div className="flex flex-row items-center">
                     <HeartPulse className="h-5 w-8 mr-1" />
                     <span className="text-sm">Mi Perfil de Salud</span>
-                  </Link>
-                </div>
+                  </div>
+                </Link>
                 <div
                   className="xs:hidden cursor-pointer px-4 py-2 text-muted-foreground hover:bg-slate-100 hover:text-foreground"
                   onClick={() => handleLinkClick("/home/help")}

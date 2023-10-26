@@ -393,12 +393,12 @@ const HPForm: React.FC<HPFormProps> = ({ open, onClose }) => {
                         labelMessage="Frutos secos"
                       />
                       <Check
-                        id="Productos lacteos"
+                        id="Productos lácteos"
                         onChange={handleCheckboxChange}
                         checked={selectedAllergies.includes(
                           "Productos lacteos"
                         )}
-                        labelMessage="Productos lacteos"
+                        labelMessage="Productos lácteos"
                       />
                       <Check
                         id="Trigo y gluten"

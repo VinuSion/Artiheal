@@ -148,3 +148,12 @@ export const months = [
   "Noviembre",
   "Diciembre",
 ];
+
+export const bmiCategories = [
+  { category: "Bajo peso", range: "Menor a 18.5" },
+  { category: "Peso saludable", range: "18.5 - 24.9" },
+  { category: "Sobrepeso", range: "25.0 - 29.9" },
+  { category: "Obesidad clase 1", range: "30.0 - 34.9" },
+  { category: "Obesidad clase 2", range: "35.0 - 39.9" },
+  { category: "Obesidad clase 3", range: "40 o más" },
+];
