@@ -190,7 +190,7 @@ const UserHealthProfile = () => {
           </h1>
           <div className="flex flex-col items-center gap-3 sm:gap-4 mx-2 sm:mx-5">
             {age < 18 ? (
-              <p className="text-sm sm:text-base">
+              <p className="text-sm sm:text-base mb-3">
                 Debido a que estás en una etapa de{" "}
                 <span className="text-primary">crecimiento constante</span>, el
                 IMC no es necesariamente aplicable en tu caso.
@@ -226,13 +226,13 @@ const UserHealthProfile = () => {
                     ))}
                   </tbody>
                 </table>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm text-muted-foreground mb-2">
                   Subrayado con color{" "}
                   <span className="text-xs p-[3px] rounded-sm bg-slate-500 text-background">
                     gris oscuro
                   </span>
                 </p>
-                <p className="text-sm sm:w-1/2 sm:text-base">
+                <p className="text-sm sm:w-1/2 sm:text-base mb-3">
                   Tu índice de masa corporal (IMC) es{" "}
                   <span className="text-primary font-bold">
                     {healthData.bmi}
