@@ -3,6 +3,10 @@ import SplineArea from "@/components/ui/splineArea";
 import CircleCalories from "@/components/ui/circleCalories";
 import CircleGoal from "@/components/ui/circleGoal";
 import CircleTime from "@/components/ui/circleTime";
+import CircleSteps from "@/components/ui/circleSteps";
+import CircleDistance from "@/components/ui/circleDistance";
+
+
 
 const Dashboard = () => {
   return (
@@ -26,11 +30,11 @@ const Dashboard = () => {
             </div>
             <div className="border border-s p-6 rounded-md ">
               {" "}
-              <CircleCalories />
+              <CircleSteps />
             </div>
             <div className="border border-s p-6 rounded-md ">
               {" "}
-              <CircleCalories />
+              <CircleDistance />
             </div>
           </div>
 

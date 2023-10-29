@@ -1,7 +1,7 @@
 import React from "react";
 import Chart from "react-apexcharts";
 
-class CircleTime extends React.Component {
+class CircleSteps extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -55,7 +55,7 @@ class CircleTime extends React.Component {
                     fontSize: '17px'
                   },
                   value: {
-                  
+                
                     color: '#111',
                     fontSize: '25px',
                     show: true,
@@ -78,7 +78,7 @@ class CircleTime extends React.Component {
             stroke: {
               lineCap: 'round'
             },
-            labels: ['Tiempo'],
+            labels: ['Pasos'],
           },
         
         
@@ -98,5 +98,5 @@ class CircleTime extends React.Component {
   }
   
 }
-export default CircleTime;
+export default CircleSteps;
 

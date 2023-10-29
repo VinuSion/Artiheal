@@ -55,11 +55,9 @@ class CircleCalories extends React.Component {
                     fontSize: '17px'
                   },
                   value: {
-                    formatter: function(val) {
-                      return parseInt(val);
-                    },
+                   
                     color: '#111',
-                    fontSize: '30px',
+                    fontSize: '25px',
                     show: true,
                   }
                 }
