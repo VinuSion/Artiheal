@@ -1,5 +1,5 @@
 import { Helmet } from "react-helmet-async";
-import ApexChart from "@/components/ui/distributedColumns";
+import SplineArea from "@/components/ui/splineArea";
 import CircleCalories from "@/components/ui/circleCalories";
 import CircleGoal from "@/components/ui/circleGoal";
 import CircleTime from "@/components/ui/circleTime";
@@ -36,7 +36,7 @@ const Dashboard = () => {
 
           <div className=" py-6 flex flex-row justify-center gap-16 border border-s rounded-md flex-wrap">
           <div className="border border-s p-6 rounded-md ">
-            <ApexChart />
+            <SplineArea />
             </div>
             
             <div className="border border-s p-6 rounded-md ">

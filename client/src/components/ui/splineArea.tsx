@@ -3,7 +3,7 @@ import Chart from "react-apexcharts";
 
 const color = ['#745cff']; // Define your colors
 
-class ApexChart extends React.Component {
+class SplineArea extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -69,4 +69,4 @@ class ApexChart extends React.Component {
   }
 }
 
-export default ApexChart;
+export default SplineArea;
