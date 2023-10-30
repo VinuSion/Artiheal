@@ -23,11 +23,13 @@ const buttonVariants = cva(
         icon: "border-solid border-2 rounded-lg text-primary-foreground bg-transparent",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
+        speround:
+          "bg-gradient-to-r from-indigo-500 to-violet-600 rounded-full hover:from-indigo-500 hover:to-indigo-900 text-white shadow-lg transition-transform duration-300 ease-in-out",
       },
       size: {
         default: "h-10 px-4 py-2",
         xs: "h-7 w-7 rounded-md",
-        sm: "h-9 rounded-md px-3",
+        sm: "h-9 rounded-full px-3",
         lg: "h-11 rounded-md px-8",
         sp: "h-12 w-full max-w",
         icon: "h-10 w-12",
