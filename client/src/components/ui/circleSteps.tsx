@@ -9,9 +9,7 @@ class CircleSteps extends React.Component {
           options: {
             chart: {
               type: 'radialBar',
-              toolbar: {
-                show: true
-              }
+             
             },
             plotOptions: {
               radialBar: {
