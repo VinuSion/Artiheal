@@ -11,6 +11,7 @@ import uploadRouter from "./routes/uploadRoutes";
 import dataRouter from "./routes/dataRoutes";
 import healthDataRouter from "./routes/healthProfileRoutes";
 import profileRouter from "./routes/profileRoutes";
+import routineRouter from "./routes/routineRoutes";
 
 config(); // Setup dotenv
 
@@ -49,6 +50,7 @@ app.use("/api/data", dataRouter);
 app.use("/api/users", userRouter);
 app.use("/api/health-data", healthDataRouter);
 app.use("/api/profile", profileRouter);
+app.use("/api/routine", routineRouter);
 
 // Resolving vite frontend path
 app.use(express.static(frontend));

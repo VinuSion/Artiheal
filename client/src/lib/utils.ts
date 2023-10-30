@@ -1,36 +1,40 @@
-import { type ClassValue, clsx } from "clsx"
-import { twMerge } from "tailwind-merge"
-import { AxiosError } from 'axios';
+import { type ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
+import { AxiosError } from "axios";
 import { isToday, isValid, parse, format } from "date-fns";
- 
+import { FoodItem } from "@/lib/constants";
+
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
 
 export const getError = (error: AxiosError) => {
   if (error.response && error.response.data) {
     const responseData = error.response.data;
-    if (typeof responseData === 'object' && 'message' in responseData) {
+    if (typeof responseData === "object" && "message" in responseData) {
       return responseData.message;
     }
   }
   return error.message;
 };
 
-export const Range = (start: number, end: number, step: number = 1): number[] => {
+export const Range = (
+  start: number,
+  end: number,
+  step: number = 1
+): number[] => {
   const range = [];
   for (let i = start; i <= end; i += step) {
     range.push(i);
   }
   return range;
-}
+};
 
 export const formatWeekday = (nameOfDay: string) => {
   return (nameOfDay.charAt(0).toUpperCase() + nameOfDay.slice(1)).slice(0, 2); // Capitalize the first letter, only return first 2 letters
 };
 
 export const isDateValid = (dateString: Date | null): string | null => {
-
   if (!dateString) {
     return "Este campo es requerido.";
   }
@@ -118,10 +122,14 @@ type AllergyMessages = {
 
 export const generateAllergyMessage = (allergy: string): string => {
   const allergyMessages: AllergyMessages = {
-    "Frutos Secos": "Eres alérgico a los frutos secos. Evita alimentos que contengan frutos secos o trazas de frutos secos para prevenir reacciones alérgicas.",
-    "Productos Lácteos": "Eres alérgico a los productos lácteos. Evita alimentos lácteos y busca alternativas sin lactosa.",
-    "Trigo y Gluten": "Eres alérgico al trigo y gluten. Evita alimentos que contengan trigo y gluten para prevenir reacciones alérgicas.",
-    "Mariscos": "Eres alérgico a los mariscos. Evita alimentos que contengan mariscos para prevenir reacciones alérgicas.",
+    "Frutos Secos":
+      "Eres alérgico a los frutos secos. Evita alimentos que contengan frutos secos o trazas de frutos secos para prevenir reacciones alérgicas.",
+    "Productos Lácteos":
+      "Eres alérgico a los productos lácteos. Evita alimentos lácteos y busca alternativas sin lactosa.",
+    "Trigo y Gluten":
+      "Eres alérgico al trigo y gluten. Evita alimentos que contengan trigo y gluten para prevenir reacciones alérgicas.",
+    Mariscos:
+      "Eres alérgico a los mariscos. Evita alimentos que contengan mariscos para prevenir reacciones alérgicas.",
   };
 
   if (allergyMessages[allergy]) {
@@ -149,3 +157,75 @@ export const bmiCategoryDescription = (category: string): string => {
       return "Tu IMC no se encuentra en una categoría definida.";
   }
 };
+
+export const mapDayNameToWeekday = (dayName: string): number => {
+  switch (dayName) {
+    case "Domingo":
+      return 0;
+    case "Lunes":
+      return 1;
+    case "Martes":
+      return 2;
+    case "Miércoles":
+      return 3;
+    case "Jueves":
+      return 4;
+    case "Viernes":
+      return 5;
+    case "Sábado":
+      return 6;
+    default:
+      return 0; // Default to 0 for unknown names (e.g., Domingo)
+  }
+};
+
+export const findTodayInRoutine = (routine: { day: string }[]): string | null => {
+  const daysOfWeek = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
+  const today = new Date().getDay(); // Gets today's weekday index (0 for Sunday, 1 for Monday, ..., 6 for Saturday)
+  
+  const todayInSpanish = daysOfWeek[today];
+  
+  const foundDay = routine.find((dayObj) => dayObj.day === todayInSpanish);
+  
+  if (foundDay) {
+    return foundDay.day; // Today's weekday in Spanish found in the routine
+  } else {
+    return null; // Today's weekday in Spanish not found in the routine
+  }
+}
+
+export const renderEvents = (calendarApi: any, routine: any) => {
+  if (routine) {
+    calendarApi.removeAllEvents();
+    const currentDate = calendarApi.getDate();
+    const currentYear = currentDate.getFullYear();
+    const currentMonth = currentDate.getMonth();
+    const currentDay = currentDate.getDate();
+
+    for (let dayIndex = 0; dayIndex < routine.length; dayIndex++) {
+      const dayFoods = routine[dayIndex].foods;
+      const dayObject = routine[dayIndex];
+      const dayName = dayObject.day;
+
+      for (let day = currentDay; day <= new Date(currentYear, currentMonth + 1, 0).getDate(); day++) {
+        const date = new Date(currentYear, currentMonth, day);
+        const dayWeekday = mapDayNameToWeekday(dayName);
+
+        if (date.getDay() === dayWeekday) {
+          dayFoods?.forEach((foodItem: FoodItem, index: number) => {
+            const event = {
+              title: `${foodItem.name} | Cantidad (${foodItem.quantity})`,
+              start: date,
+              end: date,
+              id: `food-event-${dayName}-${index}-${day}`,
+            };
+            calendarApi.addEvent(event);
+          });
+        }
+      }
+    }
+  }
+};
+
+
+

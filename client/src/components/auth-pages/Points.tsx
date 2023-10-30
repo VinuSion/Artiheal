@@ -8,7 +8,7 @@ const Points = () => {
       </Helmet>
       <p>Points Page</p>
     </div>
-  )
-}
+  );
+};
 
-export default Points
+export default Points;

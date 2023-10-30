@@ -122,7 +122,7 @@ const HPForm: React.FC<HPFormProps> = ({ open, onClose }) => {
         onClose();
         toast({
           title: "✅ Perfil de salud creado exitosamente",
-          description: "Lo puedes ver en Cuenta -> Perfil de Salud.",
+          description: "Lo puedes ver en Cuenta -> Mi Perfil de Salud.",
         });
         try {
           const healthProfileResponse = await Axios.get(

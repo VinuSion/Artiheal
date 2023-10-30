@@ -8,7 +8,7 @@ const Dashboard = () => {
       </Helmet>
       <p>Dashboard Page</p>
     </div>
-  )
-}
+  );
+};
 
-export default Dashboard
+export default Dashboard;
