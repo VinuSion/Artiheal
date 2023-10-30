@@ -20,7 +20,7 @@ export interface HealthData {
 }
 
 interface FoodEntry {
-  date: Date; 
+  date: Date;
   foods: {
     food: string;
     quantity: number;
@@ -31,7 +31,7 @@ interface FoodEntry {
 }
 
 interface CurrentTask {
-  taskId: string; 
+  taskId: string;
   status: boolean;
   progress: number;
   dueDate: Date;
@@ -52,7 +52,7 @@ interface TaskHistory {
 interface Medication {
   name: string;
   medicationType: string;
-  medicineRoutine: { 
+  medicineRoutine: {
     day: string;
     hour: string;
   }[];
@@ -60,14 +60,40 @@ interface Medication {
 
 // Defines the interface for profile
 export interface Profile {
-  userId: string; 
-  foodDiary: FoodEntry[]; // Todos los registros del diario de alimentos
-  currentTasks: CurrentTask[]; // Todas las tareas actuales que tiene el usuario en el momento
-  taskHistory: TaskHistory[]; // Array con el historial de todas las tareas
+  userId: string;
+  foodDiary: FoodEntry[];
+  currentTasks: CurrentTask[]; 
+  taskHistory: TaskHistory[]; 
   selectedRoutine: string;
-  medications: Medication[]; // Array de todos los medicamentos en la rutina
+  medications: Medication[];
 }
 
+// Defines the interface for a routine
+export interface Routine {
+  name: string;
+  dietaryPreference: string;
+  daysOfWeek: {
+    day: string;
+    foods: FoodItem[];
+  }[];
+}
+
+// Defines the interface for food items in the routine
+export interface FoodItem {
+  foodItemId: string;
+  name: string;
+  quantity: number;
+}
+
+export interface Food {
+  foodId: string,
+  name: string,
+  servingSize: number,
+  calories: number,
+  foodType: string,
+  picture: string,
+  quantity: number,
+}
 
 export const cardOpInfo = [
   {

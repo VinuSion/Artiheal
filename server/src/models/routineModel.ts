@@ -8,6 +8,7 @@ interface Routine extends Document {
     day: string; // El dia (Lunes - Domingo)
     foods: { // Alimentos que se deben consumir ese dia
       foodItemId: Schema.Types.String; // Referencia a -> "foodModel.ts"
+      name: string, // Nombre del alimento
       quantity: number; // Cantidad de ese alimento que se debe digerir
     }[];
   }[];
@@ -22,6 +23,7 @@ const RoutineSchema = new Schema({
       foods: [
         {
           foodItemId: { type: Schema.Types.String, ref: "Food", required: true  },
+          name: { type: String, required: true },
           quantity: { type: Number, required: true },
         },
       ],

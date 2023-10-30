@@ -356,23 +356,23 @@ const data = {
         {
           day: "Lunes",
           foods: [
-            { foodItemId: "20", quantity: 3 },
-            { foodItemId: "5", quantity: 2 },
+            { foodItemId: "20", name: "Fresa", quantity: 3 },
+            { foodItemId: "5", name: "Agua Mineral", quantity: 2 },
           ],
         },
         {
           day: "Miércoles",
           foods: [
-            { foodItemId: "12", quantity: 4 },
-            { foodItemId: "16", quantity: 1 },
-            { foodItemId: "5", quantity: 4 },
+            { foodItemId: "12", name: "Naranja", quantity: 4 },
+            { foodItemId: "16", name: "Sopa de Tomate", quantity: 1 },
+            { foodItemId: "5", name: "Agua Mineral", quantity: 4 },
           ],
         },
         {
           day: "Viernes",
           foods: [
-            { foodItemId: "3", quantity: 3 },
-            { foodItemId: "11", quantity: 2 },
+            { foodItemId: "3", name: "Huevo", quantity: 3 },
+            { foodItemId: "11", name: "Té de Manzanilla", quantity: 2 },
           ],
         },
       ],
@@ -384,20 +384,20 @@ const data = {
         {
           day: "Lunes",
           foods: [
-            { foodItemId: "20", quantity: 2 },
-            { foodItemId: "17", quantity: 3 },
-            { foodItemId: "5", quantity: 4 },
+            { foodItemId: "20", name: "Fresa", quantity: 2 },
+            { foodItemId: "17", name: "Nuez de Macadamia", quantity: 3 },
+            { foodItemId: "5", name: "Agua Mineral", quantity: 4 },
           ],
         },
         {
           day: "Miércoles",
-          foods: [{ foodItemId: "5", quantity: 4 }],
+          foods: [{ foodItemId: "5", name: "Agua Mineral", quantity: 4 }],
         },
         {
           day: "Viernes",
           foods: [
-            { foodItemId: "16", quantity: 1 },
-            { foodItemId: "5", quantity: 4 },
+            { foodItemId: "16", name: "Sopa de Tomate", quantity: 1 },
+            { foodItemId: "5", name: "Agua Mineral", quantity: 4 },
           ],
         },
       ],
@@ -409,56 +409,56 @@ const data = {
         {
           day: "Lunes",
           foods: [
-            { foodItemId: "1", quantity: 1 },
-            { foodItemId: "4", quantity: 3 },
-            { foodItemId: "18", quantity: 2 },
+            { foodItemId: "1", name: "Arroz Blanco", quantity: 1 },
+            { foodItemId: "4", name: "Pan Integral", quantity: 3 },
+            { foodItemId: "18", name: "Tostadas con Mermelada", quantity: 2 },
           ],
         },
         {
           day: "Martes",
           foods: [
-            { foodItemId: "1", quantity: 1 },
-            { foodItemId: "19", quantity: 2 },
-            { foodItemId: "8", quantity: 2 },
+            { foodItemId: "1", name: "Arroz Blanco", quantity: 1 },
+            { foodItemId: "19", name: "Tinto", quantity: 2 },
+            { foodItemId: "8", name: "Sándwich de Jamón y Queso", quantity: 2 },
           ],
         },
         {
           day: "Miércoles",
           foods: [
-            { foodItemId: "1", quantity: 1 },
-            { foodItemId: "2", quantity: 1 },
-            { foodItemId: "5", quantity: 2 },
+            { foodItemId: "1", name: "Arroz Blanco", quantity: 1 },
+            { foodItemId: "2", name: "Carne Asada", quantity: 1 },
+            { foodItemId: "5", name: "Agua Mineral",  quantity: 2 },
           ],
         },
         {
           day: "Jueves",
           foods: [
-            { foodItemId: "1", quantity: 1 },
-            { foodItemId: "2", quantity: 1 },
+            { foodItemId: "1", name: "Arroz Blanco", quantity: 1 },
+            { foodItemId: "2", name: "Carne Asada", quantity: 1 },
           ],
         },
         {
           day: "Viernes",
           foods: [
-            { foodItemId: "1", quantity: 1 },
-            { foodItemId: "18", quantity: 2 },
-            { foodItemId: "8", quantity: 1 },
+            { foodItemId: "1", name: "Arroz Blanco", quantity: 1 },
+            { foodItemId: "18", name: "Tostadas con Mermelada", quantity: 2 },
+            { foodItemId: "8", name: "Sándwich de Jamón y Queso", quantity: 1 },
           ],
         },
         {
           day: "Sábado",
           foods: [
-            { foodItemId: "20", quantity: 5 },
-            { foodItemId: "2", quantity: 1 },
-            { foodItemId: "5", quantity: 4 },
-            { foodItemId: "8", quantity: 3 },
+            { foodItemId: "20", name: "Fresa", quantity: 5 },
+            { foodItemId: "2", name: "Carne Asada", quantity: 1 },
+            { foodItemId: "5", name: "Agua Mineral", quantity: 4 },
+            { foodItemId: "8", name: "Sándwich de Jamón y Queso", quantity: 3 },
           ],
         },
         {
           day: "Domingo",
           foods: [
-            { foodItemId: "4", quantity: 3 },
-            { foodItemId: "5", quantity: 3 },
+            { foodItemId: "4", name: "Pan Integral", quantity: 3 },
+            { foodItemId: "5", name: "Agua Mineral", quantity: 3 },
           ],
         },
       ],
@@ -469,20 +469,20 @@ const data = {
       daysOfWeek: [
         {
           day: "Miércoles",
-          foods: [{ foodItemId: "7", quantity: 2 }],
+          foods: [{ foodItemId: "7", name: "Leche Deslactosada", quantity: 2 }],
         },
         {
           day: "Viernes",
           foods: [
-            { foodItemId: "6", quantity: 1 },
-            { foodItemId: "11", quantity: 2 },
+            { foodItemId: "6", name: "Paella", quantity: 1 },
+            { foodItemId: "11", name: "Té de Manzanilla", quantity: 2 },
           ],
         },
         {
           day: "Domingo",
           foods: [
-            { foodItemId: "1", quantity: 2 },
-            { foodItemId: "2", quantity: 1 },
+            { foodItemId: "1", name: "Agua Mineral", quantity: 2 },
+            { foodItemId: "2", name: "Carne Asada", quantity: 1 },
           ],
         },
       ],

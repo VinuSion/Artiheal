@@ -41,6 +41,14 @@
     --input: 220 13% 91%;
     --ring: 249 100% 68%;
     --radius: 0.5rem;
+
+    --fc-today-bg-color: hsla(249, 100%, 68%, 0.137);
+    --fc-event-border-color: hsl(249 100% 68%);
+    --fc-button-active-bg-color: hsl(249 100% 68%);
+    --fc-button-active-border-color: hsl(249 100% 68%);
+    --fc-button-text-color: hsl(224 71.4% 4.1%);
+    --fc-button-bg-color: hsl(0 0% 100%);
+    --fc-button-border-color: hsl(249 100% 68%);
   }
 
   .dark {
@@ -287,4 +295,123 @@
 
 :hover.react-datepicker__day--keyboard-selected {
   background-color: hsl(var(--primary));
+}
+
+
+
+.fc {
+  width: 700px;
+  z-index: auto;
+}
+
+.fc .fc-daygrid-event {
+  z-index: auto;
+}
+
+.fc-toolbar-title {
+  color: hsl(var(--primary));
+  font-weight: bold;
+}
+
+.fc-toolbar-title::first-letter {
+  text-transform: uppercase;
+}
+
+.fc-col-header {
+  background-color: hsl(var(--primary));
+  color: hsl(var(--background));
+}
+
+.fc-day-today {
+  background-color: hsl(var(--primary));
+}
+
+.fc-dayGridMonth-view .fc-day-today .fc-daygrid-day-number {
+  font-weight: bold;
+}
+
+.fc .fc-button {
+  font-size: 0.8em;
+}
+
+.fc .fc-button-group > .fc-button.fc-button-active {
+  color: hsl(var(--background));
+}
+
+.fc .fc-button-primary:not(:disabled).fc-button-active:focus, .fc .fc-button-primary:not(:disabled):active:focus {
+  box-shadow: hsla(249, 100%, 68%, 0.137) 0px 0px 0px 0px;
+}
+
+.fc .fc-button-primary:hover {
+  background-color: hsl(249, 100%, 68%, 0.137);
+}
+
+.fc-event {
+  cursor: pointer;
+}
+
+@media (min-width: 360px) {
+  .fc {
+    width: 310px;
+  }
+}
+
+@media (min-width: 400px) {
+  .fc {
+    width: 330px;
+  }
+}
+
+@media (min-width: 460px) {
+  .fc {
+    width: 380px;
+  }
+}
+
+@media (min-width: 570px) {
+  .fc {
+    width: 500px;
+  }
+}
+
+@media (min-width: 640px) {
+  .fc {
+    width: 380px;
+  }
+}
+
+@media (min-width: 760px) {
+  .fc {
+    width: 450px;
+  }
+}
+
+@media (min-width: 950px) {
+  .fc {
+    width: 550px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .fc {
+    width: 600px;
+  }
+}
+
+@media (min-width: 1150px) {
+  .fc {
+    width: 700px;
+  }
+}
+
+@media (min-width: 1530px) {
+  .fc {
+    width: 580px;
+  }
+}
+
+@media (min-width: 1760px) {
+  .fc {
+    width: 700px;
+  }
 }

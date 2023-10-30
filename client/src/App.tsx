@@ -17,8 +17,9 @@ function App() {
     ctxDispatch({ type: "USER_SIGNOUT" });
     localStorage.removeItem("userInfo");
     if (state.hasFilledHealthData) {
-      ctxDispatch({ type: "REMOVE_HEALTH_DATA" }); // Remove healthData if it exists
+      ctxDispatch({ type: "REMOVE_HEALTH_DATA" }); // Removes healthData if it exists
       ctxDispatch({ type: "REMOVE_PROFILE" });
+      ctxDispatch({ type: "REMOVE_ROUTINE" });
     }
   };
 
