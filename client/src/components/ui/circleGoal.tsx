@@ -26,13 +26,7 @@ class CircleGoal extends React.Component {
             stops: [0, 100]
           }
         },
-        plotOptions: {
-          radialBar: {
-            hollow: {
-              size: "70%",
-            },
-          },
-        },
+       
         labels: ["Objetivo"],
       },
     };
