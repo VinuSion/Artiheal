@@ -4,10 +4,12 @@ import mongoose, { Schema, Document } from "mongoose";
 interface FoodEntry {
   date: Date; // Fecha del registro
   foods: { // Array de todos los alimentos
-    food: Schema.Types.String; // Referencia a -> "foodModel.ts"
-    quantity: number; // Cantidad de dicho alimento en gramos
+    foodID: Schema.Types.String; // Referencia a -> "foodModel.ts"
+    name: string; // Nombre del alimento
+    quantity: number; // Cantidad de dicho alimento consumido en gramos/mililitros
     mealType: string; // Tipo de Comida de este registro (Desayuno, Almuerzo, Cena, Merienda)
     caloriesConsumed: number; // Calorias consumidas de este alimento => (Cantidad / Porcion del alimento) * Calorias del alimento
+    foodImage: string; // Imagen del alimento
   }[];
   totalCalories: number; // Sumatoria de calorias consumidas de todos los alimentos de este registro
 }
@@ -17,10 +19,12 @@ const FoodEntrySchema = new Schema({
   date: { type: Date, required: true },
   foods: [
     {
-      food: { type: Schema.Types.String, ref: "Food", required: true },
+      foodID: { type: Schema.Types.String, ref: "Food", required: true },
+      name: { type: String, required: true},
       quantity: { type: Number, required: true },
       mealType: { type: String, required: true },
       caloriesConsumed: { type: Number, required: true },
+      foodImage: { type: String, required: true},
     },
   ],
   totalCalories: { type: Number, required: true },

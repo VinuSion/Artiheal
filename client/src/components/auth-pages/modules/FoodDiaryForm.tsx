@@ -1,0 +1,675 @@
+import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { Food, FoodEntries } from "@/lib/constants";
+import { Button } from "@ui/button";
+import { Label } from "@ui/label";
+import { Input } from "@ui/input";
+import { Badge } from "@ui/badge";
+import { Separator } from "@ui/separator";
+import { useToast } from "@ui/use-toast";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@ui/dialog";
+import SignLabel from "@ui/sign-label";
+import {
+  Search,
+  UtensilsCrossed,
+  GlassWater,
+  XCircle,
+  Frown,
+} from "lucide-react";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Axios from "axios";
+
+const FoodDiaryForm = () => {
+  const currentDate = new Date();
+  const foodDiaryDate = `${currentDate.getDate()}-${
+    currentDate.getMonth() + 1
+  }-${currentDate.getFullYear()}`;
+
+  const isMounted = useRef(false);
+  const [isInputFocused, setIsInputFocused] = useState(false);
+  const [isCreatingFoodDiary, setIsCreatingFoodDiary] = useState(false);
+  const [foods, setFoods] = useState<Food[]>([]); // Initial list of foods
+  const [filteredFoods, setFilteredFoods] = useState<Food[]>([]); // Filtered list of foods
+  const [searchQuery, setSearchQuery] = useState<string>(""); // Search query
+  const [selectedFood, setSelectedFood] = useState<Food | null>(null);
+  const [foodEntries, setFoodEntries] = useState<FoodEntries[]>([]);
+  const [totalCalories, setTotalCalories] = useState<number>(0);
+
+  const { toast } = useToast();
+
+  const foodEntryFormSchema = z.object({
+    quantity: z
+      .string({
+        required_error: "Este campo es requerido.",
+      })
+      .refine((value) => value.trim() !== "", {
+        message: "Este campo es requerido.",
+      })
+      .refine(
+        (value) => {
+          const numberValue = parseFloat(value);
+          return numberValue > 1;
+        },
+        { message: "Cantidad debe ser mayor a 1 (g o ml)" }
+      )
+      .refine(
+        (value) => {
+          const numberValue = parseFloat(value);
+          return numberValue < 9999;
+        },
+        { message: "Cantidad debe ser menor a 9999 (g o ml)" }
+      )
+      .transform((value) => parseFloat(value)),
+    mealType: z.string({
+      required_error: "Elije una categoria alimentaria.",
+    }),
+  });
+
+  type FoodEntryForm = z.infer<typeof foodEntryFormSchema>;
+
+  const {
+    register,
+    handleSubmit,
+    setError,
+    clearErrors,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<FoodEntryForm>({
+    resolver: zodResolver(foodEntryFormSchema),
+    defaultValues: {
+      mealType: "breakfast",
+    },
+  });
+
+  const submitFoodEntry = (data: FoodEntryForm) => {
+    if (selectedFood) {
+      const duplicateEntry = foodEntries.find(
+        (entry) => entry.foodID === selectedFood.foodId
+      );
+      if (duplicateEntry) {
+        setError("quantity", {
+          type: "manual",
+          message: "No puedes agregar el mismo alimento dos veces.",
+        });
+      } else {
+        clearErrors();
+        const caloriesConsumed = parseFloat(
+          (
+            (data.quantity / selectedFood.servingSize) *
+            selectedFood.calories
+          ).toFixed(2)
+        );
+        const foodEntry = {
+          foodID: selectedFood.foodId,
+          name: selectedFood.name,
+          quantity: data.quantity,
+          mealType: data.mealType,
+          caloriesConsumed: caloriesConsumed,
+          foodImage: selectedFood.picture,
+        };
+
+        const newTotalCalories = parseFloat(
+          (totalCalories + caloriesConsumed).toFixed(2)
+        );
+
+        setFoodEntries((prevFoodEntries) => [...prevFoodEntries, foodEntry]);
+        setTotalCalories(newTotalCalories);
+        setSelectedFood(null);
+        reset();
+      }
+    }
+  };
+
+  const removeFoodEntry = (foodIdToRemove: string) => {
+    const updatedFoodEntries = foodEntries.filter(
+      (foodEntry) => foodEntry.foodID !== foodIdToRemove
+    );
+    const newTotalCalories = parseFloat(
+      updatedFoodEntries
+        .reduce((total, entry) => total + entry.caloriesConsumed, 0)
+        .toFixed(2)
+    );
+    setFoodEntries(updatedFoodEntries);
+    setTotalCalories(newTotalCalories);
+  };
+
+  const createDiary = () => {
+    setIsCreatingFoodDiary(true);
+    const todaysFoods = JSON.parse(localStorage.getItem("todaysFoods") || "[]");
+    const benefitDecision = [];
+
+    if (todaysFoods.length > 0) {
+      for (const todaysFood of todaysFoods) {
+        // Checks if the food is consumed
+        const consumed = foodEntries.some(
+          (foodEntry) => foodEntry.foodID === todaysFood.foodId
+        );
+
+        if (!consumed) {
+          benefitDecision.push(false);
+        } else {
+          // Calculates the expected quantity
+          const expectedQuantity = todaysFood.servingSize * todaysFood.quantity;
+          // Finds the corresponding food entry
+          const matchingFoodEntry = foodEntries.find(
+            (entry) => entry.foodID === todaysFood.foodId
+          );
+          if (matchingFoodEntry) {
+            // Checks if the consumed quantity is greater than or equal to the expected quantity
+            const deservesBenefit =
+              matchingFoodEntry.quantity >= expectedQuantity;
+            benefitDecision.push(deservesBenefit);
+          }
+        }
+      }
+    }
+
+    // Check if all benefit decisions are true
+    const userDeservesBenefit: boolean =
+      benefitDecision.length > 0
+        ? benefitDecision.every((decision) => decision)
+        : false;
+
+    // If userDeservesBenefit is true, provide the benefit
+    if (userDeservesBenefit) {
+      toast({
+        title: "😁 ¡Si cumplistes!",
+        description: "Te hemos dado 3 puntos, que lo disfrutes!",
+      });
+    } else {
+      toast({
+        title: "😔 No cumplistes...",
+        description: "No mereces el beneficio de 3 puntos.",
+      });
+    }
+    
+    setTimeout(() => {
+      setIsCreatingFoodDiary(false);
+    }, 1500);
+  };
+
+  const getAllFoods = async () => {
+    try {
+      const foodsResponse = await Axios.get("/api/foods/");
+      if (foodsResponse) {
+        // sets initial list of foods
+        setFoods(foodsResponse.data);
+      }
+    } catch (err: any) {
+      console.error(
+        "Los alimentos no se pudieron encontrar (Error interno del servidor)",
+        err
+      );
+    }
+  };
+
+  const filterFoods = (query: string) => {
+    if (query === "") {
+      setFilteredFoods([]); // Clears the filtered foods when the query is empty
+      return;
+    }
+    const filter = foods.filter((food) =>
+      food.name.toLowerCase().includes(query.toLowerCase())
+    );
+    setFilteredFoods(filter);
+  };
+
+  useEffect(() => {
+    if (!isMounted.current) {
+      isMounted.current = true;
+      getAllFoods();
+    }
+  }, []);
+
+  return (
+    <div className="flex flex-col justify-end mt-5 2xl:mt-0">
+      <p className="text-xs text-muted-foreground">
+        Al completar tu{" "}
+        <span className="text-primary font-bold">"diario alimenticio"</span>,
+        proporcionas datos importantes para evaluar tu progreso en tus tareas y
+        el estado de tu salud.{" "}
+      </p>
+      {/* {isLoading && (
+        <div className="mt-2 animate-pulse space-y-3 w-full">
+          <div className="h-16 bg-slate-300 rounded"></div>
+        </div>
+      )} */}
+      <div>
+        {" "}
+        {/* className={`${isLoading ? "hidden" : "block"}`} */}
+        <div className="mt-2">
+          <Dialog>
+            <DialogTrigger className="w-full">
+              <div className="w-full inline-flex items-center justify-center rounded-md text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-gradient-to-r from-indigo-400 to-primary hover:from-indigo-500 hover:to-primary text-white font-bold shadow-lg transition-transform duration-300 ease-in-out h-10 px-4 py-2">
+                Llenar el Diario
+              </div>
+            </DialogTrigger>
+            <DialogContent className="w-11/12 sm:w-full max-w-2xl rounded-md">
+              <DialogHeader>
+                <DialogTitle className="text-left flex flex-row items-center">
+                  Diario Alimenticio
+                  <span className="ml-1 font-normal text-muted-foreground text-xs">
+                    ({foodDiaryDate})
+                  </span>
+                </DialogTitle>
+                <DialogDescription className="text-left text-xs sm:text-sm">
+                  Busca los alimentos consumidos hoy utilizando el buscador
+                  debajo, agrégalos a la lista y envia el diario. Recuerda que
+                  no podrás modificar el diario despues de enviarlo.
+                </DialogDescription>
+              </DialogHeader>
+              <div className="flex flex-row items-center gap-x-4">
+                <div className="w-full flex flex-col z-50 relative">
+                  <Search className="absolute h-6 w-6 text-primary top-2 right-2" />
+                  <Input
+                    type="text"
+                    id="searchFoods"
+                    placeholder="Busca alimentos..."
+                    autoComplete="off"
+                    maxLength={30}
+                    value={searchQuery}
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                      const query = e.target.value;
+                      setSearchQuery(query);
+                      filterFoods(query);
+                    }}
+                    onFocus={() => setIsInputFocused(true)}
+                  />
+                  {isInputFocused && searchQuery.trim() !== "" && (
+                    <div className="absolute mt-10 w-full bg-background rounded-md border-2 shadow-md max-h-[200px] sm:max-h-[300px] overflow-y-auto">
+                      {filteredFoods.length === 0 ? (
+                        <div className="flex flex-row items-center px-2 h-16 rounded gap-x-3">
+                          <div className="flex flex-col px-2 gap-y-1">
+                            <span className="text-primary text-sm sm:text-basic font-bold">
+                              No hay alimentos con esa busqueda...
+                            </span>
+                            <span className="text-xs text-muted-foreground">
+                              ¡Asegurate de incluir las tildes!
+                            </span>
+                          </div>
+                        </div>
+                      ) : (
+                        filteredFoods.map((food) => {
+                          return (
+                            <div
+                              key={food.foodId}
+                              onClick={() => {
+                                setSelectedFood(food);
+                                setSearchQuery("");
+                                setIsInputFocused(false);
+                              }}
+                              className="flex flex-row items-center px-2 h-16 gap-x-3 cursor-pointer bg-background hover:bg-muted"
+                            >
+                              <div className="h-12 w-12 p-1 rounded">
+                                <img src={food.picture} alt={food.name} />
+                              </div>
+                              <div className="flex flex-col gap-y-1">
+                                <div
+                                  className={`flex flex-row items-center ${
+                                    food.name.length >= 14 &&
+                                    food.name.length <= 19
+                                      ? "min-[320px]:max-sm:space-x-2 sm:space-x-3"
+                                      : food.name.length > 19
+                                      ? "min-[320px]:max-sm:space-x-1 sm:space-x-3"
+                                      : "space-x-3"
+                                  }`}
+                                >
+                                  <span
+                                    className={`text-primary font-bold ${
+                                      food.name.length >= 14 &&
+                                      food.name.length <= 19
+                                        ? "min-[320px]:max-sm:text-sm sm:text-basic"
+                                        : food.name.length > 19
+                                        ? "min-[320px]:max-sm:text-xs sm:text-basic"
+                                        : "text-basic"
+                                    }`}
+                                  >
+                                    {food.name}
+                                  </span>
+                                  <Badge
+                                    variant="secondary"
+                                    className="text-xs flex flex-row gap-x-1 cursor-pointer"
+                                  >
+                                    {food.foodType === "comida" ? (
+                                      <>
+                                        <UtensilsCrossed className="h-3 w-3" />
+                                        <span>Comida</span>
+                                      </>
+                                    ) : (
+                                      <>
+                                        <GlassWater className="h-3 w-3" />
+                                        <span>Bebida</span>
+                                      </>
+                                    )}
+                                  </Badge>
+                                </div>
+                                <div className="flex flex-row items-center space-x-4">
+                                  <span className="text-xs text-muted-foreground">
+                                    Calorias: {food.calories}k/cal
+                                  </span>
+                                  <span className="text-xs text-muted-foreground">
+                                    |
+                                  </span>
+                                  <span className="text-xs text-muted-foreground">
+                                    Porcion: {food.servingSize}
+                                    {food.foodType === "comida" ? "g" : "ml"}
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })
+                      )}
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {selectedFood && (
+                <>
+                  <span className="text-primary font-bold sm:text-lg">
+                    Alimento Seleccionado
+                  </span>
+                  <div className="relative flex flex-row items-center px-2 h-16 gap-x-3 bg-background border-2 border-primary rounded-md">
+                    <Button
+                      size="icon"
+                      variant="destructive"
+                      className="absolute top-0 right-0 -mt-2 -mr-2 h-6 w-6 sm:top-4 sm:right-2 sm:-mt-0 sm:-mr-0 rounded-full"
+                      onClick={() => {
+                        setSelectedFood(null);
+                      }}
+                    >
+                      {" "}
+                      <XCircle className="h-5 w-5" />
+                    </Button>
+                    <div className="h-12 w-12 p-1 rounded">
+                      <img src={selectedFood.picture} alt={selectedFood.name} />
+                    </div>
+                    <div className="flex flex-col gap-y-1">
+                      <div
+                        className={`flex flex-row items-center ${
+                          selectedFood.name.length >= 14 &&
+                          selectedFood.name.length <= 19
+                            ? "min-[320px]:max-sm:space-x-2 sm:space-x-3"
+                            : selectedFood.name.length > 19
+                            ? "min-[320px]:max-sm:space-x-1 sm:space-x-3"
+                            : "space-x-3"
+                        }`}
+                      >
+                        <span
+                          className={`text-primary font-bold ${
+                            selectedFood.name.length >= 14 &&
+                            selectedFood.name.length <= 19
+                              ? "min-[320px]:max-sm:text-sm sm:text-basic"
+                              : selectedFood.name.length > 19
+                              ? "min-[320px]:max-sm:text-xs sm:text-basic"
+                              : "text-basic"
+                          }`}
+                        >
+                          {selectedFood.name}
+                        </span>
+                        <Badge
+                          variant="secondary"
+                          className="text-xs flex flex-row gap-x-1 cursor-pointer"
+                        >
+                          {selectedFood.foodType === "comida" ? (
+                            <>
+                              <UtensilsCrossed className="h-3 w-3" />
+                              <span>Comida</span>
+                            </>
+                          ) : (
+                            <>
+                              <GlassWater className="h-3 w-3" />
+                              <span>Bebida</span>
+                            </>
+                          )}
+                        </Badge>
+                      </div>
+                      <div className="flex flex-row items-center space-x-4">
+                        <span className="text-xs text-muted-foreground">
+                          Calorias: {selectedFood.calories}k/cal
+                        </span>
+                        <span className="text-xs text-muted-foreground">|</span>
+                        <span className="text-xs text-muted-foreground">
+                          Porcion: {selectedFood.servingSize}
+                          {selectedFood.foodType === "comida" ? "g" : "ml"}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )}
+
+              <form className="mt-2" onSubmit={handleSubmit(submitFoodEntry)}>
+                <div className="flex flex-row gap-3.5">
+                  <div className="grid w-full max-w-sm items-center gap-1.5">
+                    <Label
+                      htmlFor="quantity"
+                      className={`text-tertiary ${
+                        !selectedFood
+                          ? "text-muted-foreground"
+                          : "text-foreground"
+                      }`}
+                    >
+                      Cantidad{" "}
+                      {selectedFood
+                        ? selectedFood.foodType === "comida"
+                          ? "(g)"
+                          : "(ml)"
+                        : "(g o ml)"}
+                    </Label>
+                    <Input
+                      type="number"
+                      id="quantity"
+                      min="0"
+                      max="9999"
+                      autoComplete="off"
+                      placeholder={`Cantidad en ${
+                        selectedFood
+                          ? selectedFood.foodType === "comida"
+                            ? "(g)"
+                            : "(ml)"
+                          : "(g o ml)"
+                      }`}
+                      disabled={!selectedFood}
+                      {...register("quantity")}
+                    />
+                  </div>
+
+                  <div className="grid w-full max-w-sm items-center gap-1.5">
+                    <Label
+                      htmlFor="mealType"
+                      className={`text-tertiary ${
+                        !selectedFood
+                          ? "text-muted-foreground"
+                          : "text-foreground"
+                      }`}
+                    >
+                      Categoría
+                    </Label>
+                    <select
+                      id="mealType"
+                      disabled={!selectedFood}
+                      className="cursor-pointer flex h-10 w-full items-center justify-between border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 rounded-lg border-2 file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 p-2 transition duration-300 hover:shadow-md focus:shadow-md focus:primary"
+                      {...register("mealType")}
+                      defaultValue="breakfast"
+                    >
+                      <option value="breakfast">Desayuno</option>
+                      <option value="lunch">Almuerzo</option>
+                      <option value="dinner">Cena</option>
+                      <option value="snack">Merienda</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="mt-2 sm:h-[20px] sm:mt-[0.4rem]">
+                  {errors.quantity && errors.mealType && (
+                    <SignLabel
+                      variant="error"
+                      message="Ambos campos contienen información inválida."
+                    />
+                  )}
+                  {errors.quantity && !errors.mealType && (
+                    <SignLabel
+                      variant="error"
+                      message={errors.quantity.message}
+                    />
+                  )}
+                  {errors.mealType && !errors.quantity && (
+                    <SignLabel
+                      variant="error"
+                      message={errors.mealType.message}
+                    />
+                  )}
+                </div>
+                <div className="flex flex-col sm:flex-row gap-4 items-center mt-3">
+                  <Button
+                    type="submit"
+                    disabled={!selectedFood || isSubmitting}
+                    className="w-full sm:w-1/2"
+                  >
+                    Agregar Alimento
+                  </Button>
+                  <p className="text-xs text-muted-foreground sm:w-1/2">
+                    Al agregar un alimento a la lista, obtienes datos sobre el
+                    número total de calorías consumidas en el día.
+                  </p>
+                </div>
+              </form>
+
+              <Separator />
+
+              <div className="flex flex-col gap-3">
+                <span className="text-primary font-bold">
+                  Lista de Alimentos
+                </span>
+                {foodEntries.length > 0 ? (
+                  <div className="border rounded grid grid-cols-3 sm:grid-cols-4 gap-10 max-h-24 sm:max-h-60 overflow-y-auto p-4">
+                    {foodEntries.map((foodEntry) => {
+                      return (
+                        <div
+                          key={foodEntry.foodID}
+                          className="relative flex flex-col items-center w-20 sm:w-28 h-16 bg-background border-2 border-primary rounded-md"
+                        >
+                          <Button
+                            size="icon"
+                            variant="destructive"
+                            className="absolute top-0 right-0 -mt-2 -mr-2 h-6 w-6 rounded-full"
+                            onClick={() => removeFoodEntry(foodEntry.foodID)}
+                          >
+                            {" "}
+                            <XCircle className="h-5 w-5" />
+                          </Button>
+                          <div className="h-10 w-10 p-1 rounded">
+                            <img
+                              src={foodEntry.foodImage}
+                              alt={foodEntry.name}
+                            />
+                          </div>
+                          <span className="text-primary text-xs sm:text-sm font-bold">
+                            {foodEntry.caloriesConsumed}k/cal
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                ) : (
+                  <div className="flex flex-row items-center px-2 h-16 border rounded gap-x-3">
+                    <div className="h-8 w-8 ml-2 rounded items-center justify-center">
+                      <Frown className="h-8 w-8 text-primary" />
+                    </div>
+                    <div className="flex flex-col px-2 gap-y-1">
+                      <span className="text-primary text-sm sm:text-basic font-bold">
+                        No hay alimentos en la lista...
+                      </span>
+                      <span className="text-xs text-muted-foreground">
+                        ¡Elije alimentos para guardalos a tu diario!
+                      </span>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <Separator />
+
+              <div className="flex flex-row justify-between items-center gap-x-3">
+                <div className="flex flex-col">
+                  <span className="text-sm text-muted-foreground sm:text-basic">
+                    Total Calorias:
+                  </span>
+                  <span
+                    className={`font-bold sm:text-lg ${
+                      foodEntries.length === 0
+                        ? "text-muted-foreground/50"
+                        : "text-primary"
+                    }`}
+                  >
+                    {totalCalories} k/cal
+                  </span>
+                </div>
+                <Button
+                  variant="special"
+                  size="lg"
+                  className="sm:w-56"
+                  disabled={foodEntries.length === 0 || isCreatingFoodDiary}
+                  onClick={createDiary}
+                >
+                  {isCreatingFoodDiary ? (
+                    <>
+                      <svg
+                        className="animate-spin h-5 w-5 mr-2 text-background"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                        ></circle>
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        ></path>
+                      </svg>
+                      Cargando...
+                    </>
+                  ) : (
+                    "Enviar Diario"
+                  )}
+                </Button>
+              </div>
+            </DialogContent>
+          </Dialog>
+          <span className="text-xs text-muted-foreground">
+            Solo puedes llenar el formulario una vez por dia.
+          </span>
+        </div>
+        {/* <div className="mt-2 flex flex-row items-center px-2 h-16 border rounded shadow-md gap-x-3">
+      <div className="flex flex-col px-2 gap-y-1">
+        <span className="text-primary text-sm font-bold">
+          Ya completastes el diario de hoy
+        </span>
+        <span className="text-xs text-muted-foreground">
+          Vuelve mañana para completar el otro!
+        </span>
+      </div>
+    </div> */}
+      </div>
+    </div>
+  );
+};
+
+export default FoodDiaryForm;

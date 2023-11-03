@@ -3,7 +3,7 @@ import { Helmet } from "react-helmet-async";
 import { renderEvents, findTodayInRoutine } from "@/lib/utils";
 import { FoodItem, Food } from "@/lib/constants";
 import { Badge } from "@ui/badge";
-import { Button } from "@ui/button";
+import FoodDiaryForm from "./modules/FoodDiaryForm";
 import { UtensilsCrossed, GlassWater } from "lucide-react";
 import FullCalendar from "@fullcalendar/react";
 import Calendar from "@fullcalendar/react";
@@ -144,9 +144,7 @@ const Routine = () => {
                 </div>
               </div>
             )}
-            <div
-              className={`2xl:w-[55%] ${isLoading ? "hidden" : "block"}`}
-            >
+            <div className={`2xl:w-[55%] ${isLoading ? "hidden" : "block"}`}>
               <FullCalendar
                 ref={calendarRef}
                 plugins={[dayGridPlugin]}
@@ -246,7 +244,7 @@ const Routine = () => {
                       </div>
                     </div>
                   ) : (
-                    <div className={`space-y-3 w-full`}>
+                    <div className="space-y-3 w-full">
                       {todaysFoods.length > 0 ? (
                         todaysFoods.map((food: Food) => {
                           return (
@@ -309,7 +307,7 @@ const Routine = () => {
                                     |
                                   </span>
                                   <span className="text-xs text-muted-foreground">
-                                    Porcion: {food.servingSize}g
+                                    Porcion: {food.servingSize}{food.foodType === "comida" ? "g" : "ml"}
                                   </span>
                                 </div>
                               </div>
@@ -332,41 +330,8 @@ const Routine = () => {
                   )}
                 </div>
 
-                <div className="flex flex-col justify-end mt-5 2xl:mt-0">
-                  <p className="text-xs text-muted-foreground">
-                    Al completar tu{" "}
-                    <span className="text-primary font-bold">
-                      "diario alimenticio"
-                    </span>
-                    , proporcionas datos importantes para evaluar tu progreso en
-                    tus tareas y el estado de tu salud.{" "}
-                  </p>
-                  {isLoading && (
-                    <div className="mt-2 animate-pulse space-y-3 w-full">
-                      <div className="h-16 bg-slate-300 rounded"></div>
-                    </div>
-                  )}
-                  <div className={`${isLoading ? "hidden" : "block"}`}>
-                    <div className="mt-2">
-                      <Button className="w-full" variant="special">
-                        Llenar el Diario
-                      </Button>
-                      <span className="text-xs text-muted-foreground">
-                        Solo puedes llenar el formulario una vez por dia.
-                      </span>
-                    </div>
-                    {/* <div className="mt-2 flex flex-row items-center px-2 h-16 border rounded shadow-md gap-x-3">
-                      <div className="flex flex-col px-2 gap-y-1">
-                        <span className="text-primary text-sm font-bold">
-                          Ya completastes el diario de hoy
-                        </span>
-                        <span className="text-xs text-muted-foreground">
-                          Vuelve mañana para completar el otro!
-                        </span>
-                      </div>
-                    </div> */}
-                  </div>
-                </div>
+                <FoodDiaryForm />
+
               </div>
             </div>
           </div>

@@ -21,12 +21,7 @@ export interface HealthData {
 
 interface FoodEntry {
   date: Date;
-  foods: {
-    food: string;
-    quantity: number;
-    mealType: string;
-    caloriesConsumed: number;
-  }[];
+  foods: FoodEntries[];
   totalCalories: number;
 }
 
@@ -62,8 +57,8 @@ interface Medication {
 export interface Profile {
   userId: string;
   foodDiary: FoodEntry[];
-  currentTasks: CurrentTask[]; 
-  taskHistory: TaskHistory[]; 
+  currentTasks: CurrentTask[];
+  taskHistory: TaskHistory[];
   selectedRoutine: string;
   medications: Medication[];
 }
@@ -93,6 +88,15 @@ export interface Food {
   foodType: string,
   picture: string,
   quantity: number,
+}
+
+export interface FoodEntries {
+  foodID: string;
+  name: string;
+  quantity: number;
+  mealType: string;
+  caloriesConsumed: number;
+  foodImage: string;
 }
 
 export const cardOpInfo = [

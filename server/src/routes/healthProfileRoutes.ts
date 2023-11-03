@@ -3,6 +3,8 @@ import expressAsyncHandler from "express-async-handler";
 import HealthData from "../models/healthDataModel";
 import Routine from "../models/routineModel";
 import Profile from "../models/profileModel";
+import Task from "../models/taskModel";
+import Point from "../models/pointsModel";
 
 const healthDataRouter = express.Router();
 
@@ -21,7 +23,7 @@ healthDataRouter.get(
         res.status(404).json({ message: 'Los datos de salud no se pudieron encontrar.' });
       }
     } catch (error) {
-      res.status(500).json({ message: 'Ha ocurrido un error interno en el servidor.'});
+      res.status(500).json({ message: 'Ha ocurrido un error interno en el servidor.' });
     }
   })
 );
@@ -55,11 +57,25 @@ healthDataRouter.post(
         throw new Error('No existe una rutina para esa preferencia de dieta.');
       }
 
+      // Gets 3 random tasks to assign to the user
+      const tasks = await assignRandomTasks();
+
+      // Creates new default points profile
+      const newPoints = new Point({
+        userId,
+        earnedPoints: 0,
+        level: 0, 
+        nextLevelPoints: 25, 
+      });
+
+      // Saves the new default points profile
+      await newPoints.save();
+
       // Creates the user profile document
       const newProfile = new Profile({
         userId,
         foodDiary: [],
-        currentTasks: [],
+        currentTasks: tasks,
         taskHistory: [],
         selectedRoutine: selectedRoutine._id, // Assigns the routine ID
         medications: [],
@@ -67,12 +83,45 @@ healthDataRouter.post(
 
       // Saves the new user profile document
       await newProfile.save();
-      
+
       res.status(201).json(newHealthData);
     } catch (error) {
-      res.status(500).send({ message: 'Ha ocurrido un error. Por favor, inténtelo de nuevo más tarde.'});
+      res.status(500).send({ message: 'Ha ocurrido un error. Por favor, inténtelo de nuevo más tarde.' });
     }
   })
 );
+
+const assignRandomTasks = async () => {
+  const tasks = await Task.find({});
+  shuffleArray(tasks);
+  const today = new Date().toISOString().split('T')[0];
+  const randomTasks = tasks.slice(0, 3);
+
+  return randomTasks.map((task: any) => ({
+    taskId: task._id,
+    status: false,
+    progress: 0,
+    initialDate: today,
+    dueDate: calculateDueDate(),
+    completedDate: null,
+  }));
+};
+
+const shuffleArray = (array: any) => {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+};
+
+const calculateDueDate = () => {
+  const minDays = 3;
+  const maxDays = 8;
+  const dueDate = new Date();
+  const randomDays = minDays + Math.floor(Math.random() * (maxDays - minDays + 1));
+  dueDate.setHours(23, 59, 59, 999); // Sets due date to midnight of that day at 11:59:59.999 PM
+  dueDate.setDate(dueDate.getDate() + randomDays);
+  return dueDate.toISOString();
+};
 
 export default healthDataRouter;

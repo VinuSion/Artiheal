@@ -11,10 +11,10 @@ const PointsSchema = new Schema({
   userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
   earnedPoints: { type: Number, default: 0 }, // Inicializa con 0 puntos cuando el usuario crea una cuenta
   level: { type: Number, default: 0 },
-  nextLevelPoints: { type: Number, required: true }, // Calculado basado en el nivel actual
+  nextLevelPoints: { type: Number, default: 25 }, // Calculado basado en el nivel actual, por defecto es 25 al crear una cuenta
 });
 
-const PointsModel = mongoose.model<Points>("Points", PointsSchema);
+const PointsModel = mongoose.model<Points>("Point", PointsSchema);
 export default PointsModel;
 
 /*
