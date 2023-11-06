@@ -8,6 +8,7 @@ import UserAccount from "./UserAccount";
 import UserHealthProfile from "./UserHealthProfile";
 import Navbar from "./modules/Navbar";
 import HPForm from "./modules/HPForm";
+import { Task, CurrentTask } from "@/lib/constants";
 import Axios from "axios";
 import { Store } from "@/Store";
 
@@ -61,9 +62,39 @@ const Home: React.FC<HomeProps> = ({ handleLogout }: HomeProps) => {
       const userProfile = healthProfileResponse.data;
       if (userProfile) {
         ctxDispatch({ type: "CREATE_PROFILE", payload: userProfile });
+        const currentTasks = userProfile.currentTasks;
+        getCurrentTasks(currentTasks);
       }
     } catch (err: any) {
-      console.error("El perfil de salud no se pudo encontrar (No has llenado ese formulario todavia)");
+      console.error(
+        "El perfil de salud no se pudo encontrar (No has llenado ese formulario todavia)"
+      );
+    }
+  };
+
+  const getCurrentTasks = async (currentTasks: any) => {
+    const tasks: Task[] = [];
+    try {
+      const taskPromises = currentTasks.map(async (task: CurrentTask) => {
+        const taskResponse = await Axios.get(`/api/tasks/${task.taskId}`);
+        if (taskResponse) {
+          tasks.push(taskResponse.data);
+        }
+      });
+
+      Promise.all(taskPromises)
+        .then(() => {
+          ctxDispatch({ type: "PLACE_CURRENT_TASKS", payload: tasks });
+        })
+        .catch((err) => {
+          console.error("Ha ocurrido un error interno en el servidor.", err);
+        });
+    } catch (err) {
+      console.error(
+        "Esa tarea no se pudo encontrar (Error interno del servidor)",
+        err
+      );
+      throw err;
     }
   };
 

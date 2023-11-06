@@ -3,8 +3,8 @@ import expressAsyncHandler from "express-async-handler";
 import HealthData from "../models/healthDataModel";
 import Routine from "../models/routineModel";
 import Profile from "../models/profileModel";
-import Task from "../models/taskModel";
 import Point from "../models/pointsModel";
+import { assignRandomTasks } from "../utils";
 
 const healthDataRouter = express.Router();
 
@@ -90,38 +90,5 @@ healthDataRouter.post(
     }
   })
 );
-
-const assignRandomTasks = async () => {
-  const tasks = await Task.find({});
-  shuffleArray(tasks);
-  const today = new Date().toISOString().split('T')[0];
-  const randomTasks = tasks.slice(0, 3);
-
-  return randomTasks.map((task: any) => ({
-    taskId: task._id,
-    status: false,
-    progress: 0,
-    initialDate: today,
-    dueDate: calculateDueDate(),
-    completedDate: null,
-  }));
-};
-
-const shuffleArray = (array: any) => {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-};
-
-const calculateDueDate = () => {
-  const minDays = 3;
-  const maxDays = 8;
-  const dueDate = new Date();
-  const randomDays = minDays + Math.floor(Math.random() * (maxDays - minDays + 1));
-  dueDate.setHours(23, 59, 59, 999); // Sets due date to midnight of that day at 11:59:59.999 PM
-  dueDate.setDate(dueDate.getDate() + randomDays);
-  return dueDate.toISOString();
-};
 
 export default healthDataRouter;

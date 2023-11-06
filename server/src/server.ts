@@ -13,6 +13,7 @@ import healthDataRouter from "./routes/healthProfileRoutes";
 import profileRouter from "./routes/profileRoutes";
 import routineRouter from "./routes/routineRoutes";
 import foodRouter from "./routes/foodRoutes";
+import taskRouter from "./routes/taskRoutes";
 
 config(); // Setup dotenv
 
@@ -53,6 +54,7 @@ app.use("/api/health-data", healthDataRouter);
 app.use("/api/profile", profileRouter);
 app.use("/api/routine", routineRouter);
 app.use("/api/foods", foodRouter);
+app.use("/api/tasks", taskRouter);
 
 // Resolving vite frontend path
 app.use(express.static(frontend));

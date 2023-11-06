@@ -23,9 +23,10 @@ interface FoodEntry {
   date: Date;
   foods: FoodEntries[];
   totalCalories: number;
+  threePointsBenefit: boolean;
 }
 
-interface CurrentTask {
+export interface CurrentTask {
   taskId: string;
   status: boolean;
   progress: number;
@@ -34,9 +35,9 @@ interface CurrentTask {
   completedDate: Date | null;
 }
 
-interface TaskHistory {
+export interface TaskHistory {
   taskId: string;
-  pointsRecieved: number;
+  pointsReceived: number;
   progress: number;
   dueDate: Date;
   initialDate: Date;
@@ -97,6 +98,14 @@ export interface FoodEntries {
   mealType: string;
   caloriesConsumed: number;
   foodImage: string;
+}
+
+export interface Task {
+  foodReference: string;
+  description: string; 
+  goal: number; 
+  pointsAwarded: number;
+  taskType: string; 
 }
 
 export const cardOpInfo = [

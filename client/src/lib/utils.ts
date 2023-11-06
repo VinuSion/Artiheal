@@ -179,20 +179,30 @@ export const mapDayNameToWeekday = (dayName: string): number => {
   }
 };
 
-export const findTodayInRoutine = (routine: { day: string }[]): string | null => {
-  const daysOfWeek = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
+export const findTodayInRoutine = (
+  routine: { day: string }[]
+): string | null => {
+  const daysOfWeek = [
+    "Domingo",
+    "Lunes",
+    "Martes",
+    "Miércoles",
+    "Jueves",
+    "Viernes",
+    "Sábado",
+  ];
   const today = new Date().getDay(); // Gets today's weekday index (0 for Sunday, 1 for Monday, ..., 6 for Saturday)
-  
+
   const todayInSpanish = daysOfWeek[today];
-  
+
   const foundDay = routine.find((dayObj) => dayObj.day === todayInSpanish);
-  
+
   if (foundDay) {
     return foundDay.day; // Today's weekday in Spanish found in the routine
   } else {
     return null; // Today's weekday in Spanish not found in the routine
   }
-}
+};
 
 export const renderEvents = (calendarApi: any, routine: any) => {
   if (routine) {
@@ -207,7 +217,11 @@ export const renderEvents = (calendarApi: any, routine: any) => {
       const dayObject = routine[dayIndex];
       const dayName = dayObject.day;
 
-      for (let day = currentDay; day <= new Date(currentYear, currentMonth + 1, 0).getDate(); day++) {
+      for (
+        let day = currentDay;
+        day <= new Date(currentYear, currentMonth + 1, 0).getDate();
+        day++
+      ) {
         const date = new Date(currentYear, currentMonth, day);
         const dayWeekday = mapDayNameToWeekday(dayName);
 
@@ -227,5 +241,12 @@ export const renderEvents = (calendarApi: any, routine: any) => {
   }
 };
 
-
-
+export const getCurrentDateTimeInEST = (): string => {
+  const today = new Date();
+  const offsetMinutes = today.getTimezoneOffset();
+  const estOffsetMinutes = 5 * 60; // 5 hours * 60 minutes per hour
+  const adjustedDate = new Date(
+    today.getTime() - (offsetMinutes - estOffsetMinutes) * 60 * 1000
+  );
+  return adjustedDate.toISOString();
+};

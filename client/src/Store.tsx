@@ -5,6 +5,7 @@ import {
   Profile,
   Routine,
   Food,
+  Task
 } from "@/lib/constants";
 
 // Defines the shape of the state
@@ -15,6 +16,7 @@ interface State {
   profile: Profile | null;
   routine: Routine | null;
   todaysFoods: Food[] | null;
+  tasks: Task[] | null;
 }
 
 // Defines the action types
@@ -29,7 +31,9 @@ type Action =
   | { type: "REMOVE_PROFILE" }
   | { type: "CREATE_ROUTINE"; payload: Routine }
   | { type: "REMOVE_ROUTINE" }
-  | { type: "ASSIGN_TODAYS_FOODS"; payload: Food[] };
+  | { type: "ASSIGN_TODAYS_FOODS"; payload: Food[] }
+  | { type: "PLACE_CURRENT_TASKS"; payload: Task[] }
+  | { type: "REMOVE_CURRENT_TASKS" };
 
 // Creates initial state by checking localStorage
 const initialState: State = {
@@ -48,6 +52,9 @@ const initialState: State = {
     : null,
   todaysFoods: localStorage.getItem("todaysFoods")
     ? JSON.parse(localStorage.getItem("todaysFoods")!)
+    : null,
+  tasks: localStorage.getItem("tasks")
+    ? JSON.parse(localStorage.getItem("tasks")!)
     : null,
 };
 
@@ -119,6 +126,18 @@ export const reducer = (state: State, action: Action): State => {
         ...state,
         todaysFoods: action.payload,
       };
+    case "PLACE_CURRENT_TASKS":
+        localStorage.setItem("tasks", JSON.stringify(action.payload));
+        return {
+          ...state,
+          tasks: action.payload,
+        };
+    case "REMOVE_CURRENT_TASKS":
+        localStorage.removeItem("tasks");
+        return {
+          ...state,
+          tasks: null,
+        };
     default:
       return state;
   }

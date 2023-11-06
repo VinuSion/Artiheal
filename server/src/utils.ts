@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import { Request, Response, NextFunction } from 'express';
+import Task from "../src/models/taskModel";
 
 export const baseUrl = () => {
   return process.env.BASE_URL || "http://localhost:3000";
@@ -99,3 +100,112 @@ export const template = (resetLink: string) => `
 </body>
 </html>
 `;
+
+export const shuffleArray = (array: any) => {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+};
+
+export const calculateDueDate = () => {
+  const minDays = 3;
+  const maxDays = 8;
+  const dueDate = new Date();
+  const randomDays = minDays + Math.floor(Math.random() * (maxDays - minDays + 1));
+  dueDate.setHours(23, 59, 59, 999); // Sets due date to midnight of that day at 11:59:59.999 PM
+  dueDate.setDate(dueDate.getDate() + randomDays);
+  return dueDate.toISOString();
+};
+
+export const assignRandomTasks = async () => {
+  const tasks = await Task.find({});
+  shuffleArray(tasks);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const formattedDate = today.toISOString();
+  const randomTasks = tasks.slice(0, 3);
+
+  return randomTasks.map((task: any) => ({
+    taskId: task._id,
+    status: false,
+    progress: 0,
+    initialDate: new Date(formattedDate),
+    dueDate: new Date(calculateDueDate()),
+    completedDate: null,
+  }));
+};
+
+export const replaceTasksWithoutRepetition = async (currentTasks: any, numSlots: number) => {
+  const existingTaskIds = currentTasks.map((task: any) => task.taskId.toString()); // Creates an array of existing taskIds
+
+  const allTasks = await Task.find({});
+  shuffleArray(allTasks);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const formattedDate = today.toISOString();
+
+  // Initializes an array for new tasks
+  const newTasks: any = [];
+
+  // Creates new tasks without repetition
+  for (let i = 0; i < numSlots; i++) {
+    let taskToAdd: any;
+    do {
+      taskToAdd = allTasks.pop();
+    } while (existingTaskIds.includes(taskToAdd._id) || newTasks.some((newTask: any) => newTask.taskId === taskToAdd._id));
+
+    newTasks.push({
+      taskId: taskToAdd._id,
+      status: false,
+      progress: 0,
+      initialDate: new Date(formattedDate),
+      dueDate: new Date(calculateDueDate()),
+      completedDate: null,
+    });
+  }
+
+  return newTasks;
+};
+
+export const getPointsBenefit = (level: number) => {
+  switch (level) {
+    case 0:
+      return { multiplier: 1, division: 1 };
+    case 1:
+      return { multiplier: 1.2, division: 4 };
+    case 2:
+      return { multiplier: 1.6, division: 3 };
+    case 3:
+      return { multiplier: 2, division: 2 };
+    case 4:
+      return { multiplier: 2.5, division: 1 };
+    default:
+      return { multiplier: 1, division: 1 }; // Default multiplier and division if level is not found
+  }
+};
+
+export const calculateLevel = (earnedPoints: number) => {
+  const levels = [
+    { minPoints: 0, maxPoints: 24 },
+    { minPoints: 25, maxPoints: 99 },
+    { minPoints: 100, maxPoints: 499 },
+    { minPoints: 500, maxPoints: 1999 },
+  ];
+
+  for (let i = levels.length - 1; i >= 0; i--) {
+    if (earnedPoints >= levels[i].minPoints) {
+      return {
+        level: i,
+        nextPoints: levels[i + 1] ? levels[i + 1].minPoints - earnedPoints : 0,
+      };
+    }
+  }
+
+  // If the earnedPoints are above the last level, return level 4
+  return {
+    level: 4,
+    nextPoints: 0,
+  };
+};
+

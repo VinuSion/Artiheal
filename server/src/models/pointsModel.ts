@@ -20,19 +20,19 @@ export default PointsModel;
 /*
     LEVELS
     Level 0: Earn from 0 - 24 points
-    Level 1: Earn from 25 - 49 points
-    Level 2: Earn from 50 - 99 points
-    Level 3: Earn from 100 - 199 points
-    Level 4: Earn 200+ points and above
+    Level 1: Earn from 25 - 99 points
+    Level 2: Earn from 100 - 499 points
+    Level 3: Earn from 500 - 1999 points
+    Level 4: Earn 2000+ points and above
 
-    Example: Completed a task worth 7 points -> User is Level 2 of benefits -> therefore they get 10 points (rounded down from 10.5)
+    Example: Completed a task worth 7 points -> User is Level 2 of benefits -> therefore they get 10 points (rounded down from 10.7)
 
     BENEFITS
-    Level 0: Points multiplication factor x1
-    Level 1: Points multiplication factor x1.5
-    Level 2: Points multiplication factor x2.5
-    Level 3: Points multiplication factor x3.5
-    Level 4: Points multiplication factor x4.5
+    Level 0: Points multiplication factor x1 | Divide the result by 1
+    Level 1: Points multiplication factor x1.2 | Divide the result by 4
+    Level 2: Points multiplication factor x1.6 | Divide the result by 3
+    Level 3: Points multiplication factor x2 | Divide the result by 2
+    Level 4: Points multiplication factor x2.5 | Divide the result by 1
 
-    Example: User is on Level 1 and has earned a total of 47 points ever since they created an account on the app -> complete one more task that earns them 5 points -> now theyre at 52 points -> succesfully leveled up to Level 2.
+    Example: User is on Level 1 and has earned a total of 98 points ever since they created an account on the app -> complete one more task that earns them 5 points -> now theyre at 103 points -> succesfully leveled up to Level 2.
 */

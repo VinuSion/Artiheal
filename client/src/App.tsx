@@ -20,6 +20,7 @@ function App() {
       ctxDispatch({ type: "REMOVE_HEALTH_DATA" }); // Removes healthData if it exists
       ctxDispatch({ type: "REMOVE_PROFILE" });
       ctxDispatch({ type: "REMOVE_ROUTINE" });
+      ctxDispatch({ type: "REMOVE_CURRENT_TASKS" });
     }
   };
 

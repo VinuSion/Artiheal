@@ -12,6 +12,7 @@ interface FoodEntry {
     foodImage: string; // Imagen del alimento
   }[];
   totalCalories: number; // Sumatoria de calorias consumidas de todos los alimentos de este registro
+  threePointsBenefit: boolean; // Si el usuario obtuvo el beneficio de +3 puntos.
 }
 
 // Schema del registro del diario de alimentos consumidos por el usuario
@@ -28,12 +29,13 @@ const FoodEntrySchema = new Schema({
     },
   ],
   totalCalories: { type: Number, required: true },
+  threePointsBenefit: {type: Boolean, required: true},
 });
 
 // Interface que representa las tareas actuales del usuario
 interface CurrentTask {
   taskId: Schema.Types.ObjectId; // Referencia a -> "taskModel.ts"
-  status: boolean; // Estado de la tarea (true para completada, false para pendiente)
+  status: boolean; // Estado de la tarea (true para completada/finalizada si llego a su fecha vencimiento, false para pendiente)
   progress: number; // Progreso en porcentaje (0-100)
   dueDate: Date; // Fecha de vencimiento de la tarea
   initialDate: Date; // Fecha en que se asigno la tarea
@@ -53,7 +55,7 @@ const CurrentTaskSchema = new Schema({
 // Interface que representa el historial de las tareas completados o no completados por el usuario
 interface TaskHistory {
   taskId: Schema.Types.ObjectId;
-  pointsRecieved: number; // Puntos que obtuvo por completar la tarea
+  pointsReceived: number; // Puntos que obtuvo por completar la tarea
   progress: number;
   dueDate: Date;
   initialDate: Date;
@@ -64,7 +66,7 @@ interface TaskHistory {
 // Schema de las tareas completadas por el usuario
 const TaskHistorySchema = new Schema({
   taskId: { type: Schema.Types.ObjectId, ref: "Task" },
-  pointsRecieved: { type: Number, required: true },
+  pointsReceived: { type: Number, required: true },
   progress: { type: Number, required: true },
   dueDate: { type: Date, required: true },
   initialDate: { type: Date, required: true },

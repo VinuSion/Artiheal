@@ -1,5 +1,6 @@
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { Food, FoodEntries } from "@/lib/constants";
+import { getCurrentDateTimeInEST } from "@/lib/utils";
 import { Button } from "@ui/button";
 import { Label } from "@ui/label";
 import { Input } from "@ui/input";
@@ -28,10 +29,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Axios from "axios";
 
 const FoodDiaryForm = () => {
+  const profile = JSON.parse(localStorage.getItem("profile")!);
   const currentDate = new Date();
-  const foodDiaryDate = `${currentDate.getDate()}-${
-    currentDate.getMonth() + 1
-  }-${currentDate.getFullYear()}`;
+  const day = currentDate.getDate().toString().padStart(2, "0");
+  const month = (currentDate.getMonth() + 1).toString().padStart(2, "0");
+  const year = currentDate.getFullYear();
+  const foodDiaryDate = `${day}-${month}-${year}`;
 
   const isMounted = useRef(false);
   const [isInputFocused, setIsInputFocused] = useState(false);
@@ -63,9 +66,16 @@ const FoodDiaryForm = () => {
       .refine(
         (value) => {
           const numberValue = parseFloat(value);
-          return numberValue < 9999;
+          return numberValue < 999999;
         },
-        { message: "Cantidad debe ser menor a 9999 (g o ml)" }
+        { message: "Cantidad debe ser menor a 999,999 (g o ml)" }
+      )
+      .refine(
+        (value) => {
+          const decimalPlaces = value.split(".")[1];
+          return !decimalPlaces || decimalPlaces.length <= 2;
+        },
+        { message: "Cantidad debe tener maximo 2 decimales." }
       )
       .transform((value) => parseFloat(value)),
     mealType: z.string({
@@ -85,7 +95,7 @@ const FoodDiaryForm = () => {
   } = useForm<FoodEntryForm>({
     resolver: zodResolver(foodEntryFormSchema),
     defaultValues: {
-      mealType: "breakfast",
+      mealType: "NA",
     },
   });
 
@@ -141,10 +151,14 @@ const FoodDiaryForm = () => {
     setTotalCalories(newTotalCalories);
   };
 
-  const createDiary = () => {
+  const createDiary = async () => {
     setIsCreatingFoodDiary(true);
     const todaysFoods = JSON.parse(localStorage.getItem("todaysFoods") || "[]");
+    const currentTasks = profile.currentTasks;
+    const tasks = JSON.parse(localStorage.getItem("tasks")!);
     const benefitDecision = [];
+    const taskInfoArray = [];
+    const tasksToUpdate: any = [];
 
     if (todaysFoods.length > 0) {
       for (const todaysFood of todaysFoods) {
@@ -172,28 +186,141 @@ const FoodDiaryForm = () => {
       }
     }
 
+    for (const task of tasks) {
+      const matchingFoodEntry = foodEntries.find(
+        (entry) => entry.foodID === task.foodReference
+      );
+      if (matchingFoodEntry) {
+        // If it exists, construct the object and add it to taskInfoArray
+        taskInfoArray.push({
+          foodID: task.foodReference,
+          goal: task.goal,
+          quantity: matchingFoodEntry.quantity,
+        });
+
+        // Find the corresponding currentTask using the task._id
+        const currentTask = currentTasks.find(
+          (ctask: any) => ctask.taskId === task._id
+        );
+
+        if (currentTask) {
+          // Calculate the new progress in grams or milliliters based on the percentage progress
+          const calculatedQuantity =
+            parseFloat(((currentTask.progress / 100) * task.goal).toFixed(2)) +
+            matchingFoodEntry.quantity;
+
+          if (calculatedQuantity >= task.goal) {
+            // Updates the properties directly within the currentTask
+            currentTask.progress = 100;
+            currentTask.status = true;
+            currentTask.completedDate = new Date(getCurrentDateTimeInEST());
+          } else {
+            // Converts the new calculated quantity back to percentage if its still not complete (100%)
+            currentTask.progress = parseFloat(
+              ((calculatedQuantity / task.goal) * 100).toFixed(2)
+            );
+          }
+          tasksToUpdate.push(currentTask);
+        }
+      }
+    }
+
     // Check if all benefit decisions are true
     const userDeservesBenefit: boolean =
       benefitDecision.length > 0
         ? benefitDecision.every((decision) => decision)
         : false;
 
-    // If userDeservesBenefit is true, provide the benefit
-    if (userDeservesBenefit) {
-      toast({
-        title: "😁 ¡Si cumplistes!",
-        description: "Te hemos dado 3 puntos, que lo disfrutes!",
-      });
-    } else {
-      toast({
-        title: "😔 No cumplistes...",
-        description: "No mereces el beneficio de 3 puntos.",
-      });
+    if (tasksToUpdate.length > 0) {
+      const filteredTasks = tasks.filter((task: any) =>
+        tasksToUpdate.some(
+          (currentTask: any) => currentTask.taskId === task._id
+        )
+      );
+      // AXIOS REQUEST FOR UPDATING CURRENT TASKS
+      await updateCurrentTasks(tasksToUpdate, filteredTasks);
     }
-    
+
+    // AXIOS REQUEST FOR SENDING FOOD DIARY
+    const diaryDate = getCurrentDateTimeInEST();
+    await sendFoodDiaryRequest(
+      diaryDate,
+      foodEntries,
+      totalCalories,
+      userDeservesBenefit
+    ).then(() => {
+      // If userDeservesBenefit is true, provide the benefit
+      toast({
+        title: "✅ Diario enviado exitosamente",
+        description: userDeservesBenefit
+          ? "¡Por completar tu rutina de hoy, te hemos otorgado 3 puntos! ¡Disfrútalos! 😁"
+          : "Aunque no completaste tu rutina hoy, tu diario ha sido enviado con éxito. 🙂",
+      });
+    });
+
     setTimeout(() => {
-      setIsCreatingFoodDiary(false);
-    }, 1500);
+      window.location.reload();
+    }, 1000);
+  };
+
+  const updateCurrentTasks = async (currentTasksToUpdate: any, tasks: any) => {
+    try {
+      const updatedTasksResponse = await Axios.post(
+        `/api/profile/current-tasks/${profile.userId}`,
+        {
+          currentTasksToUpdate,
+          tasks,
+        }
+      );
+      const updatedTasks = updatedTasksResponse.data.updatedTasks;
+      const levelInfo = updatedTasksResponse.data.levelInfo;
+      if (updatedTasks) {
+        profile.currentTasks = updatedTasks;
+        localStorage.setItem("profile", JSON.stringify(profile));
+      }
+      if (levelInfo && levelInfo.leveledUp) {
+        localStorage.setItem("levelUp", levelInfo.level);
+      }
+    } catch (err: any) {
+      console.error(
+        "Las tareas no se pudieron actualizar (Error interno del servidor)",
+        err
+      );
+    }
+  };
+
+  const sendFoodDiaryRequest = async (
+    diaryDate: any,
+    foodEntries: any,
+    calories: any,
+    benefit: any
+  ) => {
+    try {
+      const foodDiaryResponse = await Axios.post(
+        `/api/profile/food-diary/${profile.userId}`,
+        {
+          diaryDate,
+          foodEntries,
+          calories,
+          benefit,
+        }
+      );
+      const newFoodDiaryEntry = foodDiaryResponse.data.newDiaryEntry;
+      const levelInfo = foodDiaryResponse.data.levelInfo;
+      if (newFoodDiaryEntry) {
+        profile.foodDiary = profile.foodDiary || [];
+        profile.foodDiary.push(newFoodDiaryEntry);
+        localStorage.setItem("profile", JSON.stringify(profile));
+      }
+      if (levelInfo && levelInfo.leveledUp) {
+        localStorage.setItem("levelUp", levelInfo.level);
+      }
+    } catch (err: any) {
+      console.error(
+        "EL diario alimenticio no se pudo enviar (Error interno del servidor)",
+        err
+      );
+    }
   };
 
   const getAllFoods = async () => {
@@ -225,6 +352,16 @@ const FoodDiaryForm = () => {
   useEffect(() => {
     if (!isMounted.current) {
       isMounted.current = true;
+      const levelUp = localStorage.getItem("levelUp");
+      if (levelUp) {
+        setTimeout(() => {
+          toast({
+            title: "🎉¡Enhorabuena!🎉",
+            description: `Has avanzado al Nivel ${levelUp}, ¡Felicidades! 🚀`,
+          });
+          localStorage.removeItem("levelUp");
+        }, 250);
+      }
       getAllFoods();
     }
   }, []);
@@ -470,7 +607,8 @@ const FoodDiaryForm = () => {
                       type="number"
                       id="quantity"
                       min="0"
-                      max="9999"
+                      max="999999"
+                      step="any"
                       autoComplete="off"
                       placeholder={`Cantidad en ${
                         selectedFood
@@ -500,8 +638,9 @@ const FoodDiaryForm = () => {
                       disabled={!selectedFood}
                       className="cursor-pointer flex h-10 w-full items-center justify-between border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 rounded-lg border-2 file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 p-2 transition duration-300 hover:shadow-md focus:shadow-md focus:primary"
                       {...register("mealType")}
-                      defaultValue="breakfast"
+                      defaultValue="NA"
                     >
+                      <option value="NA">No aplica</option>
                       <option value="breakfast">Desayuno</option>
                       <option value="lunch">Almuerzo</option>
                       <option value="dinner">Cena</option>
@@ -557,7 +696,7 @@ const FoodDiaryForm = () => {
                       return (
                         <div
                           key={foodEntry.foodID}
-                          className="relative flex flex-col items-center w-20 sm:w-28 h-16 bg-background border-2 border-primary rounded-md"
+                          className="relative flex flex-col items-center w-22 sm:w-28 h-16 bg-background border-2 border-primary rounded-md"
                         >
                           <Button
                             size="icon"

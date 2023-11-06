@@ -69,6 +69,13 @@ const HPForm: React.FC<HPFormProps> = ({ open, onClose }) => {
         },
         { message: "Altura debe ser menor a 300cm" }
       )
+      .refine(
+        (value) => {
+          const decimalPlaces = value.split('.')[1];
+          return !decimalPlaces || decimalPlaces.length <= 2;
+        },
+        { message: "Altura debe tener maximo 2 decimales." }
+      )
       .transform((value) => parseFloat(value)),
     weight: z
       .string()
@@ -88,6 +95,13 @@ const HPForm: React.FC<HPFormProps> = ({ open, onClose }) => {
           return numberValue < 700;
         },
         { message: "Peso debe ser menor a 700kg" }
+      )
+      .refine(
+        (value) => {
+          const decimalPlaces = value.split('.')[1];
+          return !decimalPlaces || decimalPlaces.length <= 2;
+        },
+        { message: "Peso debe tener maximo 2 decimales." }
       )
       .transform((value) => parseFloat(value)),
   });
