@@ -16,6 +16,7 @@ import { es } from "date-fns/locale";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Task, CurrentTask } from "@/lib/constants";
 import Axios, { AxiosError } from "axios";
 import { Store } from "@/Store";
 import { getError, Range, formatWeekday, isDateValid } from "@/lib/utils";
@@ -71,7 +72,7 @@ const HPForm: React.FC<HPFormProps> = ({ open, onClose }) => {
       )
       .refine(
         (value) => {
-          const decimalPlaces = value.split('.')[1];
+          const decimalPlaces = value.split(".")[1];
           return !decimalPlaces || decimalPlaces.length <= 2;
         },
         { message: "Altura debe tener maximo 2 decimales." }
@@ -98,7 +99,7 @@ const HPForm: React.FC<HPFormProps> = ({ open, onClose }) => {
       )
       .refine(
         (value) => {
-          const decimalPlaces = value.split('.')[1];
+          const decimalPlaces = value.split(".")[1];
           return !decimalPlaces || decimalPlaces.length <= 2;
         },
         { message: "Peso debe tener maximo 2 decimales." }
@@ -148,6 +149,8 @@ const HPForm: React.FC<HPFormProps> = ({ open, onClose }) => {
           const userProfile = healthProfileResponse.data;
           if (userProfile) {
             ctxDispatch({ type: "CREATE_PROFILE", payload: userProfile });
+            const currentTasks = userProfile.currentTasks;
+            getCurrentTasks(currentTasks);
           }
         } catch (err: any) {
           console.error("El perfil de salud no se pudo encontrar");
@@ -163,6 +166,31 @@ const HPForm: React.FC<HPFormProps> = ({ open, onClose }) => {
       }
     } else {
       setBirthdateError(isDateValid(selectedDate));
+    }
+  };
+
+  const getCurrentTasks = async (currentTasks: any) => {
+    const tasks: Task[] = [];
+    try {
+      const taskPromises = currentTasks.map(async (task: CurrentTask) => {
+        const taskResponse = await Axios.get(`/api/tasks/${task.taskId}`);
+        if (taskResponse) {
+          tasks.push(taskResponse.data);
+        }
+      });
+      Promise.all(taskPromises)
+        .then(() => {
+          ctxDispatch({ type: "PLACE_CURRENT_TASKS", payload: tasks });
+        })
+        .catch((err) => {
+          console.error("Ha ocurrido un error interno en el servidor.", err);
+        });
+    } catch (err) {
+      console.error(
+        "Esa tarea no se pudo encontrar (Error interno del servidor)",
+        err
+      );
+      throw err;
     }
   };
 

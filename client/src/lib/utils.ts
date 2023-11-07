@@ -2,7 +2,7 @@ import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { AxiosError } from "axios";
 import { isToday, isValid, parse, format } from "date-fns";
-import { FoodItem } from "@/lib/constants";
+import { FoodItem, mealTypeMap } from "@/lib/constants";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -249,4 +249,28 @@ export const getCurrentDateTimeInEST = (): string => {
     today.getTime() - (offsetMinutes - estOffsetMinutes) * 60 * 1000
   );
   return adjustedDate.toISOString();
+};
+
+export const formatSpanishDate = (diaryDate: Date): string => {
+  const date = new Date(diaryDate);
+  const formattedDate = date.toLocaleString("es-CO", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+  });
+
+  const parts = formattedDate.split(" ");
+  const day = parts[0].charAt(0).toUpperCase() + parts[0].slice(1); // Capitalizes the first letter
+  const time = parts[6].replace(/^0/, ""); // Removes the leading zero from the hour
+  const formattedString = `${day} ${parts[1]} de ${parts[3]} ${parts[4]} ${parts[5]} ${time} ${parts[7]}`;
+
+  return formattedString;
+};
+
+export const translateMealType = (mealType: string) => {
+  return mealTypeMap[mealType] || mealType;
 };

@@ -19,7 +19,7 @@ export interface HealthData {
   medications: string[];
 }
 
-interface FoodEntry {
+export interface FoodEntry {
   date: Date;
   foods: FoodEntries[];
   totalCalories: number;
@@ -196,3 +196,11 @@ export const bmiCategories = [
   { category: "Obesidad clase 2", range: "35.0 - 39.9" },
   { category: "Obesidad clase 3", range: "40 o más" },
 ];
+
+export const mealTypeMap: { [key: string]: string } = {
+  NA: "N/A",
+  breakfast: "Desayuno",
+  lunch: "Almuerzo",
+  dinner: "Cena",
+  snack: "Merienda",
+};

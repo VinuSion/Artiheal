@@ -4,6 +4,7 @@ import { renderEvents, findTodayInRoutine } from "@/lib/utils";
 import { FoodItem, Food } from "@/lib/constants";
 import { Badge } from "@ui/badge";
 import FoodDiaryForm from "./modules/FoodDiaryForm";
+import FoodDiaryHistory from "./modules/FoodDiaryHistory";
 import { UtensilsCrossed, GlassWater } from "lucide-react";
 import FullCalendar from "@fullcalendar/react";
 import Calendar from "@fullcalendar/react";
@@ -227,8 +228,8 @@ const Routine = () => {
                       )
                     </span>{" "}
                     consume estos alimentos de tu rutina y gana{" "}
-                    <span className="text-primary font-bold">3</span> puntos!
-                    Sigue tu propio ritmo y obtén recompensas por el esfuerzo
+                    <span className="text-primary font-bold">+3 puntos!</span>
+                    {" "}Sigue tu propio ritmo y obtén recompensas por el esfuerzo
                     que haces para mejorar tu salud!{" "}
                   </p>
                   {isLoading ? (
@@ -307,7 +308,7 @@ const Routine = () => {
                                     |
                                   </span>
                                   <span className="text-xs text-muted-foreground">
-                                    Porcion: {food.servingSize}{food.foodType === "comida" ? "g" : "ml"}
+                                    Porcion: {food.servingSize}{food.foodType === "comida" ? "g" : "mL"}
                                   </span>
                                 </div>
                               </div>
@@ -337,6 +338,9 @@ const Routine = () => {
           </div>
         </div>
       </div>
+
+      <FoodDiaryHistory />
+      
     </>
   );
 };
