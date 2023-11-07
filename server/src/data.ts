@@ -110,7 +110,7 @@ const data = {
     },
     {
       foodId: "13",
-      name: "Yogur Natural",
+      name: "Yogurt Natural",
       servingSize: 150,
       calories: 100,
       foodType: "comida",
