@@ -15,6 +15,8 @@ import routineRouter from "./routes/routineRoutes";
 import foodRouter from "./routes/foodRoutes";
 import taskRouter from "./routes/taskRoutes";
 
+import foodDATARouter from "./routes/foodDATARoutes";
+
 config(); // Setup dotenv
 
 // Setup cors to allow cross-origin requests only from localhost url or hosted url with baseUrl
@@ -49,6 +51,9 @@ app.use(express.urlencoded({ extended: true }));
 // ALL API ENDPOINTS FOR THE SERVER
 app.use("/api/upload", uploadRouter);
 app.use("/api/data", dataRouter);
+
+app.use("/api/food-data/insert", foodDATARouter);
+
 app.use("/api/users", userRouter);
 app.use("/api/health-data", healthDataRouter);
 app.use("/api/profile", profileRouter);

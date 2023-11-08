@@ -2,6 +2,7 @@ import express, { Request, Response } from "express";
 import expressAsyncHandler from "express-async-handler";
 import Profile from "../models/profileModel";
 import Point from "../models/pointsModel";
+import Task from "../models/taskModel";
 import { assignRandomTasks, replaceTasksWithoutRepetition, getPointsBenefit, calculateLevel } from "../utils";
 
 const profileRouter = express.Router();
@@ -117,7 +118,7 @@ profileRouter.post(
               await profile.save();
 
               // Send the updatedTasks and levelInfo as a response
-              res.status(200).json({ message: "Tareas actualizadas exitosamente", updatedTasks, levelInfo });
+              res.status(200).json({ message: "Tareas actualizadas exitosamente", updatedTasks, taskHistory, levelInfo });
             } else {
               const updatedTasks = await assignRandomTasks();
 
@@ -125,7 +126,7 @@ profileRouter.post(
               await profile.save();
 
               // Send the updatedTasks and levelInfo as a response
-              res.status(200).json({ message: "Tareas actualizadas exitosamente", updatedTasks, levelInfo });
+              res.status(200).json({ message: "Tareas actualizadas exitosamente", updatedTasks, taskHistory, levelInfo });
             }
           } else {
             console.log("Los puntos del usuario no se pudieron encontrar.");
@@ -201,7 +202,7 @@ profileRouter.post(
             }
 
             await pointsProfile.save();
-            
+
             // Send the newDiaryEntry and levelInfo as a response
             res.status(200).json({ message: "Diario alimenticio enviado exitosamente", newDiaryEntry, levelInfo });
           } else {
@@ -210,6 +211,89 @@ profileRouter.post(
         } else {
           // Send the newDiaryEntry as a response
           res.status(200).json({ message: "Diario alimenticio enviado exitosamente", newDiaryEntry });
+        }
+      } else {
+        res
+          .status(404)
+          .json({ message: "El perfil de salud no se pudo encontrar." });
+      }
+    } catch (error) {
+      res
+        .status(500)
+        .json({ message: "Ha ocurrido un error interno en el servidor." });
+    }
+  })
+);
+
+profileRouter.post(
+  "/tasks-expired/:id",
+  expressAsyncHandler(async (req: Request, res: Response) => {
+    try {
+      const expiredTasks = req.body;
+      const profile = await Profile.findOne({ userId: req.params.id });
+      if (profile) {
+        const expiredTaskHistory: any = [];
+        let bonusPoints: number = 0;
+        for (const expiredTask of expiredTasks) {
+          // Finds the task by taskId in the tasks collection
+          const task = await Task.findOne({ _id: expiredTask.taskId });
+          if (task) {
+            const points = Math.floor((expiredTask.progress / 100) * task.pointsAwarded);
+            bonusPoints += points;
+            const expiredTaskEntry = {
+              taskId: expiredTask.taskId,
+              pointsReceived: points,
+              progress: expiredTask.progress,
+              dueDate: expiredTask.dueDate,
+              initialDate: expiredTask.initialDate,
+              completedDate: new Date(new Date().toISOString()),
+              completedOnTime: false,
+            };
+            expiredTaskHistory.push(expiredTaskEntry);
+          }
+        }
+
+        // We await taskHistory and new points assignment before updating currentTasks
+        let taskHistory = profile.taskHistory || []; // If taskHistory doesn't exist, initialize as an empty array
+        taskHistory = taskHistory.concat(expiredTaskHistory);
+
+        // Updates the taskHistory by adding expiredTaskHistory tasks on top of whats already in the history
+        profile.taskHistory = taskHistory;
+        await profile.save();
+
+        if(bonusPoints > 0) {
+          const pointsProfile = await Point.findOne({ userId: req.params.id });
+          if (pointsProfile) {
+            pointsProfile.earnedPoints += bonusPoints;
+            await pointsProfile.save();
+          } else {
+            console.log("Los puntos del usuario no se pudieron encontrar.");
+          }
+        }
+
+        let currentTasks = profile.currentTasks;
+        currentTasks = currentTasks.filter((task: any) => {
+          return !expiredTasks.some((expiredTask: any) => expiredTask.taskId === task.taskId.toString());
+        });
+
+        if (currentTasks.length > 0) {
+          const slots = expiredTasks.length;
+          const newTasks = await replaceTasksWithoutRepetition(currentTasks, slots);
+          const updatedTasks = [...currentTasks, ...newTasks];
+
+          profile.currentTasks = updatedTasks;
+          await profile.save();
+
+          // Send the updatedTasks, taskHistory and bonusPoints as a response
+          res.status(200).json({ message: "Tareas actualizadas exitosamente", updatedTasks, taskHistory, bonusPoints });
+        } else {
+          const updatedTasks = await assignRandomTasks();
+
+          profile.currentTasks = updatedTasks;
+          await profile.save();
+
+          // Send the updatedTasks, taskHistory and bonusPoints as a response
+          res.status(200).json({ message: "Tareas actualizadas exitosamente", updatedTasks, taskHistory, bonusPoints });
         }
       } else {
         res

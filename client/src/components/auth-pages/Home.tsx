@@ -8,6 +8,7 @@ import UserAccount from "./UserAccount";
 import UserHealthProfile from "./UserHealthProfile";
 import Navbar from "./modules/Navbar";
 import HPForm from "./modules/HPForm";
+import { useToast } from "@ui/use-toast";
 import { Task, CurrentTask } from "@/lib/constants";
 import Axios from "axios";
 import { Store } from "@/Store";
@@ -26,6 +27,7 @@ const Home: React.FC<HomeProps> = ({ handleLogout }: HomeProps) => {
 
   const [isHPFormOpen, setIsHPFormOpen] = useState(false);
   const isMounted = useRef(false);
+  const { toast } = useToast();
 
   const checkHealthData = async () => {
     try {
@@ -63,7 +65,8 @@ const Home: React.FC<HomeProps> = ({ handleLogout }: HomeProps) => {
       if (userProfile) {
         ctxDispatch({ type: "CREATE_PROFILE", payload: userProfile });
         const currentTasks = userProfile.currentTasks;
-        getCurrentTasks(currentTasks);
+        await getCurrentTasks(currentTasks);
+        checkTaskExpiration(userProfile);
       }
     } catch (err: any) {
       console.error(
@@ -98,6 +101,50 @@ const Home: React.FC<HomeProps> = ({ handleLogout }: HomeProps) => {
     }
   };
 
+  const checkTaskExpiration = async (profile: any) => {
+    if (profile && profile.currentTasks) {
+      const currentDateUtc = new Date(new Date().toUTCString());
+      const expiredTasks: any[] = [];
+      profile.currentTasks.forEach((task: any) => {
+        const expirationUtcDate = new Date(task.dueDate);
+        if (expirationUtcDate < currentDateUtc) {
+          expiredTasks.push(task);
+        }
+      });
+
+      if (expiredTasks.length > 0) {
+        try {
+          const expiredTasksResponse = await Axios.post(
+            `/api/profile/tasks-expired/${profile.userId}`,
+            expiredTasks
+          );
+          const updatedTasks = expiredTasksResponse.data.updatedTasks;
+          const newTaskHistory = expiredTasksResponse.data.taskHistory;
+          const bonusPoints = expiredTasksResponse.data.bonusPoints;
+          if (updatedTasks) {
+            profile.currentTasks = updatedTasks;
+            localStorage.setItem("profile", JSON.stringify(profile));
+          }
+          if (newTaskHistory) {
+            profile.taskHistory = newTaskHistory;
+            localStorage.setItem("profile", JSON.stringify(profile));
+          }
+          toast({
+            title: `⚠️ Algunas tareas han expirado!`,
+            description: bonusPoints > 0
+              ? `Debido a un período de inactividad, hemos reemplazado algunas tareas y se otorgaron +${bonusPoints} puntos.`
+              : `Debido a un período de inactividad, hemos reemplazado algunas tareas.`,
+          });
+        } catch (err: any) {
+          console.error(
+            "Las tareas no se pudieron actualizar (Error interno del servidor)",
+            err
+          );
+        }
+      }
+    }
+  };
+
   useEffect(() => {
     if (!isMounted.current) {
       isMounted.current = true;
@@ -106,8 +153,24 @@ const Home: React.FC<HomeProps> = ({ handleLogout }: HomeProps) => {
       }
       if (!storedProfile) {
         checkProfile(); // If profile is not in localStorage, make the request
+      } else {
+        checkTaskExpiration(JSON.parse(storedProfile)); // If its set, check to see if tasks expired
       }
     }
+
+    const checkTaskExpirationPeriodically = () => {
+      checkTaskExpiration(JSON.parse(localStorage.getItem("profile")!));
+    };
+
+    // Sets an interval to check task expiration every 3 hours
+    const taskExpirationInterval = 3 * 60 * 60 * 1000;
+    const taskExpirationCheck = setInterval(
+      checkTaskExpirationPeriodically,
+      taskExpirationInterval
+    );
+
+    // Clears the interval when the component unmounts
+    return () => clearInterval(taskExpirationCheck);
   }, []);
 
   return (

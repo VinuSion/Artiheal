@@ -1,5 +1,5 @@
 import { ChangeEvent, useEffect, useRef, useState } from "react";
-import { Food, FoodEntries } from "@/lib/constants";
+import { Food, FoodEntries, CurrentTask, Task } from "@/lib/constants";
 import { getCurrentDateTimeInEST } from "@/lib/utils";
 import { Button } from "@ui/button";
 import { Label } from "@ui/label";
@@ -209,7 +209,7 @@ const FoodDiaryForm = () => {
         if (currentTask) {
           // Calculate the new progress in grams or milliliters based on the percentage progress
           const calculatedQuantity =
-            parseFloat(((currentTask.progress / 100) * task.goal).toFixed(2)) +
+            parseFloat(((currentTask.progress / 100) * task.goal).toFixed(1)) +
             matchingFoodEntry.quantity;
 
           if (calculatedQuantity >= task.goal) {
@@ -242,6 +242,7 @@ const FoodDiaryForm = () => {
       );
       // AXIOS REQUEST FOR UPDATING CURRENT TASKS
       await updateCurrentTasks(tasksToUpdate, filteredTasks);
+
     }
 
     // AXIOS REQUEST FOR SENDING FOOD DIARY
@@ -277,9 +278,15 @@ const FoodDiaryForm = () => {
         }
       );
       const updatedTasks = updatedTasksResponse.data.updatedTasks;
+      const newTaskHistory = updatedTasksResponse.data.taskHistory;
       const levelInfo = updatedTasksResponse.data.levelInfo;
       if (updatedTasks) {
         profile.currentTasks = updatedTasks;
+        localStorage.setItem("profile", JSON.stringify(profile));
+        setNewTasks(updatedTasks);
+      }
+      if (newTaskHistory) {
+        profile.taskHistory = newTaskHistory;
         localStorage.setItem("profile", JSON.stringify(profile));
       }
       if (levelInfo && levelInfo.leveledUp) {
@@ -290,6 +297,32 @@ const FoodDiaryForm = () => {
         "Las tareas no se pudieron actualizar (Error interno del servidor)",
         err
       );
+    }
+  };
+
+  const setNewTasks = async (currentTasks: any) => {
+    const tasks: Task[] = [];
+    try {
+      const taskPromises = currentTasks.map(async (task: CurrentTask) => {
+        const taskResponse = await Axios.get(`/api/tasks/${task.taskId}`);
+        if (taskResponse) {
+          tasks.push(taskResponse.data);
+        }
+      });
+
+      Promise.all(taskPromises)
+        .then(() => {
+          localStorage.setItem("tasks", JSON.stringify(tasks));
+        })
+        .catch((err) => {
+          console.error("Ha ocurrido un error interno en el servidor.", err);
+        });
+    } catch (err) {
+      console.error(
+        "Esa tarea no se pudo encontrar (Error interno del servidor)",
+        err
+      );
+      throw err;
     }
   };
 

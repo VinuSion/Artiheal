@@ -21,7 +21,6 @@ export const cardProInfo = [
     spanMessage:
       "20 puntos",
   },
-
   {
     productImage: "https://github.com/VinuSion/Artiheal/assets/146145167/21341599-f809-49ab-a450-e00b30524d7f",
     spanTitle: "Funko Darth Vader",
@@ -40,7 +39,6 @@ export const cardProInfo = [
     spanMessage:
       "60 puntos",
   },
-
   {
     productImage: "https://github.com/VinuSion/Artiheal/assets/146145167/15214bf3-4ef9-46e4-a96a-c1a9665dcbf4",
     spanTitle: "Balón Adidas",
