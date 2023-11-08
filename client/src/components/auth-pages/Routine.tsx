@@ -129,7 +129,7 @@ const Routine = () => {
       <div className="flex flex-row justify-center mb-6">
         <div className="rounded-xl bg-background shadow-xl w-full sm:w-9/12 p-4 flex flex-col items-center">
           <h1 className="mb-4 text-tertiary font-bold text-xl">
-            Rutina Nutricion
+            Rutina de Nutricion
           </h1>
           <div className="flex flex-col mb-5 2xl:flex-row items-center justify-center gap-3 2xl:items-start 2xl:gap-8 mx-2 2xl:mx-5">
             {isLoading && (
