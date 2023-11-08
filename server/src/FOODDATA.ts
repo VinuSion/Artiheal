@@ -529,6 +529,7 @@ const foodData = {
       calories: 100,
       foodType: "comida",
       picture: "https://cdn2.iconfinder.com/data/icons/japan-flat-2/340/ramen_food_japanese_asian_bowl_noodle_soup_japan-512.png",
+      //now?
     },
   ],
     
