@@ -123,7 +123,7 @@ const UserAccount = () => {
       <Helmet>
         <title>Mi Cuenta | Artiheal</title>
       </Helmet>
-      <div className="flex flex-row justify-center mb-6">
+      {/* <div className="flex flex-row justify-center mb-6">
         <div className="rounded-xl bg-background shadow-xl w-full sm:w-9/12 p-4 flex flex-col items-center">
           <h1 className="mb-4 text-tertiary font-bold text-xl">
             Cambiar Foto de Perfil
@@ -211,7 +211,7 @@ const UserAccount = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
       <EditAccountDetailsSection />
 

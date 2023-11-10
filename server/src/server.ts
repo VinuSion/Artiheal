@@ -4,8 +4,8 @@ import mongoose from "mongoose";
 import { config } from "dotenv";
 import path from "path";
 import { baseUrl } from './utils';
-
 import { ErrorRequestHandler } from "express";
+
 import userRouter from "./routes/userRoutes";
 import uploadRouter from "./routes/uploadRoutes";
 import dataRouter from "./routes/dataRoutes";
@@ -14,8 +14,7 @@ import profileRouter from "./routes/profileRoutes";
 import routineRouter from "./routes/routineRoutes";
 import foodRouter from "./routes/foodRoutes";
 import taskRouter from "./routes/taskRoutes";
-
-import foodDATARouter from "./routes/foodDATARoutes";
+import pointsProfileRouter from "./routes/pointsProfileRoutes";
 
 config(); // Setup dotenv
 
@@ -51,15 +50,13 @@ app.use(express.urlencoded({ extended: true }));
 // ALL API ENDPOINTS FOR THE SERVER
 app.use("/api/upload", uploadRouter);
 app.use("/api/data", dataRouter);
-
-app.use("/api/food-data/insert", foodDATARouter);
-
 app.use("/api/users", userRouter);
 app.use("/api/health-data", healthDataRouter);
 app.use("/api/profile", profileRouter);
 app.use("/api/routine", routineRouter);
 app.use("/api/foods", foodRouter);
 app.use("/api/tasks", taskRouter);
+app.use("/api/points-profile", pointsProfileRouter);
 
 // Resolving vite frontend path
 app.use(express.static(frontend));

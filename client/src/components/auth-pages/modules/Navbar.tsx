@@ -131,7 +131,7 @@ const Navbar = ({ handleLogout }: NavbarProps) => {
         </li>
 
         <div className="flex flex-row sm:flex-col">
-          <li
+          {/* <li
             className={`${
               selectedLink === "/home/routine"
                 ? "bg-primary text-background"
@@ -146,7 +146,7 @@ const Navbar = ({ handleLogout }: NavbarProps) => {
               <CalendarDaysIcon className="h-7 w-8 min-w-[1rem] mx-6" />
               <span className="text-xs sm:hidden">Rutina</span>
             </Link>
-          </li>
+          </li> */}
 
           <li
             className={`${
@@ -165,7 +165,7 @@ const Navbar = ({ handleLogout }: NavbarProps) => {
             </Link>
           </li>
 
-          <li
+          {/* <li
             className={`${
               selectedLink === "/home/points"
                 ? "bg-primary text-background"
@@ -180,7 +180,7 @@ const Navbar = ({ handleLogout }: NavbarProps) => {
               <CurrencyDollarIcon className="h-7 w-8 min-w-[1rem] mx-6" />
               <span className="text-xs sm:hidden">Puntos</span>
             </Link>
-          </li>
+          </li> */}
         </div>
 
         <li

@@ -283,7 +283,7 @@ const FoodDiaryForm = () => {
       if (updatedTasks) {
         profile.currentTasks = updatedTasks;
         localStorage.setItem("profile", JSON.stringify(profile));
-        setNewTasks(updatedTasks);
+        await setNewTasks(updatedTasks);
       }
       if (newTaskHistory) {
         profile.taskHistory = newTaskHistory;

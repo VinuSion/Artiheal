@@ -299,6 +299,12 @@
 
 
 
+.apexcharts-text {
+  font-family: "Poppins", sans-serif, Arial, Helvetica !important;
+}
+
+
+
 .fc {
   width: 700px;
   z-index: auto;

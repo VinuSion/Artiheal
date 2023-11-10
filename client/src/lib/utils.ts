@@ -2,7 +2,7 @@ import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { AxiosError } from "axios";
 import { isToday, isValid, parse, format } from "date-fns";
-import { FoodItem, mealTypeMap } from "@/lib/constants";
+import { FoodItem, mealTypeMap, Level, LevelPoints } from "@/lib/constants";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -274,3 +274,23 @@ export const formatSpanishDate = (diaryDate: Date): string => {
 export const translateMealType = (mealType: string) => {
   return mealTypeMap[mealType] || mealType;
 };
+
+export const getPointsRangeFromLevel = (level: Level): { min: number; max: number } => {
+  const levelPoints: LevelPoints = {
+    0: { min: 0, max: 24 },
+    1: { min: 25, max: 99 },
+    2: { min: 100, max: 499 },
+    3: { min: 500, max: 1999 },
+    4: { min: 2000, max: 2000 },
+  };
+
+  return levelPoints[level];
+};
+
+export const formatISOToMonthDay = (isoDate: string): string => {
+  const date = new Date(isoDate);
+  const day = date.getUTCDate().toString().padStart(2, '0');
+  const month = (date.getUTCMonth() + 1).toString().padStart(2, '0');
+
+  return `${day}/${month}`;
+}

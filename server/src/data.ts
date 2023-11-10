@@ -450,6 +450,46 @@ const data = {
       picture:
         "https://cdn2.iconfinder.com/data/icons/ecuador-4/496/guanabana-fruit-sweet-edible-plant-256.png",
     },
+    {
+      foodId: "51",
+      name: "Platano",
+      servingSize: 120,
+      calories: 105,
+      foodType: "comida",
+      picture: "https://cdn0.iconfinder.com/data/icons/banana-fruit-food-yellow-white-2/100/green_banana_fruit_food_yellow_white-512.png",
+    },
+    {
+      foodId: "52",
+      name: "Avena Cocida",
+      servingSize: 150,
+      calories: 150,
+      foodType: "comida",
+      picture: "https://cdn4.iconfinder.com/data/icons/food-drink-smooth-vol-1/256/CEREAL-512.png",
+    },
+    {
+      foodId: "53",
+      name: "Salmón al Horno",
+      servingSize: 85,
+      calories: 180,
+      foodType: "comida",
+      picture: "https://cdn4.iconfinder.com/data/icons/food-and-drink-color/64/Food_fish_salmon_cooking_seafood_healthy_restaurant-2-512.png",
+    },
+    {
+      foodId: "54",
+      name: "Zanahoria",
+      servingSize: 61,
+      calories: 25,
+      foodType: "comida",
+      picture: "https://cdn1.iconfinder.com/data/icons/vegan-filled-outline/340/vegetarian_vegan_vegetable_food_healthy_carrot_organic-512.png",
+    },
+    {
+      foodId: "55",
+      name: "Ramen de Cerdo",
+      servingSize: 350,
+      calories: 500,
+      foodType: "comida",
+      picture: "https://cdn2.iconfinder.com/data/icons/china-8/64/ramen-noodle-bowl-hot-chinese-2-512.png",
+    },
   ],
   tasks: [
     {
@@ -468,7 +508,7 @@ const data = {
     },
     {
       foodReference: "3",
-      description: "Consumir 500g de huevos",
+      description: "Consumir 500g de Huevos",
       goal: 500,
       pointsAwarded: 7,
       taskType: "consumo alimentario",
@@ -482,7 +522,7 @@ const data = {
     },
     {
       foodReference: "5",
-      description: "Tomar 1500ml de Agua Mineral",
+      description: "Tomar 1500mL de Agua Mineral",
       goal: 1500,
       pointsAwarded: 5,
       taskType: "consumo alimentario",
@@ -496,7 +536,7 @@ const data = {
     },
     {
       foodReference: "7",
-      description: "Tomar 2000ml de Leche Deslactosada",
+      description: "Tomar 2000mL de Leche Deslactosada",
       goal: 2000,
       pointsAwarded: 6,
       taskType: "consumo alimentario",
@@ -524,7 +564,7 @@ const data = {
     },
     {
       foodReference: "11",
-      description: "Tomar 850ml de Té de Manzanilla",
+      description: "Tomar 850mL de Té de Manzanilla",
       goal: 850,
       pointsAwarded: 9,
       taskType: "consumo alimentario",
@@ -545,7 +585,7 @@ const data = {
     },
     {
       foodReference: "14",
-      description: "Tomar 2100ml cafés Espresso",
+      description: "Tomar 2100mL de Café Espresso",
       goal: 2100,
       pointsAwarded: 4,
       taskType: "consumo alimentario",
@@ -559,7 +599,7 @@ const data = {
     },
     {
       foodReference: "16",
-      description: "Tomar 2180ml de Sopa de Tomate",
+      description: "Tomar 2180mL de Sopa de Tomate",
       goal: 2180,
       pointsAwarded: 3,
       taskType: "consumo alimentario",
@@ -580,14 +620,14 @@ const data = {
     },
     {
       foodReference: "19",
-      description: "Tomar 670ml de Tinto",
+      description: "Tomar 670mL de Tinto",
       goal: 670,
       pointsAwarded: 6,
       taskType: "consumo alimentario",
     },
     {
       foodReference: "20",
-      description: "Consumir 500g Fresas",
+      description: "Consumir 500g de Fresas",
       goal: 500,
       pointsAwarded: 8,
       taskType: "consumo alimentario",

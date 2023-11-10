@@ -1,144 +1,368 @@
+import { useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { Gem } from "lucide-react";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@ui/dialog";
 import { Button } from "@ui/button";
-
-export const cardProInfo = [
-  {
-    productImage: "https://github.com/VinuSion/Artiheal/assets/146145167/3364b1d6-4d37-4e67-891a-424b37498c25",
-    spanTitle: "Ensalada Mcdonalds",
-    spanMessage:
-      "20 puntos",
-  },
-  {
-    productImage: "https://github.com/VinuSion/Artiheal/assets/146145167/81f0d2c7-8d12-433e-8004-26f4ab8ee73a",
-    spanTitle: "Jugo de naranja Exito",
-    spanMessage:
-      "20 puntos",
-  },
-  {
-    productImage: "https://github.com/VinuSion/Artiheal/assets/146145167/3f66483d-6408-423e-b45d-fbe4cb6f9509",
-    spanTitle: "Ensalada KFC",
-    spanMessage:
-      "20 puntos",
-  },
-  {
-    productImage: "https://github.com/VinuSion/Artiheal/assets/146145167/21341599-f809-49ab-a450-e00b30524d7f",
-    spanTitle: "Funko Darth Vader",
-    spanMessage:
-      "45 puntos",
-  },
-  {
-    productImage: "https://github.com/VinuSion/Artiheal/assets/146145167/b1cb9d14-3fa4-4cd2-860f-4cd25f5a8408",
-    spanTitle: "Gift Card Microsoft",
-    spanMessage:
-      "55 puntos",
-  },
-  {
-    productImage: "https://github.com/VinuSion/Artiheal/assets/146145167/8b9d0cda-f811-444d-bbba-51a8f80e89cc",
-    spanTitle: "Audifonos Apple",
-    spanMessage:
-      "60 puntos",
-  },
-  {
-    productImage: "https://github.com/VinuSion/Artiheal/assets/146145167/15214bf3-4ef9-46e4-a96a-c1a9665dcbf4",
-    spanTitle: "Balón Adidas",
-    spanMessage:
-      "70 puntos",
-  },
-  {
-    productImage: "https://github.com/VinuSion/Artiheal/assets/146145167/ee3107ae-18d0-4e69-80c0-27106fb8334f",
-    spanTitle: "Zapatos Adidas",
-    spanMessage:
-      "95 puntos",
-  },
-  {
-    productImage: "https://github.com/VinuSion/Artiheal/assets/146145167/6c9652a9-8721-4f35-88c2-4615194aa43c",
-    spanTitle: "Camiseta Adidas",
-    spanMessage:
-      "105 puntos",
-  },
-];
-
-const CardPro: React.FC<{
-  spanTitle: string;
-  spanMessage: string;
-  productImage: string;
-}> = ({ productImage, spanTitle, spanMessage }) => (
-  <div className="p-[2px] my-2 sm:mx-10 rounded-2xl bg-gradient-to-tr from-violet-400 via-background to-violet-400">
-    <div className="w-52 h-auto bg-slate-50 p-3 rounded-2xl shadow-2xl">
-      <div className="flex items-center justify-center">
-        <img src={productImage} className="h-32 w-32 mb-1 rounded-md border border-s" />
-      </div>
-      <span className="text-md font-bold flex items-center justify-center mb-1">
-        {spanTitle}
-      </span>
-      <div className="overflow-hidden">
-        <Button className=" w-full" variant="speround" size="sm">
-        <Gem className="h-3 w-3 text-white select-none mr-1" />
-          {spanMessage}
-        </Button>
-      </div>
-    </div>
-  </div>
-);
+import { Gem, ClipboardList, Sparkle } from "lucide-react";
+import { Badge } from "@ui/badge";
+import { Separator } from "@ui/separator";
+import CircularProgressBar from "@ui/circular-progress";
+// import { cardProInfo } from "@/lib/constants";
+// import RedeemPromotions from "./modules/RedeemPromotions";
+import { getPointsRangeFromLevel, formatISOToMonthDay } from "@/lib/utils";
+import {
+  PointsProfile,
+  PendingTask,
+  CurrentTask,
+  levelBenefitsInfo,
+} from "@/lib/constants";
+import Axios from "axios";
 
 const Points = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  const profile = JSON.parse(localStorage.getItem("profile")!);
+  const tasks = JSON.parse(localStorage.getItem("tasks")!);
+  const isMounted = useRef(false);
+  const [pointsProfile, setPointsProfile] = useState<PointsProfile | null>(
+    null
+  );
+  const [pendingTasks, setPendingTasks] = useState<PendingTask[]>([]);
+  const [pointsProgress, setPointsProgress] = useState<number>(0);
+
+  const getPointsProfile = async () => {
+    try {
+      const pointsProfileResponse = await Axios.get(
+        `/api/points-profile/${profile.userId}`
+      );
+      if (pointsProfileResponse) {
+        console.log("Points profile: ", pointsProfileResponse.data);
+        setPointsProfile(pointsProfileResponse.data);
+        const { min, max } = getPointsRangeFromLevel(
+          pointsProfileResponse.data.level
+        );
+        if (pointsProfileResponse.data.level === 4) {
+          setPointsProgress(100);
+        } else {
+          setPointsProgress(
+            Math.floor(
+              ((pointsProfileResponse.data.earnedPoints - min) / (max - min)) *
+                100
+            )
+          );
+        }
+      }
+    } catch (err: any) {
+      console.error(
+        "El perfil de puntos no se pudo encontrar (Error interno del servidor)"
+      );
+    }
+  };
+
+  const setCurrentTasks = () => {
+    const pendingTasks: any = [];
+
+    profile.currentTasks.forEach((currentTask: CurrentTask) => {
+      const matchingTask = tasks.find(
+        (task: any) => task._id === currentTask.taskId
+      );
+
+      // Combines the data from profile.currentTasks and tasks
+      if (matchingTask) {
+        const combinedTask = {
+          description: matchingTask.description,
+          goal: matchingTask.goal,
+          pointsAwarded: matchingTask.pointsAwarded,
+          ...currentTask,
+        };
+        pendingTasks.push(combinedTask);
+      }
+    });
+    // Sets the joined information to the state
+    setPendingTasks(pendingTasks);
+  };
+
+  const executeAsync = async () => {
+    await getPointsProfile();
+    setCurrentTasks();
+    setIsLoading(false);
+  }
+
+  useEffect(() => {
+    if (!isMounted.current) {
+      isMounted.current = true;
+      executeAsync();
+    }
+  }, []);
+
   return (
     <div>
       <Helmet>
         <title>Tus Puntos | Artiheal</title>
       </Helmet>
-      <section className="flex flex-row justify-center mb-6">
-        <article className="cont rounded-xl bg-background w-full sm:w-9/12 p-4 flex flex-col shadow-xl">
-          <div className="rounded-xl bg-background w-full p-4 flex flex-col items-center">
-            <div className="sm:w-9/12 mb-8">
-              <div className="flex flex-row items-center">
-                <Gem className="h-8 w-8 text-primary select-none mr-2" />
-                <h2 className="font-bold text-2xl sm:text-4xl py-4 text-transparent bg-clip-text bg-gradient-to-tr from-indigo-600 via-purple-500 to-violet-200">
-                  Tus puntos
-                </h2>
-              </div>
+      <div className="flex flex-row justify-center mb-6">
+        <div className="rounded-xl bg-background w-full sm:w-9/12 p-4 flex flex-col shadow-xl items-center">
+          <h1 className="mb-4 text-tertiary font-bold text-xl">Tus Puntos</h1>
 
+          <div className="rounded-xl bg-background flex flex-col px-2 sm:w-9/12">
+            <div className="mb-5 w-full">
               <span className="text-sm sm:text-base">
-                Consulta los puntos producto de tu disciplina y conviertelos
-                en <strong>asombrosos productos y servicios de nuestras marcas asociadas.</strong>
+                Revisa tus puntos y conviértelos en{" "}
+                <strong>
+                  productos y servicios asombrosos de marcas asociadas.
+                </strong>{" "}
+                Para ver los beneficios de cada nivel, haz clic{" "}
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <span className="cursor-pointer hover:underline text-primary font-semibold">
+                      aquí
+                    </span>
+                  </DialogTrigger>
+                  <DialogContent className="w-11/12 sm:w-full max-w-xl rounded-md">
+                    <DialogHeader>
+                      <DialogTitle className="text-left flex flex-row items-center mb-2">
+                        Descubre los beneficios
+                      </DialogTitle>
+                      <DialogDescription className="text-left text-xs sm:text-sm mb-2">
+                        A continuación, encontrarás los beneficios detallados
+                        para cada nivel y el rango de puntos correspondiente.
+                      </DialogDescription>
+                    </DialogHeader>
+                    <div className="border rounded space-y-3 w-full gap-10 p-2">
+                      {levelBenefitsInfo.map((level, index) => (
+                        <div
+                          className={`flex flex-col justify-between py-2 px-4 h-18 border rounded shadow-md w-full ${
+                            level.lvl === 4
+                              ? "bg-gradient-to-r from-primary via-purple-400 to-violet-300 text-background border-violet-400"
+                              : "bg-background text-foreground"
+                          }`}
+                          key={index}
+                        >
+                          <div className="flex flex-row items-center space-x-1.5">
+                            <Sparkle className="h-4 w-4" />
+                            <span className="font-bold">{level.title}</span>
+                            <Badge
+                              variant={`${
+                                level.lvl === 4 ? "special" : "secondary"
+                              }`}
+                              className="text-xs flex flex-row gap-x-1 cursor-pointer"
+                            >
+                              {level.range}
+                            </Badge>
+                            {pointsProfile?.level === level.lvl && (
+                              <Badge
+                                variant="special"
+                                className="text-xs flex flex-row gap-x-1 cursor-pointer"
+                              >
+                                <div className="flex flex-row space-x-1 items-center">
+                                  <Gem className="h-4 sm:h-3 w-4 sm:w-3" />
+                                  <span className="hidden sm:block">
+                                    Estas Aqui
+                                  </span>
+                                </div>
+                              </Badge>
+                            )}
+                          </div>
+                          <span
+                            className={`text-xs sm:text-sm ${
+                              level.lvl === 4
+                                ? "text-background"
+                                : "text-muted-foreground"
+                            }`}
+                          >
+                            {level.description}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                    <DialogFooter className="flex flex-row justify-between sm:justify-between items-center gap-x-6">
+                      <span className="justify-start self-start text-xs text-muted-foreground">
+                        Los puntos ganados en tareas vencidas no se beneficiarán
+                        de la multiplicación de puntos.
+                      </span>
+                      <DialogClose asChild>
+                        <Button type="button" size="lg">
+                          Cerrar
+                        </Button>
+                      </DialogClose>
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
+                .
               </span>
             </div>
 
-            <div className="sm:w-9/12 border border-s p-4 rounded-md">
-              <h1 className="font-bold flex justify-center text-2xl mb-6">Resumen de puntaje</h1>
-              <div className="contenedor flex flex-row justify-center" >
-                <div className="parte 1 flex flex-row items-center">
-                  <div className="bg-gradient-to-br from-indigo-600 to via-purple-800 rounded-full w-28 h-28 flex justify-center items-center shadow-xl p-2 mr-4" >
-                    <div className="rounded-full bg-white w-24 h-24 flex justify-center items-center">
-                      <h1 className="font-bold flex justify-center items-center text-4xl">2</h1>
+            {isLoading ? (
+              <div className="animate-pulse 2xl:grid 2xl:grid-cols-2 sm:gap-x-6 mb-3">
+                <div className="flex flex-col border p-4 rounded-md mb-6 2xl:mb-0">
+                  <div className="h-4 w-full mt-2 mb-6 bg-slate-300 rounded"></div>
+                  <div className="flex flex-row gap-x-4">
+                    <div className="rounded-full bg-slate-300 h-24 w-24"></div>
+                    <div className="flex-1 space-y-6 py-1">
+                      <div className="h-4 w-3/4 bg-slate-300 rounded"></div>
+                      <div className="space-y-3">
+                        <div className="grid grid-cols-3 gap-4">
+                          <div className="h-4 bg-slate-300 rounded col-span-2"></div>
+                        </div>
+                        <div className="h-4 bg-slate-300 rounded"></div>
+                      </div>
                     </div>
                   </div>
+                  <Separator className="my-5" />
+                  <div className="h-4 w-full bg-slate-300 rounded"></div>
+                </div>
 
-                  <div className="texto">
-                    <h1 className="font-semibold text-xl mb-3 ">Te encuentras en el nivel 2</h1>
-                    <span>
-                      <strong>Puntos totales:</strong> 114
-                    </span>
-                    <p className="mt-3">
-                      Para subir de nivel, necesitas 86 puntos
-                    </p>
+                <div className="space-x-4">
+                  <div className="space-y-3">
+                    <div className="grid grid-cols-4 gap-5 mb-3">
+                      <div className="h-4 bg-slate-300 rounded col-span-2 sm:col-span-3"></div>
+                    </div>
+                    <div className="h-16 bg-slate-300 rounded"></div>
+                    <div className="h-16 bg-slate-300 rounded"></div>
+                    <div className="h-16 bg-slate-300 rounded"></div>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </article>
-      </section>
+            ) : (
+              <div className="flex flex-col 2xl:flex-row gap-y-3 sm:gap-x-6 mb-3">
+                <div className="border p-4 rounded-md shadow-md">
+                  <div className="flex flex-row space-x-2 items-center">
+                    <Gem className="h-5 w-5 text-primary" />
+                    <span className="font-bold text-xl text-primary">
+                      Resumen de tus puntos
+                    </span>
+                  </div>
+                  <div className="flex flex-row">
+                    <div className="flex flex-row items-center">
+                      <div className="mr-3">
+                        <CircularProgressBar
+                          percentage={pointsProgress}
+                          height={160}
+                          gradientEnabled
+                          showLabel
+                        />
+                      </div>
 
-      <section className="flex flex-row justify-center mb-6">
+                      <div className="flex flex-col gap-y-3">
+                        <span className="font-bold sm:text-lg">
+                          Te encuentras en el Nivel {pointsProfile?.level}
+                        </span>
+                        <span>
+                          <span className="font-semibold text-sm sm:text-base">
+                            Acumulados: {pointsProfile?.earnedPoints}
+                          </span>
+                        </span>
+                        <p className="text-xs sm:text-sm text-muted-foreground">
+                          Para subir al siguiente nivel, necesitas{" "}
+                          {pointsProfile?.nextLevelPoints}{" "}
+                          {pointsProfile?.nextLevelPoints === 1
+                            ? "punto"
+                            : "puntos"}
+                          .
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <Separator />
+                  <div className="flex flex-row space-x-2 items-center mt-2">
+                    <span className="flex text-xs text-muted-foreground/80">
+                      Recuerda que tus puntos pueden disminuir al redimirlos, y
+                      por lo tanto el nivel tambien.
+                    </span>
+                  </div>
+                </div>
+
+                <div className="2xl:w-7/12 flex flex-col items-start gap-y-2 mt-3 sm:mt-0">
+                  <div className="flex flex-row space-x-2 items-center">
+                    <ClipboardList className="h-5 w-5 text-primary" />
+                    <span className="text-primary font-bold">
+                      Tareas pendientes
+                    </span>
+                  </div>
+                  {pendingTasks.length > 0 &&
+                    pendingTasks.map((task: PendingTask, index) => (
+                      <div
+                        className="flex flex-row items-center justify-between px-2 h-16 border rounded shadow-md gap-x-3 w-full"
+                        key={index}
+                      >
+                        <div className="flex flex-row items-center space-x-3">
+                          <div>
+                            <CircularProgressBar
+                              percentage={Number(task.progress.toFixed(0))}
+                              circleSize="45%"
+                              valueFontSize="13px"
+                              gradientEnabled
+                              width={60}
+                              height={108}
+                            />
+                          </div>
+
+                          <div className="flex flex-col gap-y-1">
+                            <span className="text-primary font-bold text-xs sm:text-sm">
+                              {task.description.length > 29
+                                ? `${task.description.substring(0, 26)}...`
+                                : task.description}
+                            </span>
+                            <span className="text-muted-foreground text-xs sm:text-sm">
+                              <span className="font-semibold">Inicio:</span>{" "}
+                              {formatISOToMonthDay(String(task.initialDate))} -{" "}
+                              <span className="font-semibold">Vence:</span>{" "}
+                              {formatISOToMonthDay(String(task.dueDate))}
+                            </span>
+                          </div>
+                        </div>
+
+                        <div className="flex flex-col gap-y-1 mr-2">
+                          <Badge
+                            variant="special"
+                            className="text-xs flex flex-row gap-x-1 cursor-pointer sm:mt-1 w-fit self-end"
+                          >
+                            <>
+                              <Gem className="h-3 w-3" />
+                              <div className="flex flex-row">
+                                +{task.pointsAwarded}{" "}
+                                <span className="hidden lg:block ml-1">
+                                  Puntos
+                                </span>
+                              </div>
+                            </>
+                          </Badge>
+                          <div className="hidden lg:block">
+                            <span className="text-sm text-muted-foreground">
+                              <span className="font-semibold">Meta:</span> (
+                              {Math.floor((task.progress / 100) * task.goal)}/
+                              <span className="text-primary font-semibold">
+                                {task.goal}
+                              </span>
+                              )
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* <section className="flex flex-row justify-center mb-6">
         <article className="rounded-xl bg-background w-full sm:w-9/12 p-4 flex flex-col shadow-xl items-center">
             <h2 className="text-left font-bold text-2xl sm:text-4xl py-5 text-transparent bg-clip-text bg-gradient-to-tr from-indigo-600 via-purple-500 to-violet-200">
               Productos disponibles
             </h2>
            <div className="flex flex-row flex-wrap justify-center mr-1">
               {cardProInfo.map((info, index) => (
-                <CardPro
+                <RedeemPromotions
                   key={index}
                   spanTitle={info.spanTitle}
                   spanMessage={info.spanMessage}
@@ -147,7 +371,7 @@ const Points = () => {
               ))}
             </div>
         </article>
-      </section>
+      </section> */}
     </div>
   );
 };

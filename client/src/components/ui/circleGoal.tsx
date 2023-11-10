@@ -1,47 +1,42 @@
-import React from "react";
-import Chart from "react-apexcharts";
+import ReactApexChart from "react-apexcharts";
 
-class CircleGoal extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      series: [70],
-      options: {
-        chart: {
-          height: 350,
-          type: "radialBar",
+const CircleGoal = () => {
+  const options = {
+    chart: {
+      height: 350,
+    },
+    plotOptions: {
+      radialBar: {
+        hollow: {
+          size: "70%",
         },
-        fill: {
-          type: 'gradient',
-          gradient: {
-            shade: 'light',
-            type: 'horizontal',
-            shadeIntensity: 0.5,
-            gradientToColors: ['#745cff'],
-            inverseColors: true,
-
-            opacityFrom: 1,
-            opacityTo: 1,
-            stops: [0, 100]
-          }
+        dataLabels: {
+          name: {
+            show: false,
+          },
+          value: {
+            show: false,
+          },
         },
-       
-        labels: ["Objetivo"],
+        track: {
+          background: "light",
+        },
       },
-    };
-  }
+    },
+    labels: ["Objetivo"],
+  };
 
-  render() {
-    return (
-      <Chart
-        options={this.state.options}
-        series={this.state.series}
-        type="radialBar"
-        height={350}
-      />
-    );
-  }
-}
-export default  CircleGoal;
+  const series = [70];
+
+  return (
+    <ReactApexChart
+      options={options}
+      series={series}
+      type="radialBar"
+      height={350}
+    />
+  );
+};
+
+export default CircleGoal;
 

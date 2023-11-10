@@ -3,7 +3,12 @@ import expressAsyncHandler from "express-async-handler";
 import Profile from "../models/profileModel";
 import Point from "../models/pointsModel";
 import Task from "../models/taskModel";
-import { assignRandomTasks, replaceTasksWithoutRepetition, getPointsBenefit, calculateLevel } from "../utils";
+import {
+  assignRandomTasks,
+  replaceTasksWithoutRepetition,
+  getPointsBenefit,
+  calculateLevel,
+} from "../utils";
 
 const profileRouter = express.Router();
 
@@ -42,7 +47,9 @@ profileRouter.post(
       // Checks to see if any task is completed to add it to completedTasks
       for (const currentTask of currentTasksToUpdate) {
         if (currentTask.status) {
-          const correspondingTask = tasks.find((task: any) => task._id === currentTask.taskId);
+          const correspondingTask = tasks.find(
+            (task: any) => task._id === currentTask.taskId
+          );
           if (correspondingTask) {
             const completedTask = {
               taskId: currentTask.taskId,
@@ -64,7 +71,10 @@ profileRouter.post(
         let currentTasks = profile.currentTasks;
         if (completedTasks.length > 0) {
           currentTasks = currentTasks.filter((task: any) => {
-            return !completedTasks.some((completedTask: any) => completedTask.taskId === task.taskId.toString());
+            return !completedTasks.some(
+              (completedTask: any) =>
+                completedTask.taskId === task.taskId.toString()
+            );
           });
           // We await taskHistory and new points assignment before updating currentTasks
           let taskHistory = profile.taskHistory || []; // If taskHistory doesn't exist, initialize as an empty array
@@ -76,7 +86,9 @@ profileRouter.post(
 
           const pointsProfile = await Point.findOne({ userId: req.params.id });
           if (pointsProfile) {
-            const { multiplier, division } = getPointsBenefit(pointsProfile.level);
+            const { multiplier, division } = getPointsBenefit(
+              pointsProfile.level
+            );
             let totalPointsEarned = 0;
             const levelInfo = {
               level: pointsProfile.level,
@@ -87,7 +99,10 @@ profileRouter.post(
               const bonusPoints = Math.floor(pointsEarned * multiplier);
               const additionalPoints = Math.floor(bonusPoints / division);
               // Adds the total points earned for this task to the user's total
-              totalPointsEarned += pointsProfile.level === 0 ? additionalPoints : (pointsEarned + additionalPoints);
+              totalPointsEarned +=
+                pointsProfile.level === 0
+                  ? additionalPoints
+                  : pointsEarned + additionalPoints;
             });
 
             const points = pointsProfile.earnedPoints + totalPointsEarned;
@@ -97,6 +112,7 @@ profileRouter.post(
             if (level > pointsProfile.level) {
               levelInfo.level = level;
               levelInfo.leveledUp = true;
+              pointsProfile.level += 1;
             }
 
             await pointsProfile.save();
@@ -106,19 +122,31 @@ profileRouter.post(
               const slots = completedTasks.length;
               for (const currentTask of currentTasksToUpdate) {
                 // Finds the corresponding task in currentTasks
-                const matchingTask = currentTasks.find((task: any) => task.taskId.toString() === currentTask.taskId);
+                const matchingTask = currentTasks.find(
+                  (task: any) => task.taskId.toString() === currentTask.taskId
+                );
                 if (matchingTask) {
                   matchingTask.progress = currentTask.progress;
                 }
               }
-              const newTasks = await replaceTasksWithoutRepetition(currentTasks, slots);
+              const newTasks = await replaceTasksWithoutRepetition(
+                currentTasks,
+                slots
+              );
               const updatedTasks = [...currentTasks, ...newTasks];
 
               profile.currentTasks = updatedTasks;
               await profile.save();
 
               // Send the updatedTasks and levelInfo as a response
-              res.status(200).json({ message: "Tareas actualizadas exitosamente", updatedTasks, taskHistory, levelInfo });
+              res
+                .status(200)
+                .json({
+                  message: "Tareas actualizadas exitosamente",
+                  updatedTasks,
+                  taskHistory,
+                  levelInfo,
+                });
             } else {
               const updatedTasks = await assignRandomTasks();
 
@@ -126,7 +154,14 @@ profileRouter.post(
               await profile.save();
 
               // Send the updatedTasks and levelInfo as a response
-              res.status(200).json({ message: "Tareas actualizadas exitosamente", updatedTasks, taskHistory, levelInfo });
+              res
+                .status(200)
+                .json({
+                  message: "Tareas actualizadas exitosamente",
+                  updatedTasks,
+                  taskHistory,
+                  levelInfo,
+                });
             }
           } else {
             console.log("Los puntos del usuario no se pudieron encontrar.");
@@ -134,7 +169,9 @@ profileRouter.post(
         } else {
           for (const currentTask of currentTasksToUpdate) {
             // Finds the corresponding task in currentTasks
-            const matchingTask = currentTasks.find((task: any) => task.taskId.toString() === currentTask.taskId);
+            const matchingTask = currentTasks.find(
+              (task: any) => task.taskId.toString() === currentTask.taskId
+            );
             if (matchingTask) {
               matchingTask.progress = currentTask.progress;
             }
@@ -144,7 +181,12 @@ profileRouter.post(
           await profile.save();
 
           // Send the updatedTasks as a response
-          res.status(200).json({ message: "Tareas actualizadas exitosamente", updatedTasks });
+          res
+            .status(200)
+            .json({
+              message: "Tareas actualizadas exitosamente",
+              updatedTasks,
+            });
         }
       } else {
         res
@@ -183,14 +225,19 @@ profileRouter.post(
         if (benefit) {
           const pointsProfile = await Point.findOne({ userId: req.params.id });
           if (pointsProfile) {
-            const { multiplier, division } = getPointsBenefit(pointsProfile.level);
+            const { multiplier, division } = getPointsBenefit(
+              pointsProfile.level
+            );
             const levelInfo = {
               level: pointsProfile.level,
               leveledUp: false,
             };
             const bonusPoints = Math.floor(3 * multiplier);
             const additionalPoints = Math.floor(bonusPoints / division);
-            const totalPointsEarned = pointsProfile.level === 0 ? additionalPoints : (3 + additionalPoints);
+            const totalPointsEarned =
+              pointsProfile.level === 0
+                ? additionalPoints
+                : 3 + additionalPoints;
 
             const points = pointsProfile.earnedPoints + totalPointsEarned;
             pointsProfile.earnedPoints = points;
@@ -199,18 +246,30 @@ profileRouter.post(
             if (level > pointsProfile.level) {
               levelInfo.level = level;
               levelInfo.leveledUp = true;
+              pointsProfile.level += 1;
             }
 
             await pointsProfile.save();
 
             // Send the newDiaryEntry and levelInfo as a response
-            res.status(200).json({ message: "Diario alimenticio enviado exitosamente", newDiaryEntry, levelInfo });
+            res
+              .status(200)
+              .json({
+                message: "Diario alimenticio enviado exitosamente",
+                newDiaryEntry,
+                levelInfo,
+              });
           } else {
             console.log("Los puntos del usuario no se pudieron encontrar.");
           }
         } else {
           // Send the newDiaryEntry as a response
-          res.status(200).json({ message: "Diario alimenticio enviado exitosamente", newDiaryEntry });
+          res
+            .status(200)
+            .json({
+              message: "Diario alimenticio enviado exitosamente",
+              newDiaryEntry,
+            });
         }
       } else {
         res
@@ -238,7 +297,9 @@ profileRouter.post(
           // Finds the task by taskId in the tasks collection
           const task = await Task.findOne({ _id: expiredTask.taskId });
           if (task) {
-            const points = Math.floor((expiredTask.progress / 100) * task.pointsAwarded);
+            const points = Math.floor(
+              (expiredTask.progress / 100) * task.pointsAwarded
+            );
             bonusPoints += points;
             const expiredTaskEntry = {
               taskId: expiredTask.taskId,
@@ -261,10 +322,17 @@ profileRouter.post(
         profile.taskHistory = taskHistory;
         await profile.save();
 
-        if(bonusPoints > 0) {
+        if (bonusPoints > 0) {
           const pointsProfile = await Point.findOne({ userId: req.params.id });
           if (pointsProfile) {
-            pointsProfile.earnedPoints += bonusPoints;
+            const points = pointsProfile.earnedPoints + bonusPoints;
+            pointsProfile.earnedPoints = points;
+            const { level, nextPoints } = calculateLevel(points);
+            pointsProfile.nextLevelPoints = nextPoints;
+            if (level > pointsProfile.level) {
+              pointsProfile.level += 1;
+            }
+
             await pointsProfile.save();
           } else {
             console.log("Los puntos del usuario no se pudieron encontrar.");
@@ -273,19 +341,31 @@ profileRouter.post(
 
         let currentTasks = profile.currentTasks;
         currentTasks = currentTasks.filter((task: any) => {
-          return !expiredTasks.some((expiredTask: any) => expiredTask.taskId === task.taskId.toString());
+          return !expiredTasks.some(
+            (expiredTask: any) => expiredTask.taskId === task.taskId.toString()
+          );
         });
 
         if (currentTasks.length > 0) {
           const slots = expiredTasks.length;
-          const newTasks = await replaceTasksWithoutRepetition(currentTasks, slots);
+          const newTasks = await replaceTasksWithoutRepetition(
+            currentTasks,
+            slots
+          );
           const updatedTasks = [...currentTasks, ...newTasks];
 
           profile.currentTasks = updatedTasks;
           await profile.save();
 
           // Send the updatedTasks, taskHistory and bonusPoints as a response
-          res.status(200).json({ message: "Tareas actualizadas exitosamente", updatedTasks, taskHistory, bonusPoints });
+          res
+            .status(200)
+            .json({
+              message: "Tareas actualizadas exitosamente",
+              updatedTasks,
+              taskHistory,
+              bonusPoints,
+            });
         } else {
           const updatedTasks = await assignRandomTasks();
 
@@ -293,7 +373,14 @@ profileRouter.post(
           await profile.save();
 
           // Send the updatedTasks, taskHistory and bonusPoints as a response
-          res.status(200).json({ message: "Tareas actualizadas exitosamente", updatedTasks, taskHistory, bonusPoints });
+          res
+            .status(200)
+            .json({
+              message: "Tareas actualizadas exitosamente",
+              updatedTasks,
+              taskHistory,
+              bonusPoints,
+            });
         }
       } else {
         res

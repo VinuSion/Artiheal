@@ -79,7 +79,7 @@ const UserHealthProfile = () => {
           <h1 className="mb-4 text-tertiary font-bold text-xl">
             Datos de Salud
           </h1>
-          <div className="flex flex-col items-center gap-3 sm:items-start sm:gap-4 mx-2 sm:mx-5">
+          <div className="flex flex-col items-center gap-3 sm:items-start sm:gap-4 mx-2 sm:mx-5 2xl:mx-56">
             <p className="text-sm sm:text-base">
               ¡Hola,{" "}
               <span className="font-bold text-primary">

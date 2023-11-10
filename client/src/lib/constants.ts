@@ -108,6 +108,25 @@ export interface Task {
   taskType: string; 
 }
 
+export interface PendingTask {
+  description: string; 
+  goal: number; 
+  pointsAwarded: number;
+  taskId: string;
+  status: boolean;
+  progress: number;
+  dueDate: Date;
+  initialDate: Date;
+  completedDate: Date | null;
+}
+
+export interface PointsProfile {
+  userId: string;
+  earnedPoints: number;
+  level: number;
+  nextLevelPoints: number;
+}
+
 export const cardOpInfo = [
   {
     opinionImage: "src/assets/opinions/user1.webp",
@@ -126,6 +145,96 @@ export const cardOpInfo = [
     spanName: "Salvio Peña",
     spanOpinion:
       '"Me encanta Artiheal. Hace que la vida saludable sea más fácil. Cinco estrellas merecidas."',
+  },
+];
+
+export const cardProInfo = [
+  {
+    productImage: "https://github.com/VinuSion/Artiheal/assets/146145167/3364b1d6-4d37-4e67-891a-424b37498c25",
+    spanTitle: "Ensalada Mcdonalds",
+    spanMessage:
+      "20 puntos",
+  },
+  {
+    productImage: "https://github.com/VinuSion/Artiheal/assets/146145167/81f0d2c7-8d12-433e-8004-26f4ab8ee73a",
+    spanTitle: "Jugo de naranja Exito",
+    spanMessage:
+      "20 puntos",
+  },
+  {
+    productImage: "https://github.com/VinuSion/Artiheal/assets/146145167/3f66483d-6408-423e-b45d-fbe4cb6f9509",
+    spanTitle: "Ensalada KFC",
+    spanMessage:
+      "20 puntos",
+  },
+  {
+    productImage: "https://github.com/VinuSion/Artiheal/assets/146145167/21341599-f809-49ab-a450-e00b30524d7f",
+    spanTitle: "Funko Darth Vader",
+    spanMessage:
+      "45 puntos",
+  },
+  {
+    productImage: "https://github.com/VinuSion/Artiheal/assets/146145167/b1cb9d14-3fa4-4cd2-860f-4cd25f5a8408",
+    spanTitle: "Gift Card Microsoft",
+    spanMessage:
+      "55 puntos",
+  },
+  {
+    productImage: "https://github.com/VinuSion/Artiheal/assets/146145167/8b9d0cda-f811-444d-bbba-51a8f80e89cc",
+    spanTitle: "Audifonos Apple",
+    spanMessage:
+      "60 puntos",
+  },
+  {
+    productImage: "https://github.com/VinuSion/Artiheal/assets/146145167/15214bf3-4ef9-46e4-a96a-c1a9665dcbf4",
+    spanTitle: "Balón Adidas",
+    spanMessage:
+      "70 puntos",
+  },
+  {
+    productImage: "https://github.com/VinuSion/Artiheal/assets/146145167/ee3107ae-18d0-4e69-80c0-27106fb8334f",
+    spanTitle: "Zapatos Adidas",
+    spanMessage:
+      "95 puntos",
+  },
+  {
+    productImage: "https://github.com/VinuSion/Artiheal/assets/146145167/6c9652a9-8721-4f35-88c2-4615194aa43c",
+    spanTitle: "Camiseta Adidas",
+    spanMessage:
+      "105 puntos",
+  },
+];
+
+export const levelBenefitsInfo = [
+  {
+    lvl: 4,
+    title: "Nivel 4",
+    description: "¡Completa tareas y obtén x2.5 veces mas de puntos! 😁",
+    range: "+2000 puntos",
+  },
+  {
+    lvl: 3,
+    title: "Nivel 3",
+    description: "¡Cada tarea que completes vale el doble de puntos!",
+    range: "500 - 1999 puntos",
+  },
+  {
+    lvl: 2,
+    title: "Nivel 2",
+    description: "Tus tareas valen un x1.6 veces más en puntos.",
+    range: "100 - 499 puntos",
+  },
+  {
+    lvl: 1,
+    title: "Nivel 1",
+    description: "Tus tareas valen un x1.2 veces más en puntos.",
+    range: "25 - 99 puntos",
+  },
+  {
+    lvl: 0,
+    title: "Nivel 0",
+    description: "Recibirás los puntos indicados por cada tarea completada.",
+    range: "0 - 24 puntos",
   },
 ];
 
@@ -204,3 +313,12 @@ export const mealTypeMap: { [key: string]: string } = {
   dinner: "Cena",
   snack: "Merienda",
 };
+
+export type Level = 0 | 1 | 2 | 3 | 4;
+
+export interface LevelPoints {
+  [level: number]: {
+    min: number;
+    max: number;
+  };
+}
