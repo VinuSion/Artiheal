@@ -123,6 +123,7 @@ const Home: React.FC<HomeProps> = ({ handleLogout }: HomeProps) => {
           if (updatedTasks) {
             profile.currentTasks = updatedTasks;
             localStorage.setItem("profile", JSON.stringify(profile));
+            getCurrentTasks(updatedTasks);
           }
           if (newTaskHistory) {
             profile.taskHistory = newTaskHistory;

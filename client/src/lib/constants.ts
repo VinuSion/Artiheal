@@ -231,7 +231,7 @@ export const cardProductInfo = [
   {
     productImage:
       "https://github.com/VinuSion/Artiheal/assets/56313573/2a4b88d3-5876-4597-b5cf-97ac77b0d99d",
-    title: "Camiseta Griz XL",
+    title: "Camiseta Gris XL",
     vendor: "Adidas",
     pointsValue: "670 puntos",
   },

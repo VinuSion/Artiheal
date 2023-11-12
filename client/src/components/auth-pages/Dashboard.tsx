@@ -6,6 +6,7 @@ import { Badge } from "@ui/badge";
 import AreaGraph from "@/components/ui/area-graph";
 import PieChart from "@ui/pie-chart";
 import { FoodTypeCount } from "@/lib/constants";
+import { RotateCcw } from "lucide-react";
 import {
   getStartOfWeek,
   getStartOfMonth,
@@ -102,8 +103,21 @@ const Dashboard = () => {
               <span className="text-sm sm:text-base">
                 Mantente informado sobre tus hábitos alimenticios. Cada vez que
                 realices una <strong>acción</strong> en Artiheal, la aplicación
-                registrará tus datos para mostrarlos más tarde.
+                registrará tus datos para <span className="text-primary font-semibold">mostrarlos más tarde</span>.
               </span>
+              <div className="mt-3 flex flex-row space-x-2 items-center">
+                <span className="text-xs sm:text-sm text-muted-foreground">
+                En caso de que las gráficas no estén presentando la información adecuada, puedes:
+                </span>
+                <Badge
+                  variant="outline"
+                  className="cursor-pointer"
+                  onClick={getUserProfile}
+                >
+                  <RotateCcw className="h-3 w-3 mr-1" />
+                  Actualizar
+                </Badge>
+              </div>
               <Separator className="mt-2" />
             </div>
             <div className="flex flex-col 2xl:flex-row justify-between gap-y-5 2xl:gap-y-0 2xl:gap-x-5 my-2">

@@ -285,7 +285,7 @@ const Points = () => {
                   </div>
                 </div>
 
-                <div className="2xl:w-7/12 flex flex-col items-start gap-y-2 mt-3 sm:mt-0">
+                <div className="2xl:w-[59%] flex flex-col items-start gap-y-2 mt-3 sm:mt-0">
                   <div className="flex flex-row space-x-2 items-center">
                     <ClipboardList className="h-5 w-5 text-primary" />
                     <span className="text-primary font-bold">

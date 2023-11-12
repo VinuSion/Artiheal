@@ -256,7 +256,7 @@ const TaskHistorySection = () => {
                               entry.completedOnTime ? "hidden" : "block"
                             }`}
                           >
-                            ({entry.progress}%) - (
+                            ({parseFloat(entry.progress.toFixed(0))}%) - (
                             {Math.floor((entry.progress / 100) * entry.goal)}/
                             {entry.goal})
                           </span>

@@ -451,8 +451,8 @@ export const getCompletedTasksForMonth = (taskHistory: TaskHistory[], startOfMon
   const completedTasksForMonth = taskHistory.filter((task: TaskHistory) => {
     const completedDate = new Date(task.completedDate); // Convert completedDate to Date object
 
-    // Check if the completed date is within the range of the current month
-    return completedDate >= startOfMonthDate && completedDate <= today;
+    // Check if the completed date is within the range of the current month and if it was completed on time.
+    return (completedDate >= startOfMonthDate && completedDate <= today) && task.completedOnTime;
   });
 
   return completedTasksForMonth.length;
