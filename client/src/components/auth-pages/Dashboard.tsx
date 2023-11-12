@@ -17,8 +17,10 @@ import {
   countMealTypesInFoodDiary,
   getCompletedTasksForMonth,
 } from "@/lib/utils";
+import Axios from "axios";
 
 const Dashboard = () => {
+  const userInfo = JSON.parse(localStorage.getItem("userInfo")!);
   const profile = JSON.parse(localStorage.getItem("profile")!);
 
   const [totalCaloriesThisWeek, setTotalCaloriesThisWeek] = useState<number>(0);
@@ -31,37 +33,56 @@ const Dashboard = () => {
   const [foodTypeCounts, setFoodTypeCounts] = useState<FoodTypeCount[]>([]);
   const isMounted = useRef(false);
 
+  const getUserProfile = async () => {
+    try {
+      const profileResponse = await Axios.get(`/api/profile/${userInfo._id}`);
+      if (profileResponse) {
+        setDashboardData(profileResponse.data);
+      }
+    } catch (err: any) {
+      console.error(
+        "El perfil del usuario no se pudo encontrar (Error interno del servidor)"
+      );
+    }
+  };
+
+  const setDashboardData = (userProfile: any) => {
+    const startOfWeek = getStartOfWeek();
+    const startOfMonth = getStartOfMonth();
+    if (userProfile.foodDiary.length !== 0) {
+      setTotalCaloriesThisWeek(
+        calculateCaloriesForWeek(userProfile.foodDiary, startOfWeek)
+      );
+      setFoodsConsumedThisWeek(
+        calculateTotalFoodsForWeek(userProfile.foodDiary, startOfWeek)
+      );
+      setGraphNumbers(
+        calculateDailyCaloriesForWeek(userProfile.foodDiary, startOfWeek)
+      );
+      const foodTypesList = countFoodTypesInFoodDiary(
+        userProfile.foodDiary,
+        startOfWeek
+      );
+      setMostPopularFood(foodTypesList[0].name);
+      setFoodTypeCounts(foodTypesList);
+      const mealTypeCounts = countMealTypesInFoodDiary(userProfile.foodDiary);
+      const countsArray = Object.values(mealTypeCounts);
+      setPieChartNumbers(countsArray);
+    }
+    if (userProfile.taskHistory.length !== 0) {
+      setTasksCompletedLastMonth(
+        getCompletedTasksForMonth(userProfile.taskHistory, startOfMonth)
+      );
+    }
+  };
+
   useEffect(() => {
     if (!isMounted.current) {
       isMounted.current = true;
       if (profile) {
-        const startOfWeek = getStartOfWeek();
-        const startOfMonth = getStartOfMonth();
-        if (profile.foodDiary.length !== 0) {
-          setTotalCaloriesThisWeek(
-            calculateCaloriesForWeek(profile.foodDiary, startOfWeek)
-          );
-          setFoodsConsumedThisWeek(
-            calculateTotalFoodsForWeek(profile.foodDiary, startOfWeek)
-          );
-          setGraphNumbers(
-            calculateDailyCaloriesForWeek(profile.foodDiary, startOfWeek)
-          );
-          const foodTypesList = countFoodTypesInFoodDiary(
-            profile.foodDiary,
-            startOfWeek
-          );
-          setMostPopularFood(foodTypesList[0].name);
-          setFoodTypeCounts(foodTypesList);
-          const mealTypeCounts = countMealTypesInFoodDiary(profile.foodDiary);
-          const countsArray = Object.values(mealTypeCounts);
-          setPieChartNumbers(countsArray);
-        }
-        if (profile.taskHistory.length !== 0) {
-          setTasksCompletedLastMonth(
-            getCompletedTasksForMonth(profile.taskHistory, startOfMonth)
-          );
-        }
+        setDashboardData(profile);
+      } else {
+        getUserProfile();
       }
     }
     const exportSVGElement = document.querySelector(
