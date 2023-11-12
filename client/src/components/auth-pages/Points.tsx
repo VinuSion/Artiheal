@@ -1,6 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@ui/tooltip";
+import {
   Dialog,
   DialogClose,
   DialogContent,
@@ -15,8 +21,8 @@ import { Gem, ClipboardList, Sparkle } from "lucide-react";
 import { Badge } from "@ui/badge";
 import { Separator } from "@ui/separator";
 import CircularProgressBar from "@ui/circular-progress";
-// import { cardProInfo } from "@/lib/constants";
-// import RedeemPromotions from "./modules/RedeemPromotions";
+import TaskHistorySection from "./modules/TaskHistorySection";
+import RedeemPromotions from "./modules/RedeemPromotions";
 import { getPointsRangeFromLevel, formatISOToMonthDay } from "@/lib/utils";
 import {
   PointsProfile,
@@ -44,7 +50,6 @@ const Points = () => {
         `/api/points-profile/${profile.userId}`
       );
       if (pointsProfileResponse) {
-        console.log("Points profile: ", pointsProfileResponse.data);
         setPointsProfile(pointsProfileResponse.data);
         const { min, max } = getPointsRangeFromLevel(
           pointsProfileResponse.data.level
@@ -94,7 +99,7 @@ const Points = () => {
     await getPointsProfile();
     setCurrentTasks();
     setIsLoading(false);
-  }
+  };
 
   useEffect(() => {
     if (!isMounted.current) {
@@ -201,7 +206,7 @@ const Points = () => {
             </div>
 
             {isLoading ? (
-              <div className="animate-pulse 2xl:grid 2xl:grid-cols-2 sm:gap-x-6 mb-3">
+              <div className="animate-pulse 2xl:grid 2xl:grid-cols-2 sm:gap-x-5 mb-3">
                 <div className="flex flex-col border p-4 rounded-md mb-6 2xl:mb-0">
                   <div className="h-4 w-full mt-2 mb-6 bg-slate-300 rounded"></div>
                   <div className="flex flex-row gap-x-4">
@@ -225,14 +230,14 @@ const Points = () => {
                     <div className="grid grid-cols-4 gap-5 mb-3">
                       <div className="h-4 bg-slate-300 rounded col-span-2 sm:col-span-3"></div>
                     </div>
-                    <div className="h-16 bg-slate-300 rounded"></div>
-                    <div className="h-16 bg-slate-300 rounded"></div>
-                    <div className="h-16 bg-slate-300 rounded"></div>
+                    <div className="h-20 xl:h-[70px] bg-slate-300 rounded"></div>
+                    <div className="h-20 xl:h-[70px] bg-slate-300 rounded"></div>
+                    <div className="h-20 xl:h-[70px] bg-slate-300 rounded"></div>
                   </div>
                 </div>
               </div>
             ) : (
-              <div className="flex flex-col 2xl:flex-row gap-y-3 sm:gap-x-6 mb-3">
+              <div className="flex flex-col 2xl:flex-row gap-y-3 sm:gap-x-5 mb-3">
                 <div className="border p-4 rounded-md shadow-md">
                   <div className="flex flex-row space-x-2 items-center">
                     <Gem className="h-5 w-5 text-primary" />
@@ -284,13 +289,13 @@ const Points = () => {
                   <div className="flex flex-row space-x-2 items-center">
                     <ClipboardList className="h-5 w-5 text-primary" />
                     <span className="text-primary font-bold">
-                      Tareas pendientes
+                      Tareas Pendientes
                     </span>
                   </div>
                   {pendingTasks.length > 0 &&
                     pendingTasks.map((task: PendingTask, index) => (
                       <div
-                        className="flex flex-row items-center justify-between px-2 h-16 border rounded shadow-md gap-x-3 w-full"
+                        className="flex flex-row h-20 items-center justify-between px-2 xl:h-[70px] border rounded shadow-md mt-2 2xl:mt-0 gap-x-3 w-full"
                         key={index}
                       >
                         <div className="flex flex-row items-center space-x-3">
@@ -306,11 +311,26 @@ const Points = () => {
                           </div>
 
                           <div className="flex flex-col gap-y-1">
-                            <span className="text-primary font-bold text-xs sm:text-sm">
-                              {task.description.length > 29
-                                ? `${task.description.substring(0, 26)}...`
-                                : task.description}
-                            </span>
+                            <TooltipProvider>
+                              <Tooltip>
+                                <TooltipTrigger className="flex text-left">
+                                  <span className="text-primary font-bold text-xs sm:text-sm">
+                                    {task.description.length > 30
+                                      ? `${task.description.substring(
+                                          0,
+                                          30
+                                        )}...`
+                                      : task.description}
+                                  </span>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                  <span className="text-xs sm:text-sm">
+                                    {task.description}
+                                  </span>
+                                </TooltipContent>
+                              </Tooltip>
+                            </TooltipProvider>
+
                             <span className="text-muted-foreground text-xs sm:text-sm">
                               <span className="font-semibold">Inicio:</span>{" "}
                               {formatISOToMonthDay(String(task.initialDate))} -{" "}
@@ -355,23 +375,10 @@ const Points = () => {
         </div>
       </div>
 
-      {/* <section className="flex flex-row justify-center mb-6">
-        <article className="rounded-xl bg-background w-full sm:w-9/12 p-4 flex flex-col shadow-xl items-center">
-            <h2 className="text-left font-bold text-2xl sm:text-4xl py-5 text-transparent bg-clip-text bg-gradient-to-tr from-indigo-600 via-purple-500 to-violet-200">
-              Productos disponibles
-            </h2>
-           <div className="flex flex-row flex-wrap justify-center mr-1">
-              {cardProInfo.map((info, index) => (
-                <RedeemPromotions
-                  key={index}
-                  spanTitle={info.spanTitle}
-                  spanMessage={info.spanMessage}
-                  productImage={info.productImage}
-                />
-              ))}
-            </div>
-        </article>
-      </section> */}
+      <TaskHistorySection />
+
+      <RedeemPromotions />
+      
     </div>
   );
 };

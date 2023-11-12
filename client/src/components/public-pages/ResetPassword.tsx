@@ -3,6 +3,7 @@ import { Input } from "@ui/input";
 import { Label } from "@ui/label";
 import { Button } from "@ui/button";
 import SignLabel from "@ui/sign-label";
+import Loading from "@ui/loading";
 import { Eye, EyeOff } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { z, ZodType } from "zod";
@@ -186,7 +187,11 @@ const ResetPassword = () => {
                 type="submit"
                 disabled={isSubmitting || isRedirecting}
               >
-                Cambiar Contrasaña
+                {isSubmitting ? (
+                  <Loading />
+                ) : (
+                  "Cambiar Contraseña"
+                )}
               </Button>
             </form>
           </div>

@@ -299,8 +299,16 @@
 
 
 
-.apexcharts-text {
+.apexcharts-text, .apexcharts-legend-text, .apexcharts-tooltip-series-group .apexcharts-active, .apexcharts-tooltip-marker, .apexcharts-tooltip-text, .apexcharts-xaxistooltip, .apexcharts-xaxistooltip-bottom, .apexcharts-tooltip-title, .apexcharts-xaxistooltip-text {
   font-family: "Poppins", sans-serif, Arial, Helvetica !important;
+}
+
+.apexcharts-menu-item {
+  font-size: 11px !important;
+}
+
+.chart-icon:hover {
+  filter: brightness(50%);
 }
 
 
@@ -360,11 +368,19 @@
   .fc {
     width: 310px;
   }
+
+  .fc .fc-toolbar-title {
+    font-size: 1.3em;
+  }
 }
 
 @media (min-width: 400px) {
   .fc {
     width: 330px;
+  }
+
+  .fc .fc-toolbar-title {
+    font-size: 1.35em;
   }
 }
 
@@ -372,11 +388,19 @@
   .fc {
     width: 380px;
   }
+
+  .fc .fc-toolbar-title {
+    font-size: 1.4em;
+  }
 }
 
 @media (min-width: 570px) {
   .fc {
     width: 500px;
+  }
+
+  .fc .fc-toolbar-title {
+    font-size: 1.45em;
   }
 }
 
@@ -384,11 +408,19 @@
   .fc {
     width: 380px;
   }
+
+  .fc .fc-toolbar-title {
+    font-size: 1.5em;
+  }
 }
 
 @media (min-width: 760px) {
   .fc {
     width: 450px;
+  }
+
+  .fc .fc-toolbar-title {
+    font-size: 1.55em;
   }
 }
 
@@ -396,11 +428,19 @@
   .fc {
     width: 550px;
   }
+
+  .fc .fc-toolbar-title {
+    font-size: 1.6em;
+  }
 }
 
 @media (min-width: 1024px) {
   .fc {
     width: 600px;
+  }
+
+  .fc .fc-toolbar-title {
+    font-size: 1.65em;
   }
 }
 
@@ -408,16 +448,28 @@
   .fc {
     width: 700px;
   }
+
+  .fc .fc-toolbar-title {
+    font-size: 1.7em;
+  }
 }
 
 @media (min-width: 1530px) {
   .fc {
     width: 580px;
   }
+
+  .fc .fc-toolbar-title {
+    font-size: 1.75em;
+  }
 }
 
 @media (min-width: 1760px) {
   .fc {
     width: 700px;
+  }
+
+  .fc .fc-toolbar-title {
+    font-size: 1.75em;
   }
 }

@@ -97,7 +97,6 @@ const Home: React.FC<HomeProps> = ({ handleLogout }: HomeProps) => {
         "Esa tarea no se pudo encontrar (Error interno del servidor)",
         err
       );
-      throw err;
     }
   };
 

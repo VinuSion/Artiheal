@@ -6,8 +6,11 @@ interface CircularProgressBarProps {
   percentage?: number;
   circleSize?: string,
   valueFontSize?: string,
+  labelFontSize?: string,
+  labelOffset?: number,
   gradientEnabled?: boolean;
   showLabel?: boolean;
+  label?: string;
   height?: number;
   width?: number;
 }
@@ -16,8 +19,11 @@ const CircularProgressBar: React.FC<CircularProgressBarProps> = ({
   percentage = 0,
   circleSize = "55%",
   valueFontSize = "14px",
+  labelFontSize = "12px",
+  labelOffset = 0,
   gradientEnabled = false,
   showLabel = false,
+  label = "Progreso",
   height = 100,
   width = 100,
 }) => {
@@ -37,7 +43,8 @@ const CircularProgressBar: React.FC<CircularProgressBarProps> = ({
         dataLabels: {
           name: {
             color: "#745cff",
-            fontSize: "12px",
+            fontSize: labelFontSize,
+            offsetY: labelOffset,
             show: showLabel,
           },
           value: {
@@ -56,6 +63,7 @@ const CircularProgressBar: React.FC<CircularProgressBarProps> = ({
       type: gradientEnabled ? "gradient" : "solid",
       gradient: {
         shade: "light",
+        inverseColors: true,
         type: "vertical",
         gradientToColors: ["#c4b5fd"],
         stops: [0, 100],
@@ -64,7 +72,7 @@ const CircularProgressBar: React.FC<CircularProgressBarProps> = ({
     stroke: {
       lineCap: "round",
     },
-    labels: ["Progreso"],
+    labels: [label],
   };
 
   const series: number[] = [percentage];

@@ -6,6 +6,7 @@ import { Label } from "@ui/label";
 import { Button } from "@ui/button";
 import { Checkbox } from "@ui/checkbox";
 import SignLabel from "@ui/sign-label";
+import Loading from "@ui/loading";
 import { ArrowLeft, Eye, EyeOff } from "lucide-react";
 import { z, ZodType } from "zod";
 import { useForm } from "react-hook-form";
@@ -156,7 +157,11 @@ const Login = () => {
                 type="submit"
                 disabled={isSubmitting}
               >
-                Iniciar Sesión
+                {isSubmitting ? (
+                  <Loading />
+                ) : (
+                  "Iniciar Sesión"
+                )}
               </Button>
             </form>
 

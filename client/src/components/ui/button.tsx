@@ -23,8 +23,6 @@ const buttonVariants = cva(
         icon: "border-solid border-2 rounded-lg text-primary-foreground bg-transparent",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
-        speround:
-          "bg-gradient-to-r from-indigo-500 to-violet-600 rounded-full hover:from-indigo-500 hover:to-indigo-900 text-white shadow-lg transition-transform duration-300 ease-in-out",
       },
       size: {
         default: "h-10 px-4 py-2",

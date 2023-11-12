@@ -82,13 +82,13 @@ export interface FoodItem {
 }
 
 export interface Food {
-  foodId: string,
-  name: string,
-  servingSize: number,
-  calories: number,
-  foodType: string,
-  picture: string,
-  quantity: number,
+  foodId: string;
+  name: string;
+  servingSize: number;
+  calories: number;
+  foodType: string;
+  picture: string;
+  quantity: number;
 }
 
 export interface FoodEntries {
@@ -102,15 +102,15 @@ export interface FoodEntries {
 
 export interface Task {
   foodReference: string;
-  description: string; 
-  goal: number; 
+  description: string;
+  goal: number;
   pointsAwarded: number;
-  taskType: string; 
+  taskType: string;
 }
 
 export interface PendingTask {
-  description: string; 
-  goal: number; 
+  description: string;
+  goal: number;
   pointsAwarded: number;
   taskId: string;
   status: boolean;
@@ -125,6 +125,29 @@ export interface PointsProfile {
   earnedPoints: number;
   level: number;
   nextLevelPoints: number;
+}
+
+export interface TaskHistoryEntry {
+  taskId: string;
+  description: string;
+  pointsReceived: number;
+  progress: number;
+  goal: number;
+  completedDate: Date;
+  completedOnTime: boolean;
+}
+
+export interface MealTypeCounts {
+  NA: number;
+  breakfast: number;
+  lunch: number;
+  dinner: number;
+  snack: number;
+}
+
+export interface FoodTypeCount {
+  name: string;
+  count: number;
 }
 
 export const cardOpInfo = [
@@ -148,60 +171,69 @@ export const cardOpInfo = [
   },
 ];
 
-export const cardProInfo = [
+export const cardProductInfo = [
   {
-    productImage: "https://github.com/VinuSion/Artiheal/assets/146145167/3364b1d6-4d37-4e67-891a-424b37498c25",
-    spanTitle: "Ensalada Mcdonalds",
-    spanMessage:
-      "20 puntos",
+    productImage:
+      "https://github.com/VinuSion/Artiheal/assets/146145167/3364b1d6-4d37-4e67-891a-424b37498c25",
+    title: "Ensalada Cesar",
+    vendor: "McDonalds",
+    pointsValue: "250 puntos",
   },
   {
-    productImage: "https://github.com/VinuSion/Artiheal/assets/146145167/81f0d2c7-8d12-433e-8004-26f4ab8ee73a",
-    spanTitle: "Jugo de naranja Exito",
-    spanMessage:
-      "20 puntos",
+    productImage:
+      "https://github.com/VinuSion/Artiheal/assets/146145167/81f0d2c7-8d12-433e-8004-26f4ab8ee73a",
+    title: "Jugo de Naranja",
+    vendor: "Exito",
+    pointsValue: "200 puntos",
   },
   {
-    productImage: "https://github.com/VinuSion/Artiheal/assets/146145167/3f66483d-6408-423e-b45d-fbe4cb6f9509",
-    spanTitle: "Ensalada KFC",
-    spanMessage:
-      "20 puntos",
+    productImage:
+      "https://github.com/VinuSion/Artiheal/assets/146145167/21341599-f809-49ab-a450-e00b30524d7f",
+    title: "Funko Darth Vader",
+    vendor: "Funko",
+    pointsValue: "500 puntos",
   },
   {
-    productImage: "https://github.com/VinuSion/Artiheal/assets/146145167/21341599-f809-49ab-a450-e00b30524d7f",
-    spanTitle: "Funko Darth Vader",
-    spanMessage:
-      "45 puntos",
+    productImage:
+      "https://github.com/VinuSion/Artiheal/assets/146145167/b1cb9d14-3fa4-4cd2-860f-4cd25f5a8408",
+    title: "Tarjeta de Regalo",
+    vendor: "Microsoft",
+    pointsValue: "550 puntos",
   },
   {
-    productImage: "https://github.com/VinuSion/Artiheal/assets/146145167/b1cb9d14-3fa4-4cd2-860f-4cd25f5a8408",
-    spanTitle: "Gift Card Microsoft",
-    spanMessage:
-      "55 puntos",
+    productImage:
+      "https://github.com/VinuSion/Artiheal/assets/56313573/61ed0754-51bd-4cf2-8772-4a5665dd4052",
+    title: "Airpods Pro",
+    vendor: "Apple",
+    pointsValue: "1.5k puntos",
   },
   {
-    productImage: "https://github.com/VinuSion/Artiheal/assets/146145167/8b9d0cda-f811-444d-bbba-51a8f80e89cc",
-    spanTitle: "Audifonos Apple",
-    spanMessage:
-      "60 puntos",
+    productImage:
+      "https://github.com/VinuSion/Artiheal/assets/56313573/0b69defe-1523-4d92-970b-935e75d7ce98",
+    title: "Samsung Galaxy A04",
+    vendor: "Exito",
+    pointsValue: "2.5K Puntos",
   },
   {
-    productImage: "https://github.com/VinuSion/Artiheal/assets/146145167/15214bf3-4ef9-46e4-a96a-c1a9665dcbf4",
-    spanTitle: "Balón Adidas",
-    spanMessage:
-      "70 puntos",
+    productImage:
+      "https://github.com/VinuSion/Artiheal/assets/56313573/9d12e020-2331-4d88-a614-7818b72b555f",
+    title: "Balón 2014 WC",
+    vendor: "Adidas",
+    pointsValue: "1k puntos",
   },
   {
-    productImage: "https://github.com/VinuSion/Artiheal/assets/146145167/ee3107ae-18d0-4e69-80c0-27106fb8334f",
-    spanTitle: "Zapatos Adidas",
-    spanMessage:
-      "95 puntos",
+    productImage:
+      "https://github.com/VinuSion/Artiheal/assets/56313573/7adc82ed-6dd4-4a17-9478-d01c687381bb",
+    title: "Zapatos A1-Stripe",
+    vendor: "Adidas",
+    pointsValue: "950 puntos",
   },
   {
-    productImage: "https://github.com/VinuSion/Artiheal/assets/146145167/6c9652a9-8721-4f35-88c2-4615194aa43c",
-    spanTitle: "Camiseta Adidas",
-    spanMessage:
-      "105 puntos",
+    productImage:
+      "https://github.com/VinuSion/Artiheal/assets/56313573/2a4b88d3-5876-4597-b5cf-97ac77b0d99d",
+    title: "Camiseta Griz XL",
+    vendor: "Adidas",
+    pointsValue: "670 puntos",
   },
 ];
 
@@ -322,3 +354,11 @@ export interface LevelPoints {
     max: number;
   };
 }
+
+export const downloadIcon = '<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiM2ZTgxOTIiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBjbGFzcz0ibHVjaWRlIGx1Y2lkZS1kb3dubG9hZCI+PHBhdGggZD0iTTIxIDE1djRhMiAyIDAgMCAxLTIgMkg1YTIgMiAwIDAgMS0yLTJ2LTQiLz48cG9seWxpbmUgcG9pbnRzPSI3IDEwIDEyIDE1IDE3IDEwIi8+PGxpbmUgeDE9IjEyIiB4Mj0iMTIiIHkxPSIxNSIgeTI9IjMiLz48L3N2Zz4=" class="chart-icon" width="19">';
+
+export const zoominIcon = '<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiM2ZTgxOTIiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBjbGFzcz0ibHVjaWRlIGx1Y2lkZS16b29tLWluIj48Y2lyY2xlIGN4PSIxMSIgY3k9IjExIiByPSI4Ii8+PGxpbmUgeDE9IjIxIiB4Mj0iMTYuNjUiIHkxPSIyMSIgeTI9IjE2LjY1Ii8+PGxpbmUgeDE9IjExIiB4Mj0iMTEiIHkxPSI4IiB5Mj0iMTQiLz48bGluZSB4MT0iOCIgeDI9IjE0IiB5MT0iMTEiIHkyPSIxMSIvPjwvc3ZnPg==" class="chart-icon" width="20">';
+
+export const zoomoutIcon = '<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiM2ZTgxOTIiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBjbGFzcz0ibHVjaWRlIGx1Y2lkZS16b29tLW91dCI+PGNpcmNsZSBjeD0iMTEiIGN5PSIxMSIgcj0iOCIvPjxsaW5lIHgxPSIyMSIgeDI9IjE2LjY1IiB5MT0iMjEiIHkyPSIxNi42NSIvPjxsaW5lIHgxPSI4IiB4Mj0iMTQiIHkxPSIxMSIgeTI9IjExIi8+PC9zdmc+" class="chart-icon" width="20">';
+
+export const resetIcon = '<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiM2ZTgxOTIiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBjbGFzcz0ibHVjaWRlIGx1Y2lkZS1yb3RhdGUtY2N3Ij48cGF0aCBkPSJNMyAxMmE5IDkgMCAxIDAgOS05IDkuNzUgOS43NSAwIDAgMC02Ljc0IDIuNzRMMyA4Ii8+PHBhdGggZD0iTTMgM3Y1aDUiLz48L3N2Zz4=" class="chart-icon" width="19">';

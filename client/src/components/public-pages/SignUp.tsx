@@ -4,6 +4,7 @@ import { Label } from "@ui/label";
 import { Button } from "@ui/button";
 import { Checkbox } from "@ui/checkbox";
 import SignLabel from "@ui/sign-label";
+import Loading from "@ui/loading";
 import { ArrowLeft, Eye, EyeOff } from "lucide-react";
 import { Link } from "react-router-dom";
 import { z, ZodType } from "zod";
@@ -322,7 +323,11 @@ const SignUp = () => {
                 type="submit"
                 disabled={isSubmitting}
               >
-                Crear Cuenta
+                {isSubmitting ? (
+                  <Loading />
+                ) : (
+                  "Crear Cuenta"
+                )}
               </Button>
 
               <span className="text-tertiary text-xs sm:text-base">

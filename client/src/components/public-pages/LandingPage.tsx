@@ -49,14 +49,14 @@ const LandingPage = () => {
 
           <div className="flex flex-row space-x-4 sm:mr-4">
             <Link to="/signup">
-              <Button variant="outline" className="text-xs sm:text-base">
+              <Button variant="outline" className="text-xs sm:text-base hidden sm:block">
                 Registrarse
               </Button>
             </Link>
             <Link to="/login">
               <Button
                 variant="outline"
-                className="text-xs sm:text-base hidden sm:block"
+                className="text-xs sm:text-base"
               >
                 Iniciar Sesión
               </Button>

@@ -2,7 +2,7 @@ import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { AxiosError } from "axios";
 import { isToday, isValid, parse, format } from "date-fns";
-import { FoodItem, mealTypeMap, Level, LevelPoints } from "@/lib/constants";
+import { FoodItem, mealTypeMap, Level, LevelPoints, FoodEntry, TaskHistory, MealTypeCounts } from "@/lib/constants";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -275,7 +275,9 @@ export const translateMealType = (mealType: string) => {
   return mealTypeMap[mealType] || mealType;
 };
 
-export const getPointsRangeFromLevel = (level: Level): { min: number; max: number } => {
+export const getPointsRangeFromLevel = (
+  level: Level
+): { min: number; max: number } => {
   const levelPoints: LevelPoints = {
     0: { min: 0, max: 24 },
     1: { min: 25, max: 99 },
@@ -289,8 +291,196 @@ export const getPointsRangeFromLevel = (level: Level): { min: number; max: numbe
 
 export const formatISOToMonthDay = (isoDate: string): string => {
   const date = new Date(isoDate);
-  const day = date.getUTCDate().toString().padStart(2, '0');
-  const month = (date.getUTCMonth() + 1).toString().padStart(2, '0');
+  const day = date.getUTCDate().toString().padStart(2, "0");
+  const month = (date.getUTCMonth() + 1).toString().padStart(2, "0");
 
   return `${day}/${month}`;
-}
+};
+
+export const formatCompletedDate = (isoDate: string): string => {
+  const date = new Date(isoDate);
+  const day: string = date.getDate().toString().padStart(2, "0");
+  const month: string = (date.getMonth() + 1).toString().padStart(2, "0"); // Months are zero-based, so we add 1
+  let hours: number = date.getHours();
+  const minutes: string = date.getMinutes().toString().padStart(2, "0");
+
+  const amOrPm: string = hours < 12 ? "a. m." : "p. m.";
+
+  // Converts to 12-hour format
+  if (hours > 12) {
+    hours -= 12;
+  }
+
+  const formattedDate: string = `${day}/${month} - ${hours
+    .toString()
+    .padStart(2, "0")}:${minutes} ${amOrPm}`;
+
+  return formattedDate;
+};
+
+export const isHTMLElement = (element: Element | null): element is HTMLElement => {
+  return element instanceof HTMLElement;
+};
+
+export const getStartOfWeek = () => {
+  const today = new Date();
+  const dayOfWeek = today.getDay(); // 0 for Sunday, 1 for Monday, etc.
+
+  // Calculates the number of days to subtract to get to the start of the week (Monday)
+  const daysToSubtract = (dayOfWeek + 6) % 7;
+
+  // Sets the date to the start of the week with time set to midnight
+  const startOfWeek = new Date(today);
+  startOfWeek.setDate(today.getDate() - daysToSubtract);
+  startOfWeek.setHours(0, 0, 0, 0);
+
+  return startOfWeek.toISOString(); // Convert to ISO date format
+};
+
+export const calculateCaloriesForWeek = (foodDiary: FoodEntry[], startOfWeek: string) => {
+  const today = new Date().toISOString();
+
+  const entriesInRange = foodDiary.filter((entry: FoodEntry) => {
+    const entryDate = new Date(entry.date).toISOString();
+    return entryDate >= startOfWeek && entryDate <= today;
+  });
+
+  const totalCaloriesForWeek = entriesInRange.reduce(
+    (total: number, entry: FoodEntry) => total + entry.totalCalories,
+    0
+  );
+
+  return totalCaloriesForWeek;
+};
+
+export const calculateTotalFoodsForWeek = (foodDiary: FoodEntry[], startOfWeek: string) => {
+  const today = new Date().toISOString();
+
+  const totalFoodsForWeek = foodDiary.reduce((total, entry: FoodEntry) => {
+    const entryDate = new Date(entry.date).toISOString();
+
+    if (entryDate >= startOfWeek && entryDate <= today) {
+      return total + entry.foods.length;
+    }
+
+    return total;
+  }, 0);
+
+  return totalFoodsForWeek;
+};
+
+export const calculateDailyCaloriesForWeek = (foodDiary: FoodEntry[], startOfWeek: string) => {
+  const startOfWeekDate = new Date(startOfWeek);
+  const startOfWeekDay = startOfWeekDate.getDay();
+  const endOfWeek = new Date(startOfWeekDate);
+  endOfWeek.setDate(startOfWeekDate.getDate() + (startOfWeekDay + 5));
+
+  const dailyCaloriesForWeek = Array.from({ length: 7 }, (_, index) => {
+    const currentDate = new Date(startOfWeek);
+    currentDate.setDate(currentDate.getDate() + index);
+
+    // Extract year, month, and day from currentDate
+    const currentYear = currentDate.getFullYear();
+    const currentMonth = currentDate.getMonth();
+    const currentDay = currentDate.getDate();
+
+    const entryForDate = foodDiary.find((entry: FoodEntry) => {
+      const entryDate = new Date(entry.date);
+      // Extract year, month, and day from entryDate
+      const entryYear = entryDate.getFullYear();
+      const entryMonth = entryDate.getMonth();
+      const entryDay = entryDate.getDate();
+
+      // Compare year, month, and day
+      return currentYear === entryYear && currentMonth === entryMonth && currentDay === entryDay;
+    });
+
+    return entryForDate ? entryForDate.totalCalories : 0;
+  });
+
+  return dailyCaloriesForWeek;
+};
+
+export const countFoodTypesInFoodDiary = (foodDiary: FoodEntry[], startOfWeek: string) => {
+  const today = new Date();
+  const foodTypeCounts: { [key: string]: number } = {};
+
+  // Iterates through each entry in foodDiary
+  foodDiary.forEach((entry: FoodEntry) => {
+    // Checks if the entry falls within the current week date range
+    const entryDate = new Date(entry.date);
+    if (entryDate >= new Date(startOfWeek) && entryDate <= today) {
+      // Iterates through the foods array in each entry
+      entry.foods.forEach((food) => {
+        // Uses the food name as the key in the foodTypeCounts object
+        const foodName = food.name;
+
+        // Increments the count for the corresponding food type
+        if (foodTypeCounts[foodName]) {
+          foodTypeCounts[foodName]++;
+        } else {
+          foodTypeCounts[foodName] = 1;
+        }
+      });
+    }
+  });
+
+  // Convert the foodTypeCounts object to an array of objects
+  const countsArray = Object.entries(foodTypeCounts).map(([name, count]) => ({
+    name,
+    count,
+  }));
+
+  // Sort the array based on the count in descending order
+  countsArray.sort((a, b) => b.count - a.count);
+
+  return countsArray;
+};
+
+export const getStartOfMonth = () => {
+  const today = new Date();
+
+  // Set the date to the first day of the current month with time set to midnight
+  const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+  startOfMonth.setHours(0, 0, 0, 0);
+
+  return startOfMonth.toISOString(); // Convert to ISO date format
+};
+
+export const getCompletedTasksForMonth = (taskHistory: TaskHistory[], startOfMonth: string) => {
+  const today = new Date();
+  const startOfMonthDate = new Date(startOfMonth); // Convert startOfMonth to a Date object
+
+  // Filters task history entries based on the completed date range
+  const completedTasksForMonth = taskHistory.filter((task: TaskHistory) => {
+    const completedDate = new Date(task.completedDate); // Convert completedDate to Date object
+
+    // Check if the completed date is within the range of the current month
+    return completedDate >= startOfMonthDate && completedDate <= today;
+  });
+
+  return completedTasksForMonth.length;
+};
+
+export const countMealTypesInFoodDiary = (foodDiary: FoodEntry[]): MealTypeCounts => {
+  // Initialize an object to keep track of mealType counts
+  const mealTypeCounts: any = {
+    NA: 0,
+    breakfast: 0,
+    lunch: 0,
+    dinner: 0,
+    snack: 0,
+  };
+
+  // Iterate through each entry in foodDiary
+  foodDiary.forEach((entry) => {
+    // Iterate through the foods array in each entry
+    entry.foods.forEach((food) => {
+      // Increment the count for the corresponding mealType
+      mealTypeCounts[food.mealType]++;
+    });
+  });
+
+  // Return the mealType counts
+  return mealTypeCounts;
+};

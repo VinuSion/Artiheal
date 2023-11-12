@@ -5,7 +5,7 @@ import { FoodItem, Food } from "@/lib/constants";
 import { Badge } from "@ui/badge";
 import FoodDiaryForm from "./modules/FoodDiaryForm";
 import FoodDiaryHistory from "./modules/FoodDiaryHistory";
-import { UtensilsCrossed, GlassWater } from "lucide-react";
+import { UtensilsCrossed, GlassWater, Goal } from "lucide-react";
 import FullCalendar from "@fullcalendar/react";
 import Calendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
@@ -213,9 +213,10 @@ const Routine = () => {
             <div className="w-full h-full 2xl:w-1/4 mt-4 2xl:mt-0 flex flex-col space-y-3 justify-start items-start">
               <div className="flex flex-col h-full justify-between">
                 <div className="flex flex-col justify-start space-y-3">
-                  <h3 className="text-primary text-3xl font-bold mb-4">
-                    Metas de hoy
-                  </h3>
+                  <div className="flex flex-row items-center text-primary gap-x-2 mb-2">
+                    <Goal className="block sm:hidden h-5 w-5" />
+                    <h4 className="text-xl sm:text-3xl font-bold">Metas de Hoy</h4>
+                  </div>
                   <p className="text-sm">
                     Para el dia de hoy{" "}
                     <span className="font-bold text-primary">
@@ -302,7 +303,7 @@ const Routine = () => {
                                 </div>
                                 <div className="flex flex-row items-center space-x-4">
                                   <span className="text-xs text-muted-foreground">
-                                    Calorias: {food.calories}k/cal
+                                    Calorías: {food.calories}k/cal
                                   </span>
                                   <span className="text-xs text-muted-foreground">
                                     |

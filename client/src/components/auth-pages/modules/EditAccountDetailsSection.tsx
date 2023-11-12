@@ -3,6 +3,7 @@ import { Input } from "@ui/input";
 import { Button } from "@ui/button";
 import { Label } from "@ui/label";
 import SignLabel from "@ui/sign-label";
+import Loading from "@ui/loading";
 import { Eye, EyeOff } from "lucide-react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -155,7 +156,8 @@ const EditAccountDetailsSection = () => {
             setApiError(getError(err as AxiosError) as string);
           } else if (
             status === 400 &&
-            err.response.data.message === "Otro usuario ya está usando este correo."
+            err.response.data.message ===
+              "Otro usuario ya está usando este correo."
           ) {
             setError("email", {
               type: "manual",
@@ -376,7 +378,7 @@ const EditAccountDetailsSection = () => {
 
                 {/* Save Changes Button */}
                 <Button variant="special" type="submit" disabled={isSubmitting}>
-                  Guardar Cambios
+                  {isSubmitting ? <Loading /> : "Guardar Cambios"}
                 </Button>
               </div>
             </form>
