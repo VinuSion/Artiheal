@@ -318,10 +318,6 @@ export const formatCompletedDate = (isoDate: string): string => {
   return formattedDate;
 };
 
-export const isHTMLElement = (element: Element | null): element is HTMLElement => {
-  return element instanceof HTMLElement;
-};
-
 export const getStartOfWeek = () => {
   const today = new Date();
   const dayOfWeek = today.getDay(); // 0 for Sunday, 1 for Monday, etc.

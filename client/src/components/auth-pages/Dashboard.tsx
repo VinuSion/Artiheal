@@ -7,7 +7,6 @@ import AreaGraph from "@/components/ui/area-graph";
 import PieChart from "@ui/pie-chart";
 import { FoodTypeCount } from "@/lib/constants";
 import {
-  isHTMLElement,
   getStartOfWeek,
   getStartOfMonth,
   calculateCaloriesForWeek,
@@ -84,27 +83,6 @@ const Dashboard = () => {
       } else {
         getUserProfile();
       }
-    }
-    const exportSVGElement = document.querySelector(
-      ".apexcharts-menu-item.exportSVG"
-    );
-    const exportPNGElement = document.querySelector(
-      ".apexcharts-menu-item.exportPNG"
-    );
-    const exportCSVElement = document.querySelector(
-      ".apexcharts-menu-item.exportCSV"
-    );
-
-    if (isHTMLElement(exportSVGElement)) {
-      exportSVGElement.innerText = "Descargar SVG";
-    }
-
-    if (isHTMLElement(exportPNGElement)) {
-      exportPNGElement.innerText = "Descargar PNG";
-    }
-
-    if (isHTMLElement(exportCSVElement)) {
-      exportCSVElement.innerText = "Descargar CSV";
     }
   }, []);
 
