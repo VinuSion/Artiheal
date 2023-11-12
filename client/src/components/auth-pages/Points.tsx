@@ -148,7 +148,7 @@ const Points = () => {
                             level.lvl === 4
                               ? "bg-gradient-to-r from-primary via-purple-400 to-violet-300 text-background border-violet-400"
                               : "bg-background text-foreground"
-                          }`}
+                          } ${pointsProfile?.level === level.lvl ? "border-primary border-2" : ""}`}
                           key={index}
                         >
                           <div className="flex flex-row items-center space-x-1.5">
@@ -162,19 +162,6 @@ const Points = () => {
                             >
                               {level.range}
                             </Badge>
-                            {pointsProfile?.level === level.lvl && (
-                              <Badge
-                                variant="special"
-                                className="text-xs flex flex-row gap-x-1 cursor-pointer"
-                              >
-                                <div className="flex flex-row space-x-1 items-center">
-                                  <Gem className="h-4 sm:h-3 w-4 sm:w-3" />
-                                  <span className="hidden sm:block">
-                                    Estas Aqui
-                                  </span>
-                                </div>
-                              </Badge>
-                            )}
                           </div>
                           <span
                             className={`text-xs sm:text-sm ${
