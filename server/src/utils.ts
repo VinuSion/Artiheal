@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import { Request, Response, NextFunction } from 'express';
-import Task from "../src/models/taskModel";
+import Task from "./models/taskModel";
 
 export const baseUrl = () => {
   return process.env.BASE_URL || "http://localhost:3000";
