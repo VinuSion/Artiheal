@@ -8,6 +8,9 @@
     "build": "cd server && npm install && npm run build && cd ../client && npm install && npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "engines": {
+    "node": ">=19.0.0 <20.10.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/VinuSion/Artiheal.git"
