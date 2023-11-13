@@ -12,6 +12,7 @@ import { Store } from "@/Store";
 import Axios, { AxiosError } from "axios";
 import { getError } from "@/lib/utils";
 
+
 const EditAccountDetailsSection = () => {
   const { dispatch: ctxDispatch } = useContext(Store)!;
   const userInfoString = localStorage.getItem("userInfo")!;
@@ -27,7 +28,7 @@ const EditAccountDetailsSection = () => {
         .string()
         .min(3, { message: "Mínimo 3 caracteres (Nombre)" })
         .max(20, { message: "Maximo 20 caracteres (Nombre)" })
-        .refine((value) => /^\s*[a-zA-ZáéíóúÁÉÍÓÚ]+\s*$/.test(value), {
+        .refine((value) => /^\s*[a-zA-ZáéíóúÁÉÍÓÚ]+\s*(?:\s*[a-zA-ZáéíóúÁÉÍÓÚ]+\s*){0,3}$/.test(value), {
           message: "Solo letras en el Nombre",
         })
         .optional()
@@ -36,7 +37,7 @@ const EditAccountDetailsSection = () => {
         .string()
         .min(3, { message: "Mínimo 3 caracteres (Apellido)" })
         .max(20, { message: "Maximo 20 caracteres (Apellido)" })
-        .refine((value) => /^\s*[a-zA-ZáéíóúÁÉÍÓÚ]+\s*$/.test(value), {
+        .refine((value) => /^\s*[a-zA-ZáéíóúÁÉÍÓÚ]+\s*(?:\s*[a-zA-ZáéíóúÁÉÍÓÚ]+\s*){0,3}$/.test(value), {
           message: "Solo letras en el Apellido",
         })
         .optional()

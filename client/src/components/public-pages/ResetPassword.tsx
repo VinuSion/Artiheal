@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { motion } from "framer-motion";
 import { Input } from "@ui/input";
 import { Label } from "@ui/label";
 import { Button } from "@ui/button";
@@ -90,9 +91,7 @@ const ResetPassword = () => {
     } catch (err: any) {
       setSuccess(null);
       if (err.response && err.response.status === 401) {
-        setApiError(
-          "Este enlace ha caducado. Por favor, solicite uno nuevo."
-        );
+        setApiError("Este enlace ha caducado. Por favor, solicite uno nuevo.");
       } else if (err.response && err.response.status === 404) {
         setApiError("No se encontro un usuario asociado a este enlace.");
       } else {
@@ -108,9 +107,14 @@ const ResetPassword = () => {
       <Helmet>
         <title>Restablecer Contraseña | Artiheal</title>
       </Helmet>
-      <div className="min-h-screen flex items-center justify-center bg-splash-image bg-cover bg-no-repeat bg-center">
+      <div className="min-h-screen flex items-center justify-center bg-splash-image bg-cover bg-no-repeat bg-center overflow-y-hidden">
         <main className="flex flex-col place-items-center">
-          <div className="shadow-2xl p-6 rounded-lg bg-background w-[330px] sm:w-[450px]">
+          <motion.div
+            initial={{ y: "100vw", opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ type: "spring", ease: "easeOut", duration: 0.8 }}
+            className="shadow-2xl p-6 rounded-lg bg-background w-[330px] sm:w-[450px]"
+          >
             <div className="icon flex items-center justify-center">
               <img
                 className="h-12, w-12 select-none"
@@ -126,7 +130,9 @@ const ResetPassword = () => {
 
             <form onSubmit={handleSubmit(submitData)}>
               <div className="grid w-full max-w items-center gap-1.5 mt-2">
-                <Label htmlFor="password" className="text-tertiary">Nueva Contraseña</Label>
+                <Label htmlFor="password" className="text-tertiary">
+                  Nueva Contraseña
+                </Label>
                 <div className="flex flex-row space-x-2">
                   <Input
                     type={passwordShown ? "text" : "password"}
@@ -187,14 +193,10 @@ const ResetPassword = () => {
                 type="submit"
                 disabled={isSubmitting || isRedirecting}
               >
-                {isSubmitting ? (
-                  <Loading />
-                ) : (
-                  "Cambiar Contraseña"
-                )}
+                {isSubmitting ? <Loading /> : "Cambiar Contraseña"}
               </Button>
             </form>
-          </div>
+          </motion.div>
         </main>
       </div>
     </>

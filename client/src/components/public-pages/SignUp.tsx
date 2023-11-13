@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { motion } from "framer-motion";
 import { Input } from "@ui/input";
 import { Label } from "@ui/label";
 import { Button } from "@ui/button";
@@ -12,6 +13,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import { normalizeName } from "@/lib/utils";
 import Axios from "axios";
 
 const SignUp = () => {
@@ -34,16 +36,28 @@ const SignUp = () => {
         .string()
         .min(3, { message: "Mínimo 3 caracteres (Nombre)" })
         .max(20, { message: "Maximo 20 caracteres (Nombre)" })
-        .refine((value) => /^\s*[a-zA-ZáéíóúÁÉÍÓÚ]+\s*$/.test(value), {
-          message: "Solo letras en el Nombre",
-        }),
+        .refine(
+          (value) =>
+            /^\s*[a-zA-ZáéíóúÁÉÍÓÚ]+\s*(?:\s*[a-zA-ZáéíóúÁÉÍÓÚ]+\s*){0,3}$/.test(
+              value
+            ),
+          {
+            message: "Solo letras en el Nombre",
+          }
+        ),
       lastName: z
         .string()
         .min(3, { message: "Mínimo 3 caracteres (Apellido)" })
         .max(20, { message: "Maximo 20 caracteres (Apellido)" })
-        .refine((value) => /^\s*[a-zA-ZáéíóúÁÉÍÓÚ]+\s*$/.test(value), {
-          message: "Solo letras en el Apellido",
-        }),
+        .refine(
+          (value) =>
+            /^\s*[a-zA-ZáéíóúÁÉÍÓÚ]+\s*(?:\s*[a-zA-ZáéíóúÁÉÍÓÚ]+\s*){0,3}$/.test(
+              value
+            ),
+          {
+            message: "Solo letras en el Apellido",
+          }
+        ),
       email: z.string().email({ message: "Correo electronico invalido" }),
       password: z
         .string()
@@ -92,16 +106,13 @@ const SignUp = () => {
 
   // Submit SignUp Data with Axios
   const submitData = async (data: FormData) => {
-    const trimmedFirstName = data.firstName.trim(); // Remove leading and trailing white spaces
-    const first =
-      trimmedFirstName.charAt(0).toUpperCase() +
-      trimmedFirstName.slice(1).toLowerCase();
+    const trimmedFirstName = data.firstName.trim();
+    const first = normalizeName(trimmedFirstName);
 
-    const trimmedLastName = data.lastName.trim(); // Remove leading and trailing white spaces
-    const last =
-      trimmedLastName.charAt(0).toUpperCase() +
-      trimmedLastName.slice(1).toLowerCase();
-    // Create new User with Axios
+    const trimmedLastName = data.lastName.trim();
+    const last = normalizeName(trimmedLastName);
+
+    // Creates new User with Axios
     try {
       await Axios.post("/api/users/signup", {
         firstName: first,
@@ -128,9 +139,14 @@ const SignUp = () => {
       <Helmet>
         <title>Crear Cuenta | Artiheal</title>
       </Helmet>
-      <div className="min-h-screen flex items-center justify-center bg-splash-image bg-cover bg-no-repeat bg-center">
+      <div className="min-h-screen flex items-center justify-center bg-splash-image bg-cover bg-no-repeat bg-center overflow-y-hidden">
         <main className="flex flex-col place-items-center">
-          <div className="shadow-2xl p-6 rounded-lg bg-background w-11/12 sm:w-[450px]">
+          <motion.div
+            initial={{ y: "100vw", opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ type: "spring", ease: "easeOut", duration: 0.8 }}
+            className="shadow-2xl p-6 rounded-lg bg-background w-11/12 sm:w-[450px]"
+          >
             <div className="icon flex items-center justify-center">
               <img
                 className="h-12, w-12 select-none"
@@ -323,11 +339,7 @@ const SignUp = () => {
                 type="submit"
                 disabled={isSubmitting}
               >
-                {isSubmitting ? (
-                  <Loading />
-                ) : (
-                  "Crear Cuenta"
-                )}
+                {isSubmitting ? <Loading /> : "Crear Cuenta"}
               </Button>
 
               <span className="text-tertiary text-xs sm:text-base">
@@ -340,7 +352,7 @@ const SignUp = () => {
                 </Link>
               </span>
             </form>
-          </div>
+          </motion.div>
         </main>
       </div>
     </>

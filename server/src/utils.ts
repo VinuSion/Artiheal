@@ -24,24 +24,16 @@ export const generateToken = (user: any) => {
   );
 };
 
-export const isAuth = (req: Request, res: Response, next: NextFunction) => {
-  if (!process.env.JWT_SECRET) {
-    throw new Error('JWT secret is not defined in the environment variables.');
-  }
-  const authorization = req.headers.authorization;
-  if (authorization) {
-    const token = authorization.slice(7, authorization.length);
-    jwt.verify(token, process.env.JWT_SECRET, (err, decode) => {
-      if (err) {
-        res.status(401).send({ message: "Invalid Token" });
-      } else {
-        (req as Request & { user: any }).user = decode;
-        next();
-      }
-    });
-  } else {
-    res.status(401).send({ message: "No Token Supplied" });
-  }
+export const normalizeName = (name: string) => {
+  const nameParts = name.split(/\s+/);
+  const filteredNameParts = nameParts.filter((part) => part.trim() !== '');
+
+  const formattedNameParts = filteredNameParts.map((part) =>
+    part.toLowerCase() === 'la' ? part : part.charAt(0).toUpperCase() + part.slice(1).toLowerCase()
+  );
+
+  const normalizedName = formattedNameParts.join(' ');
+  return normalizedName;
 };
 
 export const template = (resetLink: string) => `

@@ -212,7 +212,7 @@ const Routine = () => {
                 }}
               />
             </div>
-            <div className="w-full h-full 2xl:w-1/4 mt-4 2xl:mt-0 flex flex-col space-y-3 justify-start items-start">
+            <div className="w-full h-full 2xl:w-1/4 mt-4 2xl:mt-0 flex flex-col space-y-3 justify-start items-start px-1 xs:px-0">
               <div className="flex flex-col h-full justify-between">
                 <div className="flex flex-col justify-start space-y-3">
                   <div className="flex flex-row items-center text-primary gap-x-2 mb-2">
@@ -277,17 +277,17 @@ const Routine = () => {
                                     className={`text-primary font-bold ${
                                       food.name.length >= 14 &&
                                       food.name.length <= 19
-                                        ? "min-[320px]:max-sm:text-sm sm:max-2xl:text-basic 2xl:text-sm"
+                                        ? "min-[320px]:max-sm:text-sm sm:max-2xl:text-base 2xl:text-sm"
                                         : food.name.length > 19
-                                        ? "min-[320px]:max-sm:text-xs sm:max-2xl:text-basic 2xl:text-xs"
-                                        : "text-basic"
+                                        ? "min-[320px]:max-sm:text-xs sm:max-2xl:text-base 2xl:text-xs"
+                                        : "text-base"
                                     }`}
                                   >
                                     {food.name}
                                   </span>
                                   <Badge
                                     variant="secondary"
-                                    className="text-xs flex flex-row gap-x-1 cursor-pointer"
+                                    className="text-ns xs:text-xs flex flex-row gap-x-1 cursor-pointer"
                                   >
                                     {food.foodType === "comida" ? (
                                       <>
@@ -302,14 +302,14 @@ const Routine = () => {
                                     )}
                                   </Badge>
                                 </div>
-                                <div className="flex flex-row items-center space-x-4">
-                                  <span className="text-xs text-muted-foreground">
+                                <div className="flex flex-row items-center space-x-2 xs:space-x-4">
+                                  <span className="text-ns xs:text-xs text-muted-foreground">
                                     Calorías: {food.calories}k/cal
                                   </span>
-                                  <span className="text-xs text-muted-foreground">
+                                  <span className="text-ns xs:text-xs text-muted-foreground">
                                     |
                                   </span>
-                                  <span className="text-xs text-muted-foreground">
+                                  <span className="text-ns xs:text-xs text-muted-foreground">
                                     Porcion: {food.servingSize}{food.foodType === "comida" ? "g" : "mL"}
                                   </span>
                                 </div>

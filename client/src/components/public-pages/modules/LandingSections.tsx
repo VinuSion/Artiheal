@@ -4,21 +4,24 @@ import { Receipt, ActivitySquare, CalendarHeart } from "lucide-react";
 
 export const cardInfo = [
   {
-    cardImage: "https://github.com/VinuSion/Artiheal/assets/56313573/d3216957-8b53-47d8-8643-9bac0e1e05b3",
+    cardImage:
+      "https://github.com/VinuSion/Artiheal/assets/56313573/d3216957-8b53-47d8-8643-9bac0e1e05b3",
     spanTitle: "Rutinas a tu ritmo",
     icon: <CalendarHeart className="h-5 w-5 mr-2" />,
     spanMessage:
       "En Artiheal, te ayudamos a crear rutinas saludables adaptadas a tus necesidades, con enfoque único y diverso. ¡Comienza tu viaje hacia una vida más saludable hoy mismo!",
   },
   {
-    cardImage: "https://github.com/VinuSion/Artiheal/assets/56313573/9c20d3df-2590-4796-ba81-8cac6a55e5a0",
+    cardImage:
+      "https://github.com/VinuSion/Artiheal/assets/56313573/9c20d3df-2590-4796-ba81-8cac6a55e5a0",
     spanTitle: "Revisa tu progreso",
     icon: <ActivitySquare className="h-5 w-5 mr-2" />,
     spanMessage:
       "Ofrecemos a nuestros usuarios un dashboard estadístico que les permite monitorear y revisar su progreso de manera efectiva en su búsqueda de una vida más saludable.",
   },
   {
-    cardImage: "https://github.com/VinuSion/Artiheal/assets/56313573/1e0303fc-aa0a-43fb-b1de-fb2e5516fb33",
+    cardImage:
+      "https://github.com/VinuSion/Artiheal/assets/56313573/1e0303fc-aa0a-43fb-b1de-fb2e5516fb33",
     spanTitle: "Redime tus puntos",
     icon: <Receipt className="h-5 w-5 mr-2" />,
     spanMessage:
@@ -41,17 +44,19 @@ const LogoSlider = () => {
   }, []);
 
   return (
-    <div className="overflow-hidden py-14">
-      <div ref={sliderRef} className="flex whitespace-nowrap animate-slide">
+    <div className="relative overflow-hidden py-14">
+      <div ref={sliderRef} className="flex whitespace-nowrap animate-slide z-0">
         {logos.map((logo, index) => (
           <img
             key={index}
             src={logo}
-            className="h-10 mx-5 sm:h-20 sm:mx-10"
+            className="h-14 mx-5 sm:h-20 sm:mx-10"
             alt={logo}
           />
         ))}
       </div>
+      <div className="absolute inset-y-0 left-0 z-20 bg-gradient-to-l from-transparent to-background w-[20%]"></div>
+      <div className="absolute inset-y-0 right-0 z-20 bg-gradient-to-r from-transparent to-background w-[20%]"></div>
     </div>
   );
 };

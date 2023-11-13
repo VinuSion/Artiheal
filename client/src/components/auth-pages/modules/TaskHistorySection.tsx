@@ -233,7 +233,7 @@ const TaskHistorySection = () => {
                               <TooltipProvider>
                                 <Tooltip>
                                   <TooltipTrigger className="flex text-left">
-                                    <span className="text-xs text-muted-foreground">
+                                    <span className="text-ns xs:text-xs text-muted-foreground">
                                       {entry.description.length > 20
                                         ? `${entry.description.substring(
                                             0,
@@ -252,7 +252,7 @@ const TaskHistorySection = () => {
                             )}
                           </div>
                           <span
-                            className={`text-xs text-muted-foreground ${
+                            className={`text-ns xs:text-xs text-muted-foreground ${
                               entry.completedOnTime ? "hidden" : "block"
                             }`}
                           >

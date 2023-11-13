@@ -243,7 +243,6 @@ const FoodDiaryForm = () => {
       );
       // AXIOS REQUEST FOR UPDATING CURRENT TASKS
       await updateCurrentTasks(tasksToUpdate, filteredTasks);
-
     }
 
     // AXIOS REQUEST FOR SENDING FOOD DIARY
@@ -496,7 +495,7 @@ const FoodDiaryForm = () => {
                           {filteredFoods.length === 0 ? (
                             <div className="flex flex-row items-center px-2 h-16 rounded gap-x-3">
                               <div className="flex flex-col px-2 gap-y-1">
-                                <span className="text-primary text-sm sm:text-basic font-bold">
+                                <span className="text-primary ns:text-xs xs:text-sm sm:text-base font-bold">
                                   No hay alimentos con esa busqueda...
                                 </span>
                                 <span className="text-xs text-muted-foreground">
@@ -514,7 +513,7 @@ const FoodDiaryForm = () => {
                                     setSearchQuery("");
                                     setIsInputFocused(false);
                                   }}
-                                  className="flex flex-row items-center px-2 h-16 gap-x-3 cursor-pointer bg-background hover:bg-muted"
+                                  className="border-b flex flex-row items-center px-2 h-16 gap-x-3 cursor-pointer bg-background hover:bg-muted"
                                 >
                                   <div className="h-12 w-12 p-1 rounded">
                                     <img src={food.picture} alt={food.name} />
@@ -524,9 +523,9 @@ const FoodDiaryForm = () => {
                                       className={`flex flex-row items-center ${
                                         food.name.length >= 14 &&
                                         food.name.length <= 19
-                                          ? "min-[320px]:max-sm:space-x-2 sm:space-x-3"
+                                          ? "min-[320px]:max-xs:space-x-2 xs:space-x-3"
                                           : food.name.length > 19
-                                          ? "min-[320px]:max-sm:space-x-1 sm:space-x-3"
+                                          ? "min-[320px]:max-xs:space-x-1 xs:space-x-3"
                                           : "space-x-3"
                                       }`}
                                     >
@@ -534,17 +533,17 @@ const FoodDiaryForm = () => {
                                         className={`text-primary font-bold ${
                                           food.name.length >= 14 &&
                                           food.name.length <= 19
-                                            ? "min-[320px]:max-sm:text-sm sm:text-basic"
+                                            ? "min-[320px]:max-sm:text-sm sm:text-base"
                                             : food.name.length > 19
-                                            ? "min-[320px]:max-sm:text-xs sm:text-basic"
-                                            : "text-basic"
+                                            ? "min-[320px]:max-sm:text-xs sm:text-base"
+                                            : "text-sm xs:text-base"
                                         }`}
                                       >
                                         {food.name}
                                       </span>
                                       <Badge
                                         variant="secondary"
-                                        className="text-xs flex flex-row gap-x-1 cursor-pointer"
+                                        className="ns:hidden xs:flex flex-row gap-x-1 cursor-pointer"
                                       >
                                         {food.foodType === "comida" ? (
                                           <>
@@ -559,14 +558,16 @@ const FoodDiaryForm = () => {
                                         )}
                                       </Badge>
                                     </div>
-                                    <div className="flex flex-row items-center space-x-4">
-                                      <span className="text-xs text-muted-foreground">
-                                        Calorías: {food.calories.toLocaleString("es-CO")}k/cal
+                                    <div className="flex flex-row items-center ns:space-x-2 xs:space-x-4">
+                                      <span className="ns:text-ns xs:text-xs text-muted-foreground">
+                                        Calorías:{" "}
+                                        {food.calories.toLocaleString("es-CO")}
+                                        k/cal
                                       </span>
-                                      <span className="text-xs text-muted-foreground">
+                                      <span className="ns:text-ns xs:text-xstext-muted-foreground">
                                         |
                                       </span>
-                                      <span className="text-xs text-muted-foreground">
+                                      <span className="ns:text-ns xs:text-xs text-muted-foreground">
                                         Porcion: {food.servingSize}
                                         {food.foodType === "comida"
                                           ? "g"
@@ -621,17 +622,17 @@ const FoodDiaryForm = () => {
                               className={`text-primary font-bold ${
                                 selectedFood.name.length >= 14 &&
                                 selectedFood.name.length <= 19
-                                  ? "min-[320px]:max-sm:text-sm sm:text-basic"
+                                  ? "min-[320px]:max-sm:text-sm sm:text-base"
                                   : selectedFood.name.length > 19
-                                  ? "min-[320px]:max-sm:text-xs sm:text-basic"
-                                  : "text-basic"
+                                  ? "min-[320px]:max-sm:text-xs sm:text-base"
+                                  : "text-sm xs:text-base"
                               }`}
                             >
                               {selectedFood.name}
                             </span>
                             <Badge
                               variant="secondary"
-                              className="text-xs flex flex-row gap-x-1 cursor-pointer"
+                              className="flex flex-row items-center gap-x-1 cursor-pointer"
                             >
                               {selectedFood.foodType === "comida" ? (
                                 <>
@@ -646,14 +647,14 @@ const FoodDiaryForm = () => {
                               )}
                             </Badge>
                           </div>
-                          <div className="flex flex-row items-center space-x-4">
-                            <span className="text-xs text-muted-foreground">
+                          <div className="flex flex-row items-center space-x-2 xs:space-x-4">
+                            <span className="text-ns xs:text-xs  text-muted-foreground">
                               Calorías: {selectedFood.calories}k/cal
                             </span>
-                            <span className="text-xs text-muted-foreground">
+                            <span className="text-ns xs:text-xs  text-muted-foreground">
                               |
                             </span>
-                            <span className="text-xs text-muted-foreground">
+                            <span className="text-ns xs:text-xs  text-muted-foreground">
                               Porcion: {selectedFood.servingSize}
                               {selectedFood.foodType === "comida" ? "g" : "mL"}
                             </span>
@@ -760,7 +761,7 @@ const FoodDiaryForm = () => {
                       </Button>
                       <p className="text-xs text-muted-foreground sm:w-1/2">
                         Al agregar un alimento a la lista, obtienes datos sobre
-                        el número total de calorías consumidas en el día.
+                        el número total de calorías consumidas.
                       </p>
                     </div>
                   </form>
@@ -772,7 +773,7 @@ const FoodDiaryForm = () => {
                       Lista de Alimentos
                     </span>
                     {foodEntries.length > 0 ? (
-                      <div className="border rounded grid grid-cols-3 sm:grid-cols-4 gap-10 max-h-24 sm:max-h-60 overflow-y-auto p-4">
+                      <div className="border rounded grid grid-cols-2 sm:grid-cols-4 gap-10 max-h-24 sm:max-h-60 overflow-y-auto p-4">
                         {foodEntries.map((foodEntry) => {
                           return (
                             <div
@@ -796,8 +797,11 @@ const FoodDiaryForm = () => {
                                   alt={foodEntry.name}
                                 />
                               </div>
-                              <span className="text-primary text-xs sm:text-sm font-bold">
-                                {foodEntry.caloriesConsumed.toLocaleString("es-CO")}k/cal
+                              <span className="text-primary text-xs xs:text-sm sm:text-sm font-bold">
+                                {foodEntry.caloriesConsumed.toLocaleString(
+                                  "es-CO"
+                                )}
+                                k/cal
                               </span>
                             </div>
                           );
@@ -809,10 +813,10 @@ const FoodDiaryForm = () => {
                           <Frown className="h-8 w-8 text-primary" />
                         </div>
                         <div className="flex flex-col px-2 gap-y-1">
-                          <span className="text-primary text-sm sm:text-basic font-bold">
+                          <span className="text-primary ns:text-xs xs:text-sm sm:text-base font-bold">
                             No hay alimentos en la lista...
                           </span>
-                          <span className="text-xs text-muted-foreground">
+                          <span className="ns:text-ns xs:text-xs text-muted-foreground">
                             ¡Elije alimentos para guardalos a tu diario!
                           </span>
                         </div>
@@ -824,7 +828,7 @@ const FoodDiaryForm = () => {
 
                   <div className="flex flex-row justify-between items-center gap-x-3">
                     <div className="flex flex-col">
-                      <span className="text-sm text-muted-foreground sm:text-basic">
+                      <span className="text-sm text-muted-foreground sm:text-base">
                         Total Calorías:
                       </span>
                       <span
@@ -844,16 +848,12 @@ const FoodDiaryForm = () => {
                       disabled={foodEntries.length === 0 || isCreatingFoodDiary}
                       onClick={createDiary}
                     >
-                      {isCreatingFoodDiary ? (
-                        <Loading />
-                      ) : (
-                        "Enviar Diario"
-                      )}
+                      {isCreatingFoodDiary ? <Loading /> : "Enviar Diario"}
                     </Button>
                   </div>
                 </DialogContent>
               </Dialog>
-              <span className="text-xs text-muted-foreground">
+              <span className="mt-2 flex text-xs text-muted-foreground">
                 Solo puedes llenar el formulario una vez por dia.
               </span>
             </div>

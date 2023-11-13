@@ -165,7 +165,7 @@ const FoodDiaryHistory = () => {
                             variant={`${
                               entry.threePointsBenefit ? "special" : "secondary"
                             }`}
-                            className="text-xs flex flex-row gap-x-1 cursor-pointer"
+                            className="hidden text-xs xs:flex flex-row gap-x-1 cursor-pointer"
                           >
                             {entry.threePointsBenefit ? (
                               <>
@@ -195,7 +195,7 @@ const FoodDiaryHistory = () => {
                           </DialogTrigger>
                           <DialogContent className="w-11/12 sm:w-full max-w-xl rounded-md">
                             <DialogHeader>
-                              <DialogTitle className="text-left flex flex-row items-center mb-2">
+                              <DialogTitle className="leading-normal text-left flex flex-row items-center mb-2">
                                 {formatSpanishDate(entry.date)}
                               </DialogTitle>
                               <DialogDescription className="text-left text-xs sm:text-sm mb-2">
@@ -249,9 +249,9 @@ const FoodDiaryHistory = () => {
                                         className={`flex flex-row items-center ${
                                           foodEntry.name.length >= 14 &&
                                           foodEntry.name.length <= 19
-                                            ? "min-[320px]:max-sm:space-x-2 sm:max-2xl:space-x-3 2xl:space-x-3"
+                                            ? "min-[320px]:max-xs:space-x-2 xs:space-x-3"
                                             : foodEntry.name.length > 19
-                                            ? "min-[320px]:max-sm:space-x-1 sm:max-2xl:space-x-3 2xl:space-x-3"
+                                            ? "min-[320px]:max-xs:space-x-1 xs:space-x-3"
                                             : "space-x-3"
                                         }`}
                                       >
@@ -259,17 +259,17 @@ const FoodDiaryHistory = () => {
                                           className={`text-primary font-bold ${
                                             foodEntry.name.length >= 14 &&
                                             foodEntry.name.length <= 19
-                                              ? "min-[320px]:max-sm:text-sm sm:max-2xl:text-basic"
+                                              ? "min-[320px]:max-sm:text-sm sm:text-base"
                                               : foodEntry.name.length > 19
-                                              ? "min-[320px]:max-sm:text-xs sm:max-2xl:text-basic"
-                                              : "text-basic"
+                                              ? "min-[320px]:max-sm:text-xs sm:text-base"
+                                              : "text-sm xs:text-base"
                                           }`}
                                         >
                                           {foodEntry.name}
                                         </span>
                                         <Badge
                                           variant="secondary"
-                                          className="text-xs flex flex-row gap-x-1 cursor-pointer"
+                                          className="text-ns xs:text-xs flex flex-row gap-x-1 cursor-pointer"
                                         >
                                           <span>
                                             {translateMealType(
@@ -278,17 +278,17 @@ const FoodDiaryHistory = () => {
                                           </span>
                                         </Badge>
                                       </div>
-                                      <div className="flex flex-row items-center space-x-4">
-                                        <span className="text-xs text-muted-foreground">
+                                      <div className="flex flex-row items-center space-x-2 xs:space-x-4">
+                                        <span className="text-ns xs:text-xs text-muted-foreground">
                                           {foodEntry.caloriesConsumed.toLocaleString(
                                             "es-CO"
                                           )}{" "}
                                           k/cal
                                         </span>
-                                        <span className="text-xs text-muted-foreground">
+                                        <span className="text-ns xs:text-xs text-muted-foreground">
                                           |
                                         </span>
-                                        <span className="text-xs text-muted-foreground">
+                                        <span className="text-ns xs:text-xs text-muted-foreground">
                                           {foodEntry.quantity} (g o mL)
                                         </span>
                                       </div>

@@ -17,6 +17,11 @@
     background: hsl(var(--ring));
   }
 
+  ::selection {
+    background-color: hsla(249, 100%, 68%, 0.8);
+    color: hsl(var(--background));
+  }
+
   /* All of these colors are in HSL */
   :root {
     font-family: "Poppins", sans-serif, Arial, Helvetica;
@@ -108,6 +113,34 @@
     @apply bg-background text-foreground;
   }
 }
+
+
+
+.nav-link {
+  text-decoration: none;
+  padding: 20px 0px;
+  margin: 0px 20px;
+  display: inline-block;
+  position: relative;
+}
+
+.nav-link::before {
+  transition: 250ms;
+  height: 5px;
+  content: "";
+  position: absolute;
+  background-color: hsl(var(--background));
+}
+
+.nav-link-ltr::before {
+  width: 0%;
+  bottom: 10px;
+}
+
+.nav-link-ltr:hover::before {
+  width: 100%;
+}
+
 
 
 .radio input[type="radio"] {
@@ -366,11 +399,11 @@
 
 @media (min-width: 360px) {
   .fc {
-    width: 310px;
+    width: 295px;
   }
 
   .fc .fc-toolbar-title {
-    font-size: 1.3em;
+    font-size: 1.25em;
   }
 }
 

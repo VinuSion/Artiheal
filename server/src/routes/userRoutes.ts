@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import nodemailer from "nodemailer";
 import expressAsyncHandler from "express-async-handler";
 import User from "../models/userModel";
-import { generateToken, baseUrl, template } from "../utils";
+import { generateToken, baseUrl, template, normalizeName } from "../utils";
 
 const userRouter = express.Router();
 
@@ -154,18 +154,16 @@ userRouter.put(
             req.body.firstName.trim() !== ""
           ) {
             const trimmedFirstName = req.body.firstName.trim();
-            user.firstName =
-              trimmedFirstName.charAt(0).toUpperCase() +
-              trimmedFirstName.slice(1).toLowerCase();
+            const first = normalizeName(trimmedFirstName);
+            user.firstName = first;
           }
           if (
             req.body.lastName !== undefined &&
             req.body.lastName.trim() !== ""
           ) {
             const trimmedLastName = req.body.lastName.trim();
-            user.lastName =
-              trimmedLastName.charAt(0).toUpperCase() +
-              trimmedLastName.slice(1).toLowerCase();
+            const last = normalizeName(trimmedLastName);
+            user.lastName = last;
           }
           if (req.body.email !== undefined && req.body.email.trim() !== "") {
             // Checks if the new email is different from the current email

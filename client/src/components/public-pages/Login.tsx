@@ -1,5 +1,6 @@
 import { useContext, useState } from "react";
 import { Helmet } from "react-helmet-async";
+import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import { Input } from "@ui/input";
 import { Label } from "@ui/label";
@@ -72,9 +73,14 @@ const Login = () => {
       <Helmet>
         <title>Ingresar | Artiheal</title>
       </Helmet>
-      <div className="min-h-screen flex items-center justify-center bg-splash-image bg-cover bg-no-repeat bg-center">
+      <div className="min-h-screen flex items-center justify-center bg-splash-image bg-cover bg-no-repeat bg-center overflow-y-hidden">
         <main className="flex flex-col place-items-center">
-          <div className="shadow-2xl p-6 rounded-lg bg-background w-11/12 sm:w-[450px]">
+          <motion.div
+            initial={{ y: "100vw", opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ type: "spring", ease: "easeOut", duration: 0.8 }}
+            className="shadow-2xl p-6 rounded-lg bg-background w-11/12 sm:w-[450px]"
+          >
             <div className="icon flex items-center justify-center">
               <img
                 className="h-12 w-12 select-none"
@@ -97,7 +103,9 @@ const Login = () => {
 
             <form onSubmit={handleSubmit(submitData)}>
               <div className="grid w-full max-w items-center gap-1.5 mt-2">
-                <Label htmlFor="email" className="text-tertiary">Correo electrónico</Label>
+                <Label htmlFor="email" className="text-tertiary">
+                  Correo electrónico
+                </Label>
                 <Input
                   type="email"
                   id="email"
@@ -112,7 +120,9 @@ const Login = () => {
               </div>
 
               <div className="grid w-full max-w items-center gap-1.5 mt-2">
-                <Label htmlFor="password" className="text-tertiary">Contraseña</Label>
+                <Label htmlFor="password" className="text-tertiary">
+                  Contraseña
+                </Label>
                 <div className="flex flex-row space-x-2">
                   <Input
                     type={passwordShown ? "text" : "password"}
@@ -147,7 +157,12 @@ const Login = () => {
 
               <div className="items-top flex space-x-1 w-full max-w items-center gap-1.5 mt-2 mb-1">
                 <Checkbox id="sesion" />
-                <Label htmlFor="sesion" className="text-tertiary text-xs sm:text-base">Mantener iniciada mi sesión</Label>
+                <Label
+                  htmlFor="sesion"
+                  className="text-tertiary text-xs sm:text-base"
+                >
+                  Mantener iniciada mi sesión
+                </Label>
               </div>
 
               <Button
@@ -157,11 +172,7 @@ const Login = () => {
                 type="submit"
                 disabled={isSubmitting}
               >
-                {isSubmitting ? (
-                  <Loading />
-                ) : (
-                  "Iniciar Sesión"
-                )}
+                {isSubmitting ? <Loading /> : "Iniciar Sesión"}
               </Button>
             </form>
 
@@ -180,7 +191,7 @@ const Login = () => {
                 <ForgotPasswordDialog />
               </span>
             </div>
-          </div>
+          </motion.div>
         </main>
       </div>
     </>

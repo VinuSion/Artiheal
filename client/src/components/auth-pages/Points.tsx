@@ -230,13 +230,13 @@ const Points = () => {
             ) : (
               <div className="flex flex-col 2xl:flex-row gap-y-3 sm:gap-x-5 mb-3">
                 <div className="border p-4 rounded-md shadow-md">
-                  <div className="flex flex-row space-x-2 items-center">
+                  <div className="flex flex-row space-x-2 items-center mb-1 xs:mb-0">
                     <Gem className="h-5 w-5 text-primary" />
-                    <span className="font-bold text-xl text-primary">
+                    <span className="font-bold text-md xs:text-xl text-primary">
                       Resumen de tus puntos
                     </span>
                   </div>
-                  <div className="flex flex-row">
+                  <div className="flex flex-row mb-2 xs:mb-0">
                     <div className="flex flex-row items-center">
                       <div className="mr-3">
                         <CircularProgressBar
@@ -269,7 +269,7 @@ const Points = () => {
                   </div>
                   <Separator />
                   <div className="flex flex-row space-x-2 items-center mt-2">
-                    <span className="flex text-xs text-muted-foreground/80">
+                    <span className="flex text-xs text-muted-foreground">
                       Recuerda que tanto tu nivel como tus puntos disminuyen al
                       momento de redimirlos.
                     </span>

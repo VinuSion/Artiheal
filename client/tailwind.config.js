@@ -12,10 +12,10 @@ module.exports = {
     extend: {
       screens: {
         xs: "400px",
+        ns: "300px",
       },
-      container: {
-        center: true,
-        padding: "2rem",
+      fontSize: {
+        'ns': '0.65rem',
       },
       backgroundImage: {
         "splash-image": "url('/src/assets/bg.webp')",
