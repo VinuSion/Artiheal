@@ -2,7 +2,7 @@ import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { AxiosError } from "axios";
 import { isToday, isValid, parse, format } from "date-fns";
-import { FoodItem, mealTypeMap, Level, LevelPoints, FoodEntry, TaskHistory, MealTypeCounts, FoodEntries } from "@/lib/constants";
+import { FoodItem, mealTypeMap, Level, LevelPoints, FoodEntry, TaskHistory, MealTypeCounts } from "@/lib/constants";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -439,14 +439,11 @@ export const countFoodTypesInFoodDiary = (foodDiary: FoodEntry[], startOfWeek: s
 
   // Iterates through each entry in foodDiary
   foodDiary.forEach((entry: FoodEntry) => {
-    console.log("Food diary entry: ", entry);
     // Checks if the entry falls within the current week date range
     const entryDate = new Date(entry.date);
     if (entryDate >= new Date(startOfWeek) && entryDate <= today) {
       // Iterates through the foods array in each entry
-      entry.foods.forEach((food: FoodEntries) => {
-        console.log("Food entry: ", food);
-        console.log("Food name: ", food.name);
+      entry.foods.forEach((food) => {
         // Uses the food name as the key in the foodTypeCounts object
         const foodName = food.name;
 

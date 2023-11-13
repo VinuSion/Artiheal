@@ -63,9 +63,10 @@ const Dashboard = () => {
         userProfile.foodDiary,
         startOfWeek
       );
-      console.log("Most popular food: ", foodTypesList[0].name);
-      setMostPopularFood(foodTypesList[0].name);
-      setFoodTypeCounts(foodTypesList);
+      if (foodTypesList.length > 0) {
+        setMostPopularFood(foodTypesList[0].name);
+        setFoodTypeCounts(foodTypesList);
+      }
       const mealTypeCounts = countMealTypesInFoodDiary(userProfile.foodDiary);
       const countsArray = Object.values(mealTypeCounts);
       setPieChartNumbers(countsArray);
@@ -235,23 +236,29 @@ const Dashboard = () => {
                     <span className="text-xs sm:text-sm text-muted-foreground">
                       Estos son otros alimentos que consumiste:
                     </span>
-                    <div className="mt-3 flex flex-row flex-wrap gap-y-2 w-full">
-                      {foodTypeCounts.map(
-                        (foodType, index) =>
-                          index !== 0 && (
-                            <Badge
-                              key={index}
-                              variant="secondary"
-                              className="mr-1 cursor-pointer gap-x-1 px-2"
-                            >
-                              <span className="flex justify-center rounded-full border border-foreground h-4 w-4">
-                                {foodType.count}
-                              </span>
-                              {foodType.name}
-                            </Badge>
-                          )
-                      )}
-                    </div>
+                    {foodTypeCounts.length > 1 ? (
+                      <div className="mt-3 flex flex-row flex-wrap gap-y-2 w-full">
+                        {foodTypeCounts.map(
+                          (foodType, index) =>
+                            index !== 0 && (
+                              <Badge
+                                key={index}
+                                variant="secondary"
+                                className="mr-1 cursor-pointer gap-x-1 px-2"
+                              >
+                                <span className="flex justify-center rounded-full border border-foreground h-4 w-4">
+                                  {foodType.count}
+                                </span>
+                                {foodType.name}
+                              </Badge>
+                            )
+                        )}
+                      </div>
+                    ) : (
+                      <span className="mt-3 text-xs sm:text-sm text-primary font-semibold">
+                        No tienes mas alimentos hasta ahora.
+                      </span>
+                    )}
                   </>
                 )}
               </div>
