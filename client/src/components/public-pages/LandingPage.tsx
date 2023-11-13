@@ -92,7 +92,7 @@ const LandingPage = () => {
           </div>
 
           <div className="w-full sm:w-2/4 flex items-center justify-center">
-            <img src="src/assets/legend.webp" alt="legend_image" />
+            <img src="https://github.com/VinuSion/Artiheal/assets/56313573/274711a8-b03c-4801-8f22-c8b3e25f75b0" alt="legend_image" />
           </div>
         </section>
 
@@ -119,7 +119,7 @@ const LandingPage = () => {
           </div>
 
           <div className="w-full sm:w-2/4 flex items-center justify-center">
-            <img src="src/assets/section-2.webp" alt="legend_image" />
+            <img src="https://github.com/VinuSion/Artiheal/assets/56313573/a8b028ef-6e64-40a8-9705-224b14909850" alt="legend_image" />
           </div>
         </section>
 

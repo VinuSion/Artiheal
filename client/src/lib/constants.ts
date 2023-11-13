@@ -152,19 +152,19 @@ export interface FoodTypeCount {
 
 export const cardOpInfo = [
   {
-    opinionImage: "src/assets/opinions/user1.webp",
+    opinionImage: "https://github.com/VinuSion/Artiheal/assets/56313573/c611d782-b3a9-414f-a1c8-297afa71aa61",
     spanName: "Verónica Gil",
     spanOpinion:
       '"Artiheal es genial. Ha marcado la diferencia en mi salud. ¡Una herramienta increíble!"',
   },
   {
-    opinionImage: "src/assets/opinions/user2.webp",
+    opinionImage: "https://github.com/VinuSion/Artiheal/assets/56313573/38304187-c500-4555-83e0-f0300c7e42cd",
     spanName: "Andrés Martínez",
     spanOpinion:
       '"No puedo dejar de usar Artiheal. ¡Me encanta ganar puntos redimibles mientras me cuido!"',
   },
   {
-    opinionImage: "src/assets/opinions/user3.webp",
+    opinionImage: "https://github.com/VinuSion/Artiheal/assets/56313573/162c49d8-dc80-4ce0-bfa3-44122a03bdd2",
     spanName: "Salvio Peña",
     spanOpinion:
       '"Me encanta Artiheal. Hace que la vida saludable sea más fácil. Cinco estrellas merecidas."',
@@ -271,13 +271,13 @@ export const levelBenefitsInfo = [
 ];
 
 export const logos = [
-  "adidas.svg",
-  "exito.svg",
-  "funko.svg",
-  "mcdonalds.svg",
-  "microsoft.svg",
-  "kfc.svg",
-  "apple.svg",
+  "https://github.com/VinuSion/Artiheal/assets/56313573/bf4658ee-7362-4c1a-8bde-ba8e495315cf",
+  "https://github.com/VinuSion/Artiheal/assets/56313573/3286fec2-65ed-4265-a299-3f99228e1306",
+  "https://github.com/VinuSion/Artiheal/assets/56313573/e01009e6-3708-475c-89e3-34d5e372c3ce",
+  "https://github.com/VinuSion/Artiheal/assets/56313573/612c85d7-c864-4aaf-894a-68e1f11d8e01",
+  "https://github.com/VinuSion/Artiheal/assets/56313573/fad59ed7-25f8-4d48-b989-f262ddcac871",
+  "https://github.com/VinuSion/Artiheal/assets/56313573/d52a3f8b-7837-47fc-8cb9-257f58f0f057",
+  "https://github.com/VinuSion/Artiheal/assets/56313573/85384a14-c6b5-43c3-832c-38fb8987862c",
 ];
 
 export const settingsData = [
