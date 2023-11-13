@@ -103,11 +103,16 @@ const Dashboard = () => {
               <span className="text-sm sm:text-base">
                 Mantente informado sobre tus hábitos alimenticios. Cada vez que
                 realices una <strong>acción</strong> en Artiheal, la aplicación
-                registrará tus datos para <span className="text-primary font-semibold">mostrarlos más tarde</span>.
+                registrará tus datos para{" "}
+                <span className="text-primary font-semibold">
+                  mostrarlos más tarde
+                </span>
+                .
               </span>
               <div className="mt-3 flex flex-row space-x-2 items-center">
                 <span className="text-xs sm:text-sm text-muted-foreground">
-                En caso de que las gráficas no estén presentando la información adecuada, puedes:
+                  Si las estadísticas presentadas no son correctas, puedes
+                  actualizar dando clic en el siguiente botón.
                 </span>
                 <Badge
                   variant="outline"
@@ -160,7 +165,7 @@ const Dashboard = () => {
 
               <div className="rounded-md border p-4 w-full shadow-md 2xl:w-[35%]">
                 <span className="text-xs sm:text-sm text-muted-foreground">
-                  Has cumplido en este ultimo mes:
+                  Este mes has cumplido:
                 </span>
                 <div className="mt-1">
                   <CountUp

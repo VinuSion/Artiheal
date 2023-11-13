@@ -204,6 +204,43 @@ export const findTodayInRoutine = (
   }
 };
 
+// export const renderEvents = (calendarApi: any, routine: any) => {
+//   if (routine) {
+//     calendarApi.removeAllEvents();
+//     const currentDate = calendarApi.getDate();
+//     const currentYear = currentDate.getFullYear();
+//     const currentMonth = currentDate.getMonth();
+//     const currentDay = currentDate.getDate();
+
+//     for (let dayIndex = 0; dayIndex < routine.length; dayIndex++) {
+//       const dayFoods = routine[dayIndex].foods;
+//       const dayObject = routine[dayIndex];
+//       const dayName = dayObject.day;
+
+//       for (
+//         let day = currentDay;
+//         day <= new Date(currentYear, currentMonth + 1, 0).getDate();
+//         day++
+//       ) {
+//         const date = new Date(currentYear, currentMonth, day);
+//         const dayWeekday = mapDayNameToWeekday(dayName);
+
+//         if (date.getDay() === dayWeekday) {
+//           dayFoods?.forEach((foodItem: FoodItem, index: number) => {
+//             const event = {
+//               title: `${foodItem.name} | Cantidad (${foodItem.quantity})`,
+//               start: date,
+//               end: date,
+//               id: `food-event-${dayName}-${index}-${day}`,
+//             };
+//             calendarApi.addEvent(event);
+//           });
+//         }
+//       }
+//     }
+//   }
+// };
+
 export const renderEvents = (calendarApi: any, routine: any) => {
   if (routine) {
     calendarApi.removeAllEvents();
@@ -212,32 +249,31 @@ export const renderEvents = (calendarApi: any, routine: any) => {
     const currentMonth = currentDate.getMonth();
     const currentDay = currentDate.getDate();
 
-    for (let dayIndex = 0; dayIndex < routine.length; dayIndex++) {
-      const dayFoods = routine[dayIndex].foods;
-      const dayObject = routine[dayIndex];
+    routine.forEach((dayObject: any) => {
+      const dayFoods = dayObject.foods;
       const dayName = dayObject.day;
 
-      for (
-        let day = currentDay;
-        day <= new Date(currentYear, currentMonth + 1, 0).getDate();
-        day++
-      ) {
+      for (let day = currentDay; day <= (currentDay + 6); day++) {
         const date = new Date(currentYear, currentMonth, day);
-        const dayWeekday = mapDayNameToWeekday(dayName);
+        const lastDayOfMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
 
-        if (date.getDay() === dayWeekday) {
-          dayFoods?.forEach((foodItem: FoodItem, index: number) => {
-            const event = {
-              title: `${foodItem.name} | Cantidad (${foodItem.quantity})`,
-              start: date,
-              end: date,
-              id: `food-event-${dayName}-${index}-${day}`,
-            };
-            calendarApi.addEvent(event);
-          });
+        if (day <= lastDayOfMonth) {
+          const dayWeekday = mapDayNameToWeekday(dayName);
+
+          if (date.getDay() === dayWeekday) {
+            dayFoods?.forEach((foodItem: FoodItem, index: number) => {
+              const event = {
+                title: `${foodItem.name} | Cantidad (${foodItem.quantity})`,
+                start: date,
+                end: date,
+                id: `food-event-${dayName}-${index}-${day}`,
+              };
+              calendarApi.addEvent(event);
+            });
+          }
         }
       }
-    }
+    });
   }
 };
 

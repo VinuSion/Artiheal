@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState, useRef } from "react";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import Dashboard from "./Dashboard";
 import Routine from "./Routine";
 import Points from "./Points";
@@ -18,6 +18,8 @@ interface HomeProps {
 }
 
 const Home: React.FC<HomeProps> = ({ handleLogout }: HomeProps) => {
+  const location = useLocation();
+
   const userInfoString = localStorage.getItem("userInfo")!;
   const userInfo = JSON.parse(userInfoString);
   // Check if healthData and profile is already in localStorage
@@ -131,9 +133,10 @@ const Home: React.FC<HomeProps> = ({ handleLogout }: HomeProps) => {
           }
           toast({
             title: `⚠️ Algunas tareas han expirado!`,
-            description: bonusPoints > 0
-              ? `Debido a un período de inactividad, hemos reemplazado algunas tareas y se otorgaron +${bonusPoints} puntos.`
-              : `Debido a un período de inactividad, hemos reemplazado algunas tareas.`,
+            description:
+              bonusPoints > 0
+                ? `Debido a un período de inactividad, hemos reemplazado algunas tareas y se otorgaron +${bonusPoints} puntos.`
+                : `Debido a un período de inactividad, hemos reemplazado algunas tareas.`,
           });
         } catch (err: any) {
           console.error(
@@ -173,21 +176,31 @@ const Home: React.FC<HomeProps> = ({ handleLogout }: HomeProps) => {
     return () => clearInterval(taskExpirationCheck);
   }, []);
 
+  useEffect(() => {
+    const contentElement = document.getElementById("home-bg");
+    if (contentElement) {
+      contentElement.scrollTop = 0;
+    }
+  }, [location.pathname]);
+
   return (
     <>
       {/* NAVBAR */}
       <Navbar handleLogout={handleLogout} />
 
       {/* MAIN CONTENT RENDERED DEPENDING ON THE ROUTE YOURE AT */}
-      <main className="m-0 mb-10 sm:mb-0 sm:ml-20 p-4 bg-slate-100 h-[100vh] overflow-y-auto">
+      <main
+        id="home-bg"
+        className="m-0 mb-10 sm:mb-0 sm:ml-20 p-4 bg-slate-100 h-[100vh] overflow-y-auto"
+      >
         <HPForm open={isHPFormOpen} onClose={() => setIsHPFormOpen(false)} />
         <Routes>
-          <Route path="dashboard" element={<Dashboard />} />
-          <Route path="routine" element={<Routine />} />
-          <Route path="points" element={<Points />} />
-          <Route path="help" element={<Help />} />
-          <Route path="account" element={<UserAccount />} />
-          <Route path="profile" element={<UserHealthProfile />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/routine" element={<Routine />} />
+          <Route path="/points" element={<Points />} />
+          <Route path="/help" element={<Help />} />
+          <Route path="/account" element={<UserAccount />} />
+          <Route path="/profile" element={<UserHealthProfile />} />
           <Route path="*" element={<Navigate to="/home/dashboard" />} />
         </Routes>
       </main>

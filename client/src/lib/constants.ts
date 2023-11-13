@@ -241,31 +241,31 @@ export const levelBenefitsInfo = [
   {
     lvl: 4,
     title: "Nivel 4",
-    description: "¡Completa tareas y obtén x2.5 veces mas de puntos! 😁",
+    description: "¡Completa tareas y obtén más del doble de puntos! 🤩",
     range: "+2000 puntos",
   },
   {
     lvl: 3,
     title: "Nivel 3",
-    description: "¡Cada tarea que completes vale el doble de puntos!",
+    description: "¡Recibiras el doble de puntos al completar tareas! 😁",
     range: "500 - 1999 puntos",
   },
   {
     lvl: 2,
     title: "Nivel 2",
-    description: "Tus tareas valen un x1.6 veces más en puntos.",
+    description: "Los puntos conseguidos por tareas se multiplican por 1.6",
     range: "100 - 499 puntos",
   },
   {
     lvl: 1,
     title: "Nivel 1",
-    description: "Tus tareas valen un x1.2 veces más en puntos.",
+    description: "Los puntos conseguidos por tareas se multiplican por 1.2",
     range: "25 - 99 puntos",
   },
   {
     lvl: 0,
     title: "Nivel 0",
-    description: "Recibirás los puntos indicados por cada tarea completada.",
+    description: "Recibirás los puntos indicados por cada tarea completada",
     range: "0 - 24 puntos",
   },
 ];

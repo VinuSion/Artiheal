@@ -13,6 +13,7 @@ import Axios from "axios";
 import { Store } from "@/Store";
 
 const Routine = () => {
+  const [isDataLoaded, setIsDataLoaded] = useState(false);
   const [isLoading, setIsLoading] = useState(true); // Initialized as true to show loading indicator initially
 
   const profileString = localStorage.getItem("profile")!;
@@ -111,9 +112,10 @@ const Routine = () => {
 
     if (shouldSetLoading) {
       await Promise.all(tasks);
+      setIsDataLoaded(true);
       setTimeout(() => {
         setIsLoading(false);
-      }, 200);
+      }, 100);
     }
   };
 
@@ -132,7 +134,7 @@ const Routine = () => {
             Rutina de Nutricion
           </h1>
           <div className="flex flex-col mb-5 2xl:flex-row items-center justify-center gap-3 2xl:items-start 2xl:gap-8 mx-2 2xl:mx-5">
-            {isLoading && (
+            {isLoading && !isDataLoaded && (
               <div className="rounded-md w-full 2xl:w-[55%]">
                 <div className="animate-pulse space-x-4">
                   <div className="space-y-3 py-1">
@@ -145,7 +147,7 @@ const Routine = () => {
                 </div>
               </div>
             )}
-            <div className={`2xl:w-[55%] ${isLoading ? "hidden" : "block"}`}>
+            <div className={`2xl:w-[55%] ${isLoading && !isDataLoaded ? "hidden" : "block"}`}>
               <FullCalendar
                 ref={calendarRef}
                 plugins={[dayGridPlugin]}
@@ -261,7 +263,6 @@ const Routine = () => {
                                 <img src={food.picture} alt={food.name} />
                               </div>
                               <div className="flex flex-col gap-y-1">
-                                {/* IF GREATER THAN 14 BUT LESS THAN 19 CHARACTERS, set to text-sm AND space-x-2. IF THAT DONT WORK AND IT REACHES MORE THAN 19 CHARACTERS, set to text-xs AND space-x-0. */}
                                 <div
                                   className={`flex flex-row items-center ${
                                     food.name.length >= 14 &&

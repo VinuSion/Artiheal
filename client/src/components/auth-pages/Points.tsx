@@ -148,7 +148,11 @@ const Points = () => {
                             level.lvl === 4
                               ? "bg-gradient-to-r from-primary via-purple-400 to-violet-300 text-background border-violet-400"
                               : "bg-background text-foreground"
-                          } ${pointsProfile?.level === level.lvl ? "border-primary border-2" : ""}`}
+                          } ${
+                            pointsProfile?.level === level.lvl
+                              ? "border-primary border-2"
+                              : ""
+                          }`}
                           key={index}
                         >
                           <div className="flex flex-row items-center space-x-1.5">
@@ -177,8 +181,8 @@ const Points = () => {
                     </div>
                     <DialogFooter className="flex flex-row justify-between sm:justify-between items-center gap-x-6">
                       <span className="justify-start self-start text-xs text-muted-foreground">
-                        Los puntos ganados en tareas vencidas no se beneficiarán
-                        de la multiplicación de puntos.
+                        Los puntos conseguidos mediante tareas expiradas no
+                        serán multiplicados.
                       </span>
                       <DialogClose asChild>
                         <Button type="button" size="lg">
@@ -266,8 +270,8 @@ const Points = () => {
                   <Separator />
                   <div className="flex flex-row space-x-2 items-center mt-2">
                     <span className="flex text-xs text-muted-foreground/80">
-                      Recuerda que tus puntos pueden disminuir al redimirlos, y
-                      por lo tanto el nivel tambien.
+                      Recuerda que tanto tu nivel como tus puntos disminuyen al
+                      momento de redimirlos.
                     </span>
                   </div>
                 </div>
@@ -365,7 +369,6 @@ const Points = () => {
       <TaskHistorySection />
 
       <RedeemPromotions />
-      
     </div>
   );
 };
