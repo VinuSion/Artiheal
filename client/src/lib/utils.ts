@@ -439,11 +439,13 @@ export const countFoodTypesInFoodDiary = (foodDiary: FoodEntry[], startOfWeek: s
 
   // Iterates through each entry in foodDiary
   foodDiary.forEach((entry: FoodEntry) => {
+    console.log("Food diary entry: ", entry);
     // Checks if the entry falls within the current week date range
     const entryDate = new Date(entry.date);
     if (entryDate >= new Date(startOfWeek) && entryDate <= today) {
       // Iterates through the foods array in each entry
       entry.foods.forEach((food) => {
+        console.log("Food name: ", food.name);
         // Uses the food name as the key in the foodTypeCounts object
         const foodName = food.name;
 

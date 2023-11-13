@@ -63,6 +63,7 @@ const Dashboard = () => {
         userProfile.foodDiary,
         startOfWeek
       );
+      console.log("Most popular food: ", foodTypesList[0].name);
       setMostPopularFood(foodTypesList[0].name);
       setFoodTypeCounts(foodTypesList);
       const mealTypeCounts = countMealTypesInFoodDiary(userProfile.foodDiary);
