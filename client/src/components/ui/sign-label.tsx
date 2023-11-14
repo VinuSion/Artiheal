@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  ExclamationTriangleIcon,
-  ExclamationCircleIcon,
-  InformationCircleIcon,
-  CheckCircleIcon,
-  XCircleIcon
-} from "@heroicons/react/24/outline";
+import { XCircle, CheckCircle2, Info, AlertTriangle, AlertOctagon } from "lucide-react";
 
 type SignLabelProps = {
   variant?: "warning" | "error" | "info" | "success";
@@ -22,27 +16,27 @@ const SignLabel: React.FC<SignLabelProps> = ({ variant, message }) => {
       case "error":
         textColor = "text-red-600";
         bgColor = "bg-red-100";
-        icon = <ExclamationTriangleIcon className={`h-3 w-3 ${textColor}`} />;
+        icon = <AlertTriangle className={`h-3 w-3`} />;
         break;
       case "warning":
         textColor = "text-amber-600";
         bgColor = "bg-amber-100";
-        icon = <ExclamationCircleIcon className={`h-3 w-3 ${textColor}`} />;
+        icon = <AlertOctagon className={`h-3 w-3`} />;
         break;
       case "info":
         textColor = "text-blue-600";
         bgColor = "bg-blue-100";
-        icon = <InformationCircleIcon className={`h-3 w-3 ${textColor}`} />;
+        icon = <Info className={`h-3 w-3`} />;
         break;
       case "success":
         textColor = "text-emerald-600";
         bgColor = "bg-emerald-100";
-        icon = <CheckCircleIcon className={`h-3 w-3 ${textColor}`} />;
+        icon = <CheckCircle2 className={`h-3 w-3`} />;
         break;
       default:
         textColor = "text-slate-600";
         bgColor = "bg-slate-200";
-        icon = <XCircleIcon className={`h-3 w-3 ${textColor}`} />;
+        icon = <XCircle className={`h-3 w-3`} />;
         break;
     }
 

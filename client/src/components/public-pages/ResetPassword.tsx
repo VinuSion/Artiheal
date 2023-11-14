@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Input } from "@ui/input";
 import { Label } from "@ui/label";
 import { Button } from "@ui/button";
+import { KeySquare } from "lucide-react";
 import SignLabel from "@ui/sign-label";
 import Loading from "@ui/loading";
 import { Eye, EyeOff } from "lucide-react";
@@ -193,7 +194,12 @@ const ResetPassword = () => {
                 type="submit"
                 disabled={isSubmitting || isRedirecting}
               >
-                {isSubmitting ? <Loading /> : "Cambiar Contraseña"}
+                {isSubmitting ? <Loading /> : (
+                  <>
+                    <KeySquare className="h-4 w-4 mr-1" strokeWidth={3} />
+                    <span>Cambiar Contraseña</span>
+                  </>
+                )}
               </Button>
             </form>
           </motion.div>

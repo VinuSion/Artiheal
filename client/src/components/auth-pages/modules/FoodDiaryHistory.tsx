@@ -19,6 +19,8 @@ import {
   Frown,
   ChevronDown,
   ChevronUp,
+  CalendarClock,
+  XCircle,
 } from "lucide-react";
 import { FoodEntry } from "@/lib/constants";
 import { formatSpanishDate, translateMealType } from "@/lib/utils";
@@ -190,12 +192,13 @@ const FoodDiaryHistory = () => {
                         <Dialog>
                           <DialogTrigger asChild>
                             <Button size="icon" variant="special">
-                              <Info className="h-5 w-5" />
+                              <Info className="h-5 w-5" strokeWidth={3} />
                             </Button>
                           </DialogTrigger>
                           <DialogContent className="w-11/12 sm:w-full max-w-xl rounded-md">
                             <DialogHeader>
                               <DialogTitle className="leading-normal text-left flex flex-row items-center mb-2">
+                              <CalendarClock className="h-4 w-4 mr-1 hidden sm:block" />
                                 {formatSpanishDate(entry.date)}
                               </DialogTitle>
                               <DialogDescription className="text-left text-xs sm:text-sm mb-2">
@@ -309,6 +312,7 @@ const FoodDiaryHistory = () => {
                               </div>
                               <DialogClose asChild>
                                 <Button type="button" size="lg">
+                                  <XCircle className="h-4 w-4 mr-1" strokeWidth={3} />
                                   Cerrar
                                 </Button>
                               </DialogClose>

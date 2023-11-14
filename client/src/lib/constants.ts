@@ -278,6 +278,7 @@ export const logos = [
   "https://github.com/VinuSion/Artiheal/assets/56313573/fad59ed7-25f8-4d48-b989-f262ddcac871",
   "https://github.com/VinuSion/Artiheal/assets/56313573/d52a3f8b-7837-47fc-8cb9-257f58f0f057",
   "https://github.com/VinuSion/Artiheal/assets/56313573/85384a14-c6b5-43c3-832c-38fb8987862c",
+  "https://github.com/VinuSion/Artiheal/assets/56313573/c27078e6-472e-4cbc-b04c-bc42e71f630f",
 ];
 
 export const settingsData = [

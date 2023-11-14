@@ -1,6 +1,16 @@
 import { cardProductInfo } from "@/lib/constants";
-import { Gem } from "lucide-react";
+import { Gem, XCircle, CircleDollarSign } from "lucide-react";
 import { Button } from "@ui/button";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@ui/dialog";
 
 const RedeemPromotions = () => {
   return (
@@ -52,10 +62,33 @@ const ProductCard: React.FC<{
           {vendor}
         </span>
       </span>
-      <Button type="button" variant="special">
-        <Gem className="h-3 w-3 select-none mr-1" />
-        {pointsValue}
-      </Button>
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button type="button" variant="special">
+            <Gem className="h-4 w-4 mr-1" />
+            {pointsValue}
+          </Button>
+        </DialogTrigger>
+        <DialogContent className="w-11/12 sm:w-full max-w-xl rounded-md">
+          <DialogHeader>
+            <DialogTitle className="text-left flex flex-row items-center mb-2">
+              <CircleDollarSign className="h-4 w-4 mr-1" />
+              Redimir {title}
+            </DialogTitle>
+            <DialogDescription className="text-left text-xs xs:text-sm mb-2">
+              Pronto podrás redimir tus puntos en Artiheal... (Eso espero 💀)
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="flex flex-row justify-end items-center gap-x-6">
+            <DialogClose asChild>
+              <Button type="button" size="lg">
+                <XCircle className="h-4 w-4 mr-1" strokeWidth={3} />
+                Cerrar
+              </Button>
+            </DialogClose>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   </div>
 );

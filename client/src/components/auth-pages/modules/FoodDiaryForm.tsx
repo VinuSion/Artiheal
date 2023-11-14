@@ -1,5 +1,6 @@
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { Food, FoodEntries, CurrentTask, Task } from "@/lib/constants";
+import CountUp from "react-countup";
 import { getCurrentDateTimeInEST } from "@/lib/utils";
 import { Button } from "@ui/button";
 import { Label } from "@ui/label";
@@ -23,6 +24,11 @@ import {
   GlassWater,
   XCircle,
   Frown,
+  CalendarPlus,
+  PlusCircle,
+  Send,
+  BookCheck,
+  Soup,
 } from "lucide-react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -48,6 +54,7 @@ const FoodDiaryForm = () => {
   const [searchQuery, setSearchQuery] = useState<string>(""); // Search query
   const [selectedFood, setSelectedFood] = useState<Food | null>(null);
   const [foodEntries, setFoodEntries] = useState<FoodEntries[]>([]);
+  const [previousTotalCalories, setPreviousTotalCalories] = useState<number>(0);
   const [totalCalories, setTotalCalories] = useState<number>(0);
 
   const { toast } = useToast();
@@ -129,7 +136,7 @@ const FoodDiaryForm = () => {
           caloriesConsumed: caloriesConsumed,
           foodImage: selectedFood.picture,
         };
-
+        setPreviousTotalCalories(totalCalories);
         const newTotalCalories = parseFloat(
           (totalCalories + caloriesConsumed).toFixed(0)
         );
@@ -146,6 +153,7 @@ const FoodDiaryForm = () => {
     const updatedFoodEntries = foodEntries.filter(
       (foodEntry) => foodEntry.foodID !== foodIdToRemove
     );
+    setPreviousTotalCalories(totalCalories);
     const newTotalCalories = parseFloat(
       updatedFoodEntries
         .reduce((total, entry) => total + entry.caloriesConsumed, 0)
@@ -455,13 +463,15 @@ const FoodDiaryForm = () => {
             <div className="mt-2">
               <Dialog>
                 <DialogTrigger className="w-full">
-                  <div className="w-full inline-flex items-center justify-center rounded-md text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-gradient-to-r from-indigo-400 to-primary hover:from-indigo-500 hover:to-primary text-white font-bold shadow-lg transition-transform duration-300 ease-in-out h-10 px-4 py-2">
-                    Llenar el Diario
+                  <div className="w-full inline-flex items-center justify-center rounded-md text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-gradient-to-r from-violet-400 to-primary hover:from-violet-700 hover:to-primary text-white font-bold shadow-lg transition-transform duration-300 ease-in-out h-10 px-4 py-2">
+                    <BookCheck className="h-4 w-4 mr-1" strokeWidth={3} />
+                    <span>Llenar el Diario</span>
                   </div>
                 </DialogTrigger>
                 <DialogContent className="w-11/12 sm:w-full max-w-2xl rounded-md">
                   <DialogHeader>
                     <DialogTitle className="text-left flex flex-row items-center">
+                      <CalendarPlus className="h-4 w-4 mr-1" />
                       Diario Alimenticio
                       <span className="ml-1 font-normal text-muted-foreground text-xs">
                         ({foodDiaryDate})
@@ -475,7 +485,7 @@ const FoodDiaryForm = () => {
                   </DialogHeader>
                   <div className="flex flex-row items-center gap-x-4">
                     <div className="w-full flex flex-col z-50 relative">
-                      <Search className="absolute h-6 w-6 text-primary top-2 right-2" />
+                      <Search className="absolute h-6 w-6 text-primary top-2 right-2" strokeWidth={3} />
                       <Input
                         type="text"
                         id="searchFoods"
@@ -757,7 +767,8 @@ const FoodDiaryForm = () => {
                         disabled={!selectedFood || isSubmitting}
                         className="w-full sm:w-1/2"
                       >
-                        Agregar Alimento
+                        <PlusCircle className="h-4 w-4 mr-1" strokeWidth={3} />
+                        <span>Agregar Alimento</span>
                       </Button>
                       <p className="text-xs text-muted-foreground sm:w-1/2">
                         Al agregar un alimento a la lista, obtienes datos sobre
@@ -769,9 +780,10 @@ const FoodDiaryForm = () => {
                   <Separator />
 
                   <div className="flex flex-col gap-3">
-                    <span className="text-primary font-bold">
-                      Lista de Alimentos
-                    </span>
+                    <div className="text-primary font-bold flex flex-row">
+                      <Soup className="h-5 w-5 mr-1" />
+                      <span>Lista de Alimentos</span>
+                    </div>
                     {foodEntries.length > 0 ? (
                       <div className="border rounded grid grid-cols-2 sm:grid-cols-4 gap-10 max-h-24 sm:max-h-60 overflow-y-auto p-4">
                         {foodEntries.map((foodEntry) => {
@@ -832,13 +844,19 @@ const FoodDiaryForm = () => {
                         Total Calorías:
                       </span>
                       <span
-                        className={`font-bold sm:text-lg ${
+                        className={`flex flex-row font-bold sm:text-lg ${
                           foodEntries.length === 0
                             ? "text-muted-foreground/50"
                             : "text-primary"
                         }`}
                       >
-                        {totalCalories.toLocaleString("es-CO")} k/cal
+                        <CountUp
+                          start={previousTotalCalories}
+                          end={totalCalories}
+                          duration={1}
+                          separator="."
+                        />
+                        <span className="ml-1">k/cal</span>
                       </span>
                     </div>
                     <Button
@@ -848,7 +866,17 @@ const FoodDiaryForm = () => {
                       disabled={foodEntries.length === 0 || isCreatingFoodDiary}
                       onClick={createDiary}
                     >
-                      {isCreatingFoodDiary ? <Loading /> : "Enviar Diario"}
+                      {isCreatingFoodDiary ? (
+                        <Loading />
+                      ) : (
+                        <>
+                          <Send className="h-4 w-4 mr-1" strokeWidth={3} />
+                          <span className="flex flex-row gap-x-1">
+                            Enviar{" "}
+                            <span className="hidden xs:block">Diario</span>
+                          </span>
+                        </>
+                      )}
                     </Button>
                   </div>
                 </DialogContent>

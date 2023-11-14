@@ -6,6 +6,7 @@ import { Input } from "@ui/input";
 import { Label } from "@ui/label";
 import { Button } from "@ui/button";
 import { Checkbox } from "@ui/checkbox";
+import { LogIn } from "lucide-react";
 import SignLabel from "@ui/sign-label";
 import Loading from "@ui/loading";
 import { ArrowLeft, Eye, EyeOff } from "lucide-react";
@@ -172,7 +173,12 @@ const Login = () => {
                 type="submit"
                 disabled={isSubmitting}
               >
-                {isSubmitting ? <Loading /> : "Iniciar Sesión"}
+                {isSubmitting ? <Loading /> : (
+                  <>
+                    <LogIn className="h-4 w-4 mr-1" strokeWidth={3} />
+                    <span>Iniciar Sesión</span>
+                  </>
+                )}
               </Button>
             </form>
 

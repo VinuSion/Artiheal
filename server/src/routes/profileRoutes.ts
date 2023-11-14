@@ -163,8 +163,6 @@ profileRouter.post(
                   levelInfo,
                 });
             }
-          } else {
-            console.log("Los puntos del usuario no se pudieron encontrar.");
           }
         } else {
           for (const currentTask of currentTasksToUpdate) {
@@ -259,8 +257,6 @@ profileRouter.post(
                 newDiaryEntry,
                 levelInfo,
               });
-          } else {
-            console.log("Los puntos del usuario no se pudieron encontrar.");
           }
         } else {
           // Send the newDiaryEntry as a response
@@ -334,8 +330,6 @@ profileRouter.post(
             }
 
             await pointsProfile.save();
-          } else {
-            console.log("Los puntos del usuario no se pudieron encontrar.");
           }
         }
 

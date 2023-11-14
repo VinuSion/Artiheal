@@ -17,7 +17,7 @@ import {
   DialogTrigger,
 } from "@ui/dialog";
 import { Button } from "@ui/button";
-import { Gem, ClipboardList, Sparkle } from "lucide-react";
+import { Gem, ClipboardList, Sparkle, XCircle } from "lucide-react";
 import { Badge } from "@ui/badge";
 import { Separator } from "@ui/separator";
 import CircularProgressBar from "@ui/circular-progress";
@@ -115,7 +115,7 @@ const Points = () => {
       </Helmet>
       <div className="flex flex-row justify-center mb-6">
         <div className="rounded-xl bg-background w-full sm:w-9/12 p-4 flex flex-col shadow-xl items-center">
-          <h1 className="mb-4 text-tertiary font-bold text-xl">Tus Puntos</h1>
+          <h1 className="mb-4 text-tertiary font-bold text-xl">Mis Puntos</h1>
 
           <div className="rounded-xl bg-background flex flex-col px-2 sm:w-9/12">
             <div className="mb-5 w-full">
@@ -134,6 +134,7 @@ const Points = () => {
                   <DialogContent className="w-11/12 sm:w-full max-w-xl rounded-md">
                     <DialogHeader>
                       <DialogTitle className="text-left flex flex-row items-center mb-2">
+                        <Gem className="h-4 w-4 mr-1" />
                         Descubre los beneficios
                       </DialogTitle>
                       <DialogDescription className="text-left text-xs sm:text-sm mb-2">
@@ -186,6 +187,7 @@ const Points = () => {
                       </span>
                       <DialogClose asChild>
                         <Button type="button" size="lg">
+                          <XCircle className="h-4 w-4 mr-1" strokeWidth={3} />
                           Cerrar
                         </Button>
                       </DialogClose>
@@ -305,7 +307,7 @@ const Points = () => {
                             <TooltipProvider>
                               <Tooltip>
                                 <TooltipTrigger className="flex text-left">
-                                  <span className="text-primary font-bold text-xs sm:text-sm">
+                                  <span className="text-primary font-bold text-xs xs:text-sm line-clamp-2">
                                     {task.description.length > 30
                                       ? `${task.description.substring(
                                           0,

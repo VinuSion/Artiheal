@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { Button } from "@ui/button";
+import { Sparkles } from "lucide-react";
 import {
   LogoSlider,
   Card,
@@ -39,7 +40,10 @@ const LandingPage = () => {
 
       <header className="bg-gradient-to-t from-violet-400/75 to-primary backdrop-blur-sm p-2 fixed top-0 w-full h-16 sm:h-24 z-40">
         <nav className="flex flex-row items-center justify-between mt-1 sm:mt-0">
-          <div className="flex flex-row items-center text-background">
+          <a
+            href="#"
+            className="flex flex-row items-center text-background cursor-pointer"
+          >
             <img
               className="h-10 w-10 sm:w-20 sm:h-20"
               src="/artiheal-logo-white.svg"
@@ -51,7 +55,7 @@ const LandingPage = () => {
                 Vive Saludablemente
               </span>
             </div>
-          </div>
+          </a>
           <div>
             <ul className="flex-row gap-6 hidden lg:flex uppercase tracking-wide">
               <li className="text-background">
@@ -121,7 +125,8 @@ const LandingPage = () => {
             </p>
             <Link to="/signup">
               <Button variant="special" className="my-5 sm:my-0">
-                Comenzar
+                <Sparkles className="h-4 w-4 mr-1" strokeWidth={2} />
+                <span>Comenzar</span>
               </Button>
             </Link>
           </div>
@@ -205,7 +210,11 @@ const LandingPage = () => {
           <h2 className="text-4xl sm:text-5xl font-bold px-5 text-center mt-6 text-primary">
             Nuestras marcas aliadas
           </h2>
-          <LogoSlider />
+          <div className="relative">
+            <LogoSlider />
+            <div className="absolute inset-y-0 left-0 z-20 bg-gradient-to-l from-transparent to-background w-[20%]"></div>
+            <div className="absolute inset-y-0 right-0 z-20 bg-gradient-to-r from-transparent to-background w-[20%]"></div>
+          </div>
         </section>
 
         <br id="about" />

@@ -44,7 +44,7 @@ const LogoSlider = () => {
   }, []);
 
   return (
-    <div className="relative overflow-hidden py-14">
+    <div className="overflow-hidden py-14">
       <div ref={sliderRef} className="flex whitespace-nowrap animate-slide z-0">
         {logos.map((logo, index) => (
           <img
@@ -55,8 +55,6 @@ const LogoSlider = () => {
           />
         ))}
       </div>
-      <div className="absolute inset-y-0 left-0 z-20 bg-gradient-to-l from-transparent to-background w-[20%]"></div>
-      <div className="absolute inset-y-0 right-0 z-20 bg-gradient-to-r from-transparent to-background w-[20%]"></div>
     </div>
   );
 };

@@ -6,7 +6,7 @@ import { Label } from "@ui/label";
 import SignLabel from "@ui/sign-label";
 import Loading from "@ui/loading";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Trash2 } from "lucide-react";
+import { Trash2, Upload } from "lucide-react";
 import { Store } from "@/Store";
 import Axios, { AxiosError } from "axios";
 import { getError } from "@/lib/utils";
@@ -89,8 +89,8 @@ const UserAccount = () => {
 
   const removeProfilePicture = async () => {
     setPfpDeleting(true);
-    // Let the user know in 3 seconds that their pfp is being deleted before attempting to delete it.
-    await new Promise((resolve) => setTimeout(resolve, 3000));
+    // Let the user know in 2.5 seconds that their pfp is being deleted before attempting to delete it.
+    await new Promise((resolve) => setTimeout(resolve, 2500));
     try {
       const response = await Axios.delete("/api/upload/remove", {
         data: { userId: userInfo._id },
@@ -131,7 +131,7 @@ const UserAccount = () => {
           </h1>
 
           <div className="flex flex-col items-center gap-3 sm:flex-row sm:items-start sm:gap-5">
-            <div className="mr-4">
+            <div className="mr-4 relative">
               <Avatar className="h-20 w-20 min-w-[2.5rem]">
                 <AvatarImage
                   src={`${userInfo.pictureURL}`}
@@ -143,13 +143,23 @@ const UserAccount = () => {
                 </AvatarFallback>
                 {userInfo.pictureURL !== "" && !pfpDeleting && (
                   <div
-                    className="cursor-pointer absolute top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 transition-opacity hover:opacity-100 opacity-0 text-background text-2xl"
+                    className="hidden sm:flex cursor-pointer absolute top-0 left-0 w-full h-full items-center justify-center bg-black bg-opacity-50 transition-opacity hover:opacity-100 opacity-0 text-background text-2xl"
                     onClick={removeProfilePicture}
                   >
                     <Trash2 className="h-8 w-8 text-destructive" />
                   </div>
                 )}
               </Avatar>
+              {userInfo.pictureURL !== "" && !pfpDeleting && (
+                <div className="block sm:hidden cursor-pointer absolute -top-2 -right-2 m-2">
+                  <div className="w-6 h-6 bg-destructive rounded-full flex items-center justify-center">
+                    <Trash2
+                      className="h-4 w-4 text-background"
+                      onClick={removeProfilePicture}
+                    />
+                  </div>
+                </div>
+              )}
             </div>
 
             <div>
@@ -169,7 +179,14 @@ const UserAccount = () => {
                     className="cursor-pointer"
                   />
                   <Button variant="special" type="submit" disabled={isLoading}>
-                    {isLoading ? <Loading /> : "Subir"}
+                    {isLoading ? (
+                      <Loading />
+                    ) : (
+                      <>
+                        <Upload className="h-4 w-4 mr-1" strokeWidth={3} />
+                        <span>Subir</span>
+                      </>
+                    )}
                   </Button>
                 </div>
                 <div className="flex flex-row justify-start w-full mt-3 sm:h-[20px]">

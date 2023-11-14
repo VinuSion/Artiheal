@@ -1,13 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { Store } from "@/Store";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  CalendarDaysIcon,
-  PresentationChartLineIcon,
-  CurrencyDollarIcon,
-  QuestionMarkCircleIcon,
-} from "@heroicons/react/24/solid";
-import { User, HelpCircle, HeartPulse, LogOut } from "lucide-react";
+import { User, HelpCircle, HeartPulse, LogOut, Gem, CalendarDays, Gauge } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@ui/popover";
 import { Avatar, AvatarFallback, AvatarImage } from "@ui/avatar";
 import { Separator } from "@ui/separator";
@@ -18,7 +12,7 @@ type NavbarProps = {
 
 const Navbar = ({ handleLogout }: NavbarProps) => {
   const { state } = useContext(Store)!;
-  const [userInfo] = useState(state.userInfo);
+  const userInfo = state.userInfo;
   const navigate = useNavigate();
 
   const currentPath = window.location.pathname;
@@ -143,8 +137,8 @@ const Navbar = ({ handleLogout }: NavbarProps) => {
               onClick={() => handleLinkClick("/home/routine")}
               className="flex flex-col justify-center items-center h-[4.2rem] sm:h-20 no-underline"
             >
-              <CalendarDaysIcon className="h-7 w-8 min-w-[1rem] mx-6" />
-              <span className="text-xs sm:hidden">Rutina</span>
+              <CalendarDays className="h-6 w-8 min-w-[1rem] mx-6" />
+              <span className="text-xs sm:hidden pt-[4px]">Rutina</span>
             </Link>
           </li>
 
@@ -160,8 +154,8 @@ const Navbar = ({ handleLogout }: NavbarProps) => {
               onClick={() => handleLinkClick("/home/dashboard")}
               className="flex flex-col justify-center items-center h-[4.2rem] sm:h-20 no-underline"
             >
-              <PresentationChartLineIcon className="h-7 w-8 min-w-[1rem] mx-6" />
-              <span className="text-xs sm:hidden">Dashboard</span>
+              <Gauge className="h-6 w-8 min-w-[1rem] mx-6" />
+              <span className="text-xs sm:hidden pt-[4px]">Dashboard</span>
             </Link>
           </li>
 
@@ -177,8 +171,8 @@ const Navbar = ({ handleLogout }: NavbarProps) => {
               onClick={() => handleLinkClick("/home/points")}
               className="flex flex-col justify-center items-center h-[4.2rem] sm:h-20 no-underline"
             >
-              <CurrencyDollarIcon className="h-7 w-8 min-w-[1rem] mx-6" />
-              <span className="text-xs sm:hidden">Puntos</span>
+              <Gem className="h-6 w-8 min-w-[1rem] mx-6" />
+              <span className="text-xs sm:hidden pt-[4px]">Puntos</span>
             </Link>
           </li>
         </div>
@@ -195,8 +189,8 @@ const Navbar = ({ handleLogout }: NavbarProps) => {
             onClick={() => handleLinkClick("/home/help")}
             className="flex flex-col justify-center items-center h-[4.2rem] sm:h-20 no-underline"
           >
-            <QuestionMarkCircleIcon className="h-7 w-8 min-w-[1rem] mx-6" />
-            <span className="text-xs sm:hidden">Ayuda</span>
+            <HelpCircle className="h-6 w-8 min-w-[1rem] mx-6" />
+            <span className="text-xs sm:hidden pt-[4px]">Ayuda</span>
           </Link>
         </li>
       </ul>

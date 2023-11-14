@@ -5,7 +5,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@ui/accordion";
-import { UserCircle2, CalendarDays, Gem } from "lucide-react";
+import { UserCircle2, CalendarDays, Gem, Gauge } from "lucide-react";
 
 const Help = () => {
   return (
@@ -38,7 +38,7 @@ const Help = () => {
                 </span>
               </div>
 
-              <div className="border border-s p-6 rounded-md sm:w-9/12 mb-6">
+              <div className="border border-s p-4 xs:p-6 rounded-md sm:w-9/12 mb-6">
                 <div className="flex flex-row items-center">
                   <UserCircle2 className="h-6 w-6 text-primary select-none mr-1" />
                   <h3 className="text-2xl font-bold text-primary">
@@ -46,30 +46,29 @@ const Help = () => {
                   </h3>
                 </div>
                 <AccordionItem value="item-1">
-                  <AccordionTrigger>
+                  <AccordionTrigger className="text-sm xs:text-base">
                     ¿Cómo puedo cambiar la información de mi perfil?
                   </AccordionTrigger>
                   <AccordionContent>
                     Para actualizar la información de tu perfil, inicia sesión
-                    en tu cuenta de Artiheal y ve a la sección de configuración.
-                    Desde allí, podrás modificar los detalles de tu perfil, como
-                    la foto, la dirección de correo electrónico y otros datos
-                    personales.
+                    en tu cuenta y ve a la sección de "Mi Cuenta". Desde allí,
+                    podrás modificar los detalles de tu perfil, como la foto, la
+                    dirección de correo electrónico y otros datos personales.
                   </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="item-2">
-                  <AccordionTrigger>
+                  <AccordionTrigger className="text-sm xs:text-base">
                     ¿Cómo puedo recuperar mi contraseña si la olvidé?
                   </AccordionTrigger>
                   <AccordionContent>
                     Si olvidaste tu contraseña, puedes utilizar la opción
                     "¿Olvidaste la contraseña?" en la página de inicio de sesión
-                    de Artiheal para restablecerla. Recibirás instrucciones por
-                    correo electrónico sobre cómo hacerlo.
+                    para restablecerla. Recibirás instrucciones por correo
+                    electrónico sobre cómo hacerlo.
                   </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="item-3">
-                  <AccordionTrigger>
+                  <AccordionTrigger className="text-sm xs:text-base">
                     {" "}
                     ¿Está segura la información personal almacenada en mi
                     cuenta?
@@ -83,13 +82,13 @@ const Help = () => {
                 </AccordionItem>
               </div>
 
-              <div className="border border-s p-6 rounded-md sm:w-9/12 mb-6">
+              <div className="border border-s p-4 xs:p-6 rounded-md sm:w-9/12 mb-6">
                 <div className="flex flex-row items-center">
                   <CalendarDays className="h-6 w-6 text-primary select-none mr-1" />
                   <h3 className="text-2xl font-bold text-primary">Rutina</h3>
                 </div>
                 <AccordionItem value="item-4">
-                  <AccordionTrigger>
+                  <AccordionTrigger className="text-sm xs:text-base">
                     {" "}
                     ¿Por dónde puedo comenzar al crear una rutina saludable?
                   </AccordionTrigger>
@@ -101,7 +100,7 @@ const Help = () => {
                   </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="item-5">
-                  <AccordionTrigger>
+                  <AccordionTrigger className="text-sm xs:text-base">
                     ¿Qué elementos deben incluirse en una rutina?
                   </AccordionTrigger>
                   <AccordionContent>
@@ -112,7 +111,7 @@ const Help = () => {
                   </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="item-6">
-                  <AccordionTrigger>
+                  <AccordionTrigger className="text-sm xs:text-base">
                     {" "}
                     ¿Dónde puedo obtener apoyo adicional para crear y mantener
                     mi rutina?
@@ -125,13 +124,57 @@ const Help = () => {
                 </AccordionItem>
               </div>
 
-              <div className="border border-s p-6 rounded-md sm:w-9/12 mb-6">
+              <div className="border border-s p-4 xs:p-6 rounded-md sm:w-9/12 mb-6">
+                <div className="flex flex-row items-center">
+                  <Gauge className="h-6 w-6 text-primary select-none mr-1" />
+                  <h3 className="text-2xl font-bold text-primary">Dashboard</h3>
+                </div>
+                <AccordionItem value="item-7">
+                  <AccordionTrigger className="text-sm xs:text-base">
+                    {" "}
+                    ¿Cómo puedo interpretar la información en Mi Estado
+                    Alimenticio?
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    El Dashboard proporciona un resumen visual de tu consumo
+                    diario de alimentos por semana. Puedes ver fácilmente tu
+                    ingesta calórica, alimentos mas comunes, etc. Los gráficos y
+                    estadísticas te ayudarán a identificar patrones y mejoras en
+                    tu salud.
+                  </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="item-8">
+                  <AccordionTrigger className="text-sm xs:text-base">
+                    ¿Cómo puedo personalizar mi Dashboard?
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    Puedes personalizar tu Dashboard de Estado Alimenticio
+                    ajustando tus metas nutricionales en tu rutina. Define tus
+                    objetivos calóricos y límites diarios para crear un
+                    Dashboard que se alinee con tus necesidades específicas.
+                  </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="item-9">
+                  <AccordionTrigger className="text-sm xs:text-base">
+                    {" "}
+                    ¿Qué debo hacer si veo inconsistencias en los datos?
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    Si encuentras discrepancias en tu Dashboard, verifica que
+                    estén correctamente ingresados los datos de tus alimentos
+                    registrados. Puedes actualizar la informacion de las
+                    graficas en el boton "Actualizar".
+                  </AccordionContent>
+                </AccordionItem>
+              </div>
+
+              <div className="border border-s p-4 xs:p-6 rounded-md sm:w-9/12 mb-6">
                 <div className="flex flex-row items-center">
                   <Gem className="h-6 w-6 text-primary select-none mr-1" />
                   <h3 className="text-2xl font-bold text-primary">Puntos</h3>
                 </div>
-                <AccordionItem value="item-7">
-                  <AccordionTrigger>
+                <AccordionItem value="item-10">
+                  <AccordionTrigger className="text-sm xs:text-base">
                     ¿Qué debo hacer para ganar puntos?
                   </AccordionTrigger>
                   <AccordionContent>
@@ -141,8 +184,8 @@ const Help = () => {
                     marcas asociadas.
                   </AccordionContent>
                 </AccordionItem>
-                <AccordionItem value="item-8">
-                  <AccordionTrigger>
+                <AccordionItem value="item-11">
+                  <AccordionTrigger className="text-sm xs:text-base">
                     ¿Los puntos tienen fecha de expiración?
                   </AccordionTrigger>
                   <AccordionContent>
@@ -152,8 +195,8 @@ const Help = () => {
                     oferta o el producto que más te convenga.
                   </AccordionContent>
                 </AccordionItem>
-                <AccordionItem value="item-9">
-                  <AccordionTrigger>
+                <AccordionItem value="item-12">
+                  <AccordionTrigger className="text-sm xs:text-base">
                     ¿Puedo transferir mis puntos a otro usuario?
                   </AccordionTrigger>
                   <AccordionContent>

@@ -195,9 +195,9 @@ const TaskHistorySection = () => {
                             }`}
                           >
                             {entry.completedOnTime ? (
-                              <CheckCircle className="h-4 w-4" />
+                              <CheckCircle className="h-4 w-4" strokeWidth={3} />
                             ) : (
-                              <CircleOff className="h-4 w-4" />
+                              <CircleOff className="h-4 w-4" strokeWidth={3} />
                             )}
                             <span className="hidden sm:block">
                               {entry.completedOnTime

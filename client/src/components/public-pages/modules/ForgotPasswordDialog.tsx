@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { Input } from "@ui/input";
 import { Button } from "@ui/button";
+import { Send } from "lucide-react";
+import { KeySquare } from "lucide-react";
 import SignLabel from "@ui/sign-label";
 import {
   Dialog,
@@ -95,7 +97,8 @@ const ForgotPasswordDialog = () => {
       </DialogTrigger>
       <DialogContent className="w-11/12 sm:w-full rounded-md">
         <DialogHeader>
-          <DialogTitle className="text-left">
+          <DialogTitle className="text-left flex flex-row items-center">
+            <KeySquare className="h-4 w-4 mr-1" />
             Solicitar cambiar la contraseña
           </DialogTitle>
           <DialogDescription className="text-left text-xs sm:text-sm">
@@ -127,7 +130,8 @@ const ForgotPasswordDialog = () => {
                 type="submit"
                 disabled={isSubmitting || isCountdownActive}
               >
-                Enviar
+                <Send className="h-4 w-4 mr-1" strokeWidth={3} />
+                <span>Enviar</span>
               </Button>
             </div>
 

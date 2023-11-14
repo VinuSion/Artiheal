@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { Input } from "@ui/input";
 import { Button } from "@ui/button";
 import { Label } from "@ui/label";
+import { Save } from "lucide-react";
 import SignLabel from "@ui/sign-label";
 import Loading from "@ui/loading";
 import { Eye, EyeOff } from "lucide-react";
@@ -11,7 +12,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Store } from "@/Store";
 import Axios, { AxiosError } from "axios";
 import { getError } from "@/lib/utils";
-
 
 const EditAccountDetailsSection = () => {
   const { dispatch: ctxDispatch } = useContext(Store)!;
@@ -28,18 +28,30 @@ const EditAccountDetailsSection = () => {
         .string()
         .min(3, { message: "Mínimo 3 caracteres (Nombre)" })
         .max(20, { message: "Maximo 20 caracteres (Nombre)" })
-        .refine((value) => /^\s*[a-zA-ZáéíóúÁÉÍÓÚ]+\s*(?:\s*[a-zA-ZáéíóúÁÉÍÓÚ]+\s*){0,3}$/.test(value), {
-          message: "Solo letras en el Nombre",
-        })
+        .refine(
+          (value) =>
+            /^\s*[a-zA-ZáéíóúÁÉÍÓÚ]+\s*(?:\s*[a-zA-ZáéíóúÁÉÍÓÚ]+\s*){0,3}$/.test(
+              value
+            ),
+          {
+            message: "Solo letras en el Nombre",
+          }
+        )
         .optional()
         .or(z.literal("")),
       lastName: z
         .string()
         .min(3, { message: "Mínimo 3 caracteres (Apellido)" })
         .max(20, { message: "Maximo 20 caracteres (Apellido)" })
-        .refine((value) => /^\s*[a-zA-ZáéíóúÁÉÍÓÚ]+\s*(?:\s*[a-zA-ZáéíóúÁÉÍÓÚ]+\s*){0,3}$/.test(value), {
-          message: "Solo letras en el Apellido",
-        })
+        .refine(
+          (value) =>
+            /^\s*[a-zA-ZáéíóúÁÉÍÓÚ]+\s*(?:\s*[a-zA-ZáéíóúÁÉÍÓÚ]+\s*){0,3}$/.test(
+              value
+            ),
+          {
+            message: "Solo letras en el Apellido",
+          }
+        )
         .optional()
         .or(z.literal("")),
       email: z
@@ -379,7 +391,14 @@ const EditAccountDetailsSection = () => {
 
                 {/* Save Changes Button */}
                 <Button variant="special" type="submit" disabled={isSubmitting}>
-                  {isSubmitting ? <Loading /> : "Guardar Cambios"}
+                  {isSubmitting ? (
+                    <Loading />
+                  ) : (
+                    <>
+                      <Save className="h-4 w-4 mr-1" strokeWidth={3} />
+                      <span>Guardar Cambios</span>
+                    </>
+                  )}
                 </Button>
               </div>
             </form>

@@ -97,7 +97,7 @@ const Dashboard = () => {
       <div className="flex flex-row justify-center mb-6">
         <div className="rounded-xl bg-background w-full sm:w-9/12 p-4 flex flex-col shadow-xl items-center">
           <h1 className="mb-4 text-tertiary font-bold text-xl">
-            Tu Estado Alimenticio
+            Mi Estado Alimenticio
           </h1>
 
           <div className="rounded-xl bg-background flex flex-col px-2 sm:w-9/12 w-full">
