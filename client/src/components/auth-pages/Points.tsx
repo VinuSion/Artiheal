@@ -111,7 +111,7 @@ const Points = () => {
   return (
     <div>
       <Helmet>
-        <title>Tus Puntos | Artiheal</title>
+        <title>Puntos | Artiheal</title>
       </Helmet>
       <div className="flex flex-row justify-center mb-6">
         <div className="rounded-xl bg-background w-full sm:w-9/12 p-4 flex flex-col shadow-xl items-center">

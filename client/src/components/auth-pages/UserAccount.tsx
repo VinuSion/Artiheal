@@ -122,7 +122,7 @@ const UserAccount = () => {
   return (
     <>
       <Helmet>
-        <title>Mi Cuenta | Artiheal</title>
+        <title>Cuenta | Artiheal</title>
       </Helmet>
       <div className="flex flex-row justify-center mb-6">
         <div className="rounded-xl bg-background shadow-xl w-full sm:w-9/12 p-4 flex flex-col items-center">
