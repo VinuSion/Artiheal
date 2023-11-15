@@ -3,6 +3,8 @@
 ### 📱Live Demo: https://artiheal.onrender.com/
 <br>
 
+![artiheal](/client/public/Cover_Img.png)
+
 ## 🛠️ Tecnologias y Herramientas Usadas
 
 - React
