@@ -4,7 +4,6 @@ import {
   Route,
   Routes,
   useLocation,
-  useNavigate,
 } from "react-router-dom";
 import Dashboard from "./Dashboard";
 import Routine from "./Routine";
@@ -28,7 +27,6 @@ const Home: React.FC<HomeProps> = ({ handleLogout }: HomeProps) => {
 
   const userInfoString = localStorage.getItem("userInfo")!;
   const userInfo = JSON.parse(userInfoString);
-  const navigate = useNavigate();
   // Check if healthData and profile is already in localStorage
   const storedHealthData = localStorage.getItem("healthData");
   const storedProfile = localStorage.getItem("profile");
@@ -109,36 +107,6 @@ const Home: React.FC<HomeProps> = ({ handleLogout }: HomeProps) => {
     }
   };
 
-  const getProfileExistence = async () => {
-    if (userInfo) {
-      try {
-        const profileResponse = await Axios.get(`/api/profile/${userInfo._id}`);
-        const userProfile = profileResponse.data;
-        if (userProfile) {
-          const currentTasks = userProfile.currentTasks;
-          localStorage.setItem("profile", JSON.stringify(userProfile));
-          await getCurrentTasks(currentTasks);
-          checkTaskExpiration(JSON.parse(localStorage.getItem("profile")!));
-        }
-      } catch (err: any) {
-        if (err.response && err.response.status === 404) {
-          toast({
-            title: "🔴 Tu sesión ha sido cerrada",
-            description:
-              "Motivo: Tu cuenta ya no está activa en la plataforma :(",
-          });
-          handleLogout(); // Passes handleLogout to App component
-          navigate("/"); // navigates to landing page after logging out
-        } else {
-          console.error(
-            "Error al buscar el perfil (Error interno del servidor)",
-            err
-          );
-        }
-      }
-    }
-  };
-
   const checkTaskExpiration = async (profile: any) => {
     if (profile && profile.currentTasks) {
       const currentDateUtc = new Date(new Date().toUTCString());
@@ -195,12 +163,12 @@ const Home: React.FC<HomeProps> = ({ handleLogout }: HomeProps) => {
       if (!storedProfile) {
         checkProfile(); // If profile is not in localStorage, make the request
       } else {
-        getProfileExistence(); // If its set, check to see if tasks expired only if profile exists in DB
+        checkTaskExpiration(JSON.parse(storedProfile)); // If its set, check to see if tasks expired only if profile exists in DB
       }
     }
 
     const checkTaskExpirationPeriodically = () => {
-      getProfileExistence();
+      checkTaskExpiration(JSON.parse(localStorage.getItem("profile")!));
     };
 
     // Sets an interval to check task expiration every 3 hours
