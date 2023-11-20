@@ -113,12 +113,19 @@ const Home: React.FC<HomeProps> = ({ handleLogout }: HomeProps) => {
     if (userInfo) {
       try {
         const profileResponse = await Axios.get(`/api/profile/${userInfo._id}`);
-        checkTaskExpiration(profileResponse.data);
+        const userProfile = profileResponse.data;
+        if (userProfile) {
+          const currentTasks = userProfile.currentTasks;
+          localStorage.setItem("profile", JSON.stringify(userProfile));
+          await getCurrentTasks(currentTasks);
+          checkTaskExpiration(JSON.parse(localStorage.getItem("profile")!));
+        }
       } catch (err: any) {
         if (err.response && err.response.status === 404) {
           toast({
             title: "🔴 Tu sesión ha sido cerrada",
-            description: "Motivo: Tu cuenta ya no está activa en la plataforma :(",
+            description:
+              "Motivo: Tu cuenta ya no está activa en la plataforma :(",
           });
           handleLogout(); // Passes handleLogout to App component
           navigate("/"); // navigates to landing page after logging out
@@ -149,6 +156,7 @@ const Home: React.FC<HomeProps> = ({ handleLogout }: HomeProps) => {
             `/api/profile/tasks-expired/${profile.userId}`,
             expiredTasks
           );
+
           const updatedTasks = expiredTasksResponse.data.updatedTasks;
           const newTaskHistory = expiredTasksResponse.data.taskHistory;
           const bonusPoints = expiredTasksResponse.data.bonusPoints;
@@ -187,7 +195,7 @@ const Home: React.FC<HomeProps> = ({ handleLogout }: HomeProps) => {
       if (!storedProfile) {
         checkProfile(); // If profile is not in localStorage, make the request
       } else {
-        getProfileExistence(); // If its set, check to see if tasks expired only after getting latest profile info from DB
+        getProfileExistence(); // If its set, check to see if tasks expired only if profile exists in DB
       }
     }
 
@@ -229,7 +237,10 @@ const Home: React.FC<HomeProps> = ({ handleLogout }: HomeProps) => {
           <Route path="/routine" element={<Routine />} />
           <Route path="/points" element={<Points />} />
           <Route path="/help" element={<Help />} />
-          <Route path="/account" element={<UserAccount handleLogout={handleLogout} />} />
+          <Route
+            path="/account"
+            element={<UserAccount handleLogout={handleLogout} />}
+          />
           <Route path="/profile" element={<UserHealthProfile />} />
           <Route path="*" element={<Navigate to="/home/dashboard" />} />
         </Routes>
