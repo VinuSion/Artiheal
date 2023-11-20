@@ -1,5 +1,11 @@
 import { useContext, useEffect, useState, useRef } from "react";
-import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+import {
+  Navigate,
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import Dashboard from "./Dashboard";
 import Routine from "./Routine";
 import Points from "./Points";
@@ -22,6 +28,7 @@ const Home: React.FC<HomeProps> = ({ handleLogout }: HomeProps) => {
 
   const userInfoString = localStorage.getItem("userInfo")!;
   const userInfo = JSON.parse(userInfoString);
+  const navigate = useNavigate();
   // Check if healthData and profile is already in localStorage
   const storedHealthData = localStorage.getItem("healthData");
   const storedProfile = localStorage.getItem("profile");
@@ -102,6 +109,29 @@ const Home: React.FC<HomeProps> = ({ handleLogout }: HomeProps) => {
     }
   };
 
+  const getProfileExistence = async () => {
+    if (userInfo) {
+      try {
+        const profileResponse = await Axios.get(`/api/profile/${userInfo._id}`);
+        checkTaskExpiration(profileResponse.data);
+      } catch (err: any) {
+        if (err.response && err.response.status === 404) {
+          toast({
+            title: "🔴 Tu sesión ha sido cerrada",
+            description: "Motivo: Tu cuenta ya no está activa en la plataforma :(",
+          });
+          handleLogout(); // Passes handleLogout to App component
+          navigate("/"); // navigates to landing page after logging out
+        } else {
+          console.error(
+            "Error al buscar el perfil (Error interno del servidor)",
+            err
+          );
+        }
+      }
+    }
+  };
+
   const checkTaskExpiration = async (profile: any) => {
     if (profile && profile.currentTasks) {
       const currentDateUtc = new Date(new Date().toUTCString());
@@ -157,12 +187,12 @@ const Home: React.FC<HomeProps> = ({ handleLogout }: HomeProps) => {
       if (!storedProfile) {
         checkProfile(); // If profile is not in localStorage, make the request
       } else {
-        checkTaskExpiration(JSON.parse(storedProfile)); // If its set, check to see if tasks expired
+        getProfileExistence(); // If its set, check to see if tasks expired only after getting latest profile info from DB
       }
     }
 
     const checkTaskExpirationPeriodically = () => {
-      checkTaskExpiration(JSON.parse(localStorage.getItem("profile")!));
+      getProfileExistence();
     };
 
     // Sets an interval to check task expiration every 3 hours
@@ -199,7 +229,7 @@ const Home: React.FC<HomeProps> = ({ handleLogout }: HomeProps) => {
           <Route path="/routine" element={<Routine />} />
           <Route path="/points" element={<Points />} />
           <Route path="/help" element={<Help />} />
-          <Route path="/account" element={<UserAccount />} />
+          <Route path="/account" element={<UserAccount handleLogout={handleLogout} />} />
           <Route path="/profile" element={<UserHealthProfile />} />
           <Route path="*" element={<Navigate to="/home/dashboard" />} />
         </Routes>

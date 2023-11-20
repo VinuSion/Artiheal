@@ -12,8 +12,13 @@ import Axios, { AxiosError } from "axios";
 import { getError } from "@/lib/utils";
 import EditAccountDetailsSection from "./modules/EditAccountDetailsSection";
 import SettingsSection from "./modules/SettingsSection";
+import DeleteAccountSection from "./modules/DeleteAccountSection";
 
-const UserAccount = () => {
+interface UserAccountProps {
+  handleLogout: () => void;
+}
+
+const UserAccount = ({ handleLogout }: UserAccountProps) => {
   const { dispatch: ctxDispatch } = useContext(Store)!;
   const userInfoString = localStorage.getItem("userInfo")!;
   const userInfo = JSON.parse(userInfoString);
@@ -208,6 +213,8 @@ const UserAccount = () => {
       <EditAccountDetailsSection />
 
       <SettingsSection />
+
+      <DeleteAccountSection handleLogout={handleLogout} />
     </>
   );
 };

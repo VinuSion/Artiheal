@@ -4,6 +4,9 @@ import jwt from "jsonwebtoken";
 import nodemailer from "nodemailer";
 import expressAsyncHandler from "express-async-handler";
 import User from "../models/userModel";
+import Profile from "../models/profileModel";
+import Point from "../models/pointsModel";
+import HealthData from "../models/healthDataModel";
 import { generateToken, baseUrl, template, normalizeName } from "../utils";
 
 const userRouter = express.Router();
@@ -205,6 +208,32 @@ userRouter.put(
       } else {
         res.status(404).send({ message: "Usuario no se pudo encontrar." });
       }
+    } catch (err) {
+      res.status(500).send({
+        message:
+          "Ha ocurrido un error. Por favor, inténtelo de nuevo más tarde.",
+      });
+    }
+  })
+);
+
+// Deletes the user account with all its related data
+userRouter.delete(
+  "/delete/:id",
+  expressAsyncHandler(async (req: Request, res: Response) => {
+    try {
+      const userId = req.params.id;
+
+      // Deletes points profile
+      await Point.deleteOne({ userId: userId });
+      // Deletes health profile
+      await HealthData.deleteOne({ userId: userId });
+      // Deletes general profile
+      await Profile.deleteOne({ userId: userId });
+      // Deletes user account
+      await User.findByIdAndRemove(userId);
+
+      res.status(200).send({ message: "Usuario y datos relacionados eliminados exitosamente." });
     } catch (err) {
       res.status(500).send({
         message:

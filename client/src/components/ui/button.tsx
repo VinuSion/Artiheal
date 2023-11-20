@@ -13,7 +13,7 @@ const buttonVariants = cva(
         special:
           "bg-gradient-to-r from-violet-400 to-primary hover:from-violet-700 hover:to-primary text-white font-bold shadow-lg transition-transform duration-300 ease-in-out",
         destructive:
-          "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+          "bg-gradient-to-r from-destructive to-pink-800 hover:from-destructive/80 hover:to-pink-800/80 text-destructive-foreground",
         outline:
           "border-solid border-2 rounded-lg text-primary-foreground transition-all duration-300 hover:scale-110 hover:bg-background hover:text-primary",
         secondary:
