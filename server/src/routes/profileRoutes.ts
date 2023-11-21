@@ -139,14 +139,12 @@ profileRouter.post(
               await profile.save();
 
               // Send the updatedTasks and levelInfo as a response
-              res
-                .status(200)
-                .json({
-                  message: "Tareas actualizadas exitosamente",
-                  updatedTasks,
-                  taskHistory,
-                  levelInfo,
-                });
+              res.status(200).json({
+                message: "Tareas actualizadas exitosamente",
+                updatedTasks,
+                taskHistory,
+                levelInfo,
+              });
             } else {
               const updatedTasks = await assignRandomTasks();
 
@@ -154,14 +152,12 @@ profileRouter.post(
               await profile.save();
 
               // Send the updatedTasks and levelInfo as a response
-              res
-                .status(200)
-                .json({
-                  message: "Tareas actualizadas exitosamente",
-                  updatedTasks,
-                  taskHistory,
-                  levelInfo,
-                });
+              res.status(200).json({
+                message: "Tareas actualizadas exitosamente",
+                updatedTasks,
+                taskHistory,
+                levelInfo,
+              });
             }
           }
         } else {
@@ -179,12 +175,10 @@ profileRouter.post(
           await profile.save();
 
           // Send the updatedTasks as a response
-          res
-            .status(200)
-            .json({
-              message: "Tareas actualizadas exitosamente",
-              updatedTasks,
-            });
+          res.status(200).json({
+            message: "Tareas actualizadas exitosamente",
+            updatedTasks,
+          });
         }
       } else {
         res
@@ -250,22 +244,18 @@ profileRouter.post(
             await pointsProfile.save();
 
             // Send the newDiaryEntry and levelInfo as a response
-            res
-              .status(200)
-              .json({
-                message: "Diario alimenticio enviado exitosamente",
-                newDiaryEntry,
-                levelInfo,
-              });
+            res.status(200).json({
+              message: "Diario alimenticio enviado exitosamente",
+              newDiaryEntry,
+              levelInfo,
+            });
           }
         } else {
           // Send the newDiaryEntry as a response
-          res
-            .status(200)
-            .json({
-              message: "Diario alimenticio enviado exitosamente",
-              newDiaryEntry,
-            });
+          res.status(200).json({
+            message: "Diario alimenticio enviado exitosamente",
+            newDiaryEntry,
+          });
         }
       } else {
         res
@@ -340,41 +330,44 @@ profileRouter.post(
           );
         });
 
-        if (currentTasks.length > 0) {
-          const slots = expiredTasks.length;
-          const newTasks = await replaceTasksWithoutRepetition(
-            currentTasks,
-            slots
-          );
-          const updatedTasks = [...currentTasks, ...newTasks];
-
-          profile.currentTasks = updatedTasks;
-          await profile.save();
-
-          // Send the updatedTasks, taskHistory and bonusPoints as a response
-          res
-            .status(200)
-            .json({
-              message: "Tareas actualizadas exitosamente",
-              updatedTasks,
-              taskHistory,
-              bonusPoints,
-            });
+        if (currentTasks.length === 3) {
+          // Send a message to avoid adding extra tasks on top
+          res.status(200).json({
+            message: "No hay necesidad de reemplazar tareas",
+          });
         } else {
-          const updatedTasks = await assignRandomTasks();
+          if (currentTasks.length > 0) {
+            const slots = expiredTasks.length;
+            const newTasks = await replaceTasksWithoutRepetition(
+              currentTasks,
+              slots
+            );
+            const updatedTasks = [...currentTasks, ...newTasks];
 
-          profile.currentTasks = updatedTasks;
-          await profile.save();
+            profile.currentTasks = updatedTasks;
+            await profile.save();
 
-          // Send the updatedTasks, taskHistory and bonusPoints as a response
-          res
-            .status(200)
-            .json({
+            // Send the updatedTasks, taskHistory and bonusPoints as a response
+            res.status(200).json({
               message: "Tareas actualizadas exitosamente",
               updatedTasks,
               taskHistory,
               bonusPoints,
             });
+          } else {
+            const updatedTasks = await assignRandomTasks();
+
+            profile.currentTasks = updatedTasks;
+            await profile.save();
+
+            // Send the updatedTasks, taskHistory and bonusPoints as a response
+            res.status(200).json({
+              message: "Tareas actualizadas exitosamente",
+              updatedTasks,
+              taskHistory,
+              bonusPoints,
+            });
+          }
         }
       } else {
         res

@@ -1,10 +1,5 @@
 import { useContext, useEffect, useState, useRef } from "react";
-import {
-  Navigate,
-  Route,
-  Routes,
-  useLocation,
-} from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import Dashboard from "./Dashboard";
 import Routine from "./Routine";
 import Points from "./Points";
@@ -124,26 +119,30 @@ const Home: React.FC<HomeProps> = ({ handleLogout }: HomeProps) => {
             `/api/profile/tasks-expired/${profile.userId}`,
             expiredTasks
           );
-
-          const updatedTasks = expiredTasksResponse.data.updatedTasks;
-          const newTaskHistory = expiredTasksResponse.data.taskHistory;
-          const bonusPoints = expiredTasksResponse.data.bonusPoints;
-          if (updatedTasks) {
-            profile.currentTasks = updatedTasks;
-            localStorage.setItem("profile", JSON.stringify(profile));
-            getCurrentTasks(updatedTasks);
+          if (
+            expiredTasksResponse.data.message !==
+            "No hay necesidad de reemplazar tareas"
+          ) {
+            const updatedTasks = expiredTasksResponse.data.updatedTasks;
+            const newTaskHistory = expiredTasksResponse.data.taskHistory;
+            const bonusPoints = expiredTasksResponse.data.bonusPoints;
+            if (updatedTasks) {
+              profile.currentTasks = updatedTasks;
+              localStorage.setItem("profile", JSON.stringify(profile));
+              getCurrentTasks(updatedTasks);
+            }
+            if (newTaskHistory) {
+              profile.taskHistory = newTaskHistory;
+              localStorage.setItem("profile", JSON.stringify(profile));
+            }
+            toast({
+              title: `⚠️ Algunas tareas han expirado!`,
+              description:
+                bonusPoints > 0
+                  ? `Debido a un período de inactividad, hemos reemplazado algunas tareas y se otorgaron +${bonusPoints} puntos.`
+                  : `Debido a un período de inactividad, hemos reemplazado algunas tareas.`,
+            });
           }
-          if (newTaskHistory) {
-            profile.taskHistory = newTaskHistory;
-            localStorage.setItem("profile", JSON.stringify(profile));
-          }
-          toast({
-            title: `⚠️ Algunas tareas han expirado!`,
-            description:
-              bonusPoints > 0
-                ? `Debido a un período de inactividad, hemos reemplazado algunas tareas y se otorgaron +${bonusPoints} puntos.`
-                : `Debido a un período de inactividad, hemos reemplazado algunas tareas.`,
-          });
         } catch (err: any) {
           console.error(
             "Las tareas no se pudieron actualizar (Error interno del servidor)",
